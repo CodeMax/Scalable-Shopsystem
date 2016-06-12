@@ -1,0 +1,52 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+    <h3 class="panel-title"><i class="fa fa-angellist"></i> Articles</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                    <h5>Parent component</h5>
+                    <br>
+                    <ul style="list-style-type: none; padding:0; margin:0;">
+                      <li *ngFor="let servtemp of servicetemplate" class="panel panel-default col-xs-6 col-md-3">
+                        <a href='{{ servtemp.links[0].href }}'>
+                          <div class="panel-body">
+                            <img src="assets/images/ng2.jpg" alt="..." class="img-thumbnail">
+                          </div>
+                          <div class="panel-footer">{{ servtemp.name }}</div>
+                        </a>
+                      </li>
+                    </ul>
+            </div>
+            <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#loginModal">Login Modal manuell</button>
+          </div>
+        </div>
+        <!--
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <div class="well">
+                        <h5>Child component:</h5>
+                        <as-child text="Custom 1-way Binding" [fromParent]="myname"></as-child>
+                        <as-child text="Custom 2-way Binding" [(fromParent)]="myname"></as-child>
+                    </div>
+                </div>
+            </div>
+              <button class="btn btn-default" type="button" (click)="myname='Simple'">Reset</button>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label><h3>Using ngModel</h3></label>
+                    <div class="form-group">
+                        <label>1-way binding</label>
+                        <input [ngModel]="myname" type="text" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>2-way binding</label>
+                        <input [(ngModel)]="myname" type="text" class="form-control">
+                    </div>
+                </div>
+            </div>
+        </div>-->
+    </div>
+</div>

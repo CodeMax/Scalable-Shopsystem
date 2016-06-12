@@ -1,0 +1,1 @@
+{"version":3,"sources":["app/shared/constant/main.ts"],"names":[],"mappings":";AAAa,YAAI,GAAG;IAChB,GAAG,EAAE;QACD,KAAK,EAAE,YAAY;KACtB;CACJ,CAAC","file":"app/shared/constant/main.js","sourcesContent":["export const MAIN = {\r\n    APP: {\r\n        BRAND: 'Onlineshop'\r\n    }\r\n};\r\n"],"sourceRoot":"/source/"}

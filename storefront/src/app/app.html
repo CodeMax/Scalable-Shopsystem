@@ -1,0 +1,27 @@
+<as-header></as-header>
+<as-navbar [routes]="appRoutes" [brand]="appBrand"></as-navbar>
+<br/>
+<div class="container" style="margin-top: 100px;">
+	<router-outlet></router-outlet>
+</div>
+<div class="container" style="margin-top: 100px;">
+<p> Copyright by XY </p>
+</div>
+
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		 <div class="modal-dialog">
+				 <div class="modal-content" style="color: #333">
+						 <form class="antwortform" action="persistAttendees.php" method="post">
+						 <div class="modal-header">
+								 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+								 <h4 class="modal-title">Login</h4>
+						 </div>
+						 <div class="modal-body">
+								 <p>Login Area</p>
+						 </div>
+						 <div class="modal-footer">
+						 </div>
+						 </form>
+				 </div>
+		 </div>
+ </div>
