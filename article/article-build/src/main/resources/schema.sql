@@ -1,0 +1,6 @@
+DROP TABLE Article IF EXISTS;
+
+CREATE TABLE Article (
+  id        BIGINT IDENTITY PRIMARY KEY,
+  name		VARCHAR(30)
+);

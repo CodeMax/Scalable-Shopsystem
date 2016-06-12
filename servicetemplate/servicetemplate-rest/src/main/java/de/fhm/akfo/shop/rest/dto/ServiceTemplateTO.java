@@ -9,6 +9,9 @@ import org.springframework.hateoas.ResourceSupport;
  */
 public class ServiceTemplateTO extends ResourceSupport {
 
+	/** ServiceTemplate-Id */
+	private Long servicetemplateId;
+	
 	/** ServiceTemplate-Name. */
 	private String name;
 	
@@ -25,10 +28,10 @@ public class ServiceTemplateTO extends ResourceSupport {
 	 * 
 	 * @param name ServiceTemplate-Name String
 	 */
-	public ServiceTemplateTO(String name) {
+	public ServiceTemplateTO(String name, long id) {
 		this.name = name;
+		this.servicetemplateId = id;
 	}
-
 
 
 	public String getName() {
@@ -38,6 +41,16 @@ public class ServiceTemplateTO extends ResourceSupport {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+
+	public long getServicetemplateId() {
+		return servicetemplateId;
+	}
+
+
+	public void setServicetemplateId(long id) {
+		this.servicetemplateId = id;
 	}
 
 }

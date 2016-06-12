@@ -10,6 +10,7 @@ import org.springframework.hateoas.config.EnableEntityLinks;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 import org.springframework.stereotype.Component;
 
+import de.fhm.akfo.shop.rest.impl.ServiceTemplateLoginFilter;
 import de.fhm.akfo.shop.rest.impl.ServiceTemplateResource;
 
 @Component
@@ -20,6 +21,7 @@ public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
         register(ServiceTemplateResource.class);
+        register(ServiceTemplateLoginFilter.class);
     }
     
     @GET

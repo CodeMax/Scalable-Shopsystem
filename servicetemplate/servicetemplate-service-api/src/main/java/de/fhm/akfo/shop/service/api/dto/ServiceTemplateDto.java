@@ -1,7 +1,5 @@
 package de.fhm.akfo.shop.service.api.dto;
 
-import org.springframework.hateoas.ResourceSupport;
-
 /**
  * ServiceTemplate Business-Objekt.
  * 
@@ -10,7 +8,7 @@ import org.springframework.hateoas.ResourceSupport;
 public class ServiceTemplateDto {
 
 	/** ServiceTemplate-Id */
-	private long id;
+	private Long servicetemplateId;
 	
 	/** ServiceTemplate-Name. */
 	private String name;
@@ -29,7 +27,7 @@ public class ServiceTemplateDto {
 	 * @param name ServiceTemplate-Name String
 	 */
 	public ServiceTemplateDto(long id, String name) {
-		this.id = id;
+		this.servicetemplateId = id;
 		this.name = name;
 	}
 
@@ -45,13 +43,13 @@ public class ServiceTemplateDto {
 	}
 
 
-	public long getId() {
-		return id;
+	public long getServicetemplateId() {
+		return servicetemplateId;
 	}
 
 
-	public void setId(long id) {
-		this.id = id;
+	public void setServicetemplateId(long id) {
+		this.servicetemplateId = id;
 	}
 
 }
