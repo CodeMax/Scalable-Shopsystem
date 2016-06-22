@@ -28,7 +28,7 @@ import de.fhm.akfo.shop.rest.dto.ServiceTemplateTO;
 @ApplicationTest
 public class ServiceTemplateResourceTest {
 	
-	private static String vaildAuthToken = "\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdXRoZW50aWNhdGlvbiIsImZpcnN0bmFtZSI6IkpvaG4iLCJyb2xlIjpbImFkbWluIiwic3VwZXJhZG1pbiJdLCJpc3MiOiJzaG9wc3lzdGVtIiwiZXhwIjoxNDY1MzAxODMxLCJpYXQiOjE0NjUzMDAwMzEsImp0aSI6IjEyMyIsImxhc3RuYW1lIjoiRG9lIn0.hinTAZAW3buA_fIxiKpityE0KngbSrnhv6r0dA-9pY1PoaSUvo5LdzRVhwh-QCnaVHAsXnlovIDRHLSpmoTPsw\"";
+	private static String vaildAuthToken;
 	private static String expiredAuthToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdXRoZW50aWNhdGlvbiIsImZpcnN0bmFtZSI6IkpvaG4iLCJyb2xlIjpbImFkbWluIiwic3VwZXJhZG1pbiJdLCJpc3MiOiJzaG9wc3lzdGVtIiwiZXhwIjoxNDY0OTg2MDcwLCJpYXQiOjE0NjQ5ODQyNzAsImp0aSI6IjEyMyIsImxhc3RuYW1lIjoiRG9lIn0.8nstFMPC3w3hInvZWZHp21k0bTDGrcW-ll4nQeKwy_DE4gSdcxpIEKyeLk_-d1XqMYWV9ES2c80xLOXGpee_JA";
 	private static String noSuchRoleAuthToken = "";
 	private RestTemplate restTemplate = new TestRestTemplate("test", "123");

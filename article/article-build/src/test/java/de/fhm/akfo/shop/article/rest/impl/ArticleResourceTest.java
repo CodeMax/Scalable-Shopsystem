@@ -5,15 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.ForbiddenException;
-import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.TestRestTemplate;
@@ -21,14 +20,16 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
-import de.fhm.akfo.shop.article.rest.dto.ArticleTO;
+
+import de.fhm.akfo.shop.article.rest.to.ArticleTo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ApplicationTest
 public class ArticleResourceTest {
 	
-	private static String vaildAuthToken = "\"eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdXRoZW50aWNhdGlvbiIsImZpcnN0bmFtZSI6IkpvaG4iLCJyb2xlIjpbImFkbWluIiwic3VwZXJhZG1pbiJdLCJpc3MiOiJzaG9wc3lzdGVtIiwiZXhwIjoxNDY1MzAxODMxLCJpYXQiOjE0NjUzMDAwMzEsImp0aSI6IjEyMyIsImxhc3RuYW1lIjoiRG9lIn0.hinTAZAW3buA_fIxiKpityE0KngbSrnhv6r0dA-9pY1PoaSUvo5LdzRVhwh-QCnaVHAsXnlovIDRHLSpmoTPsw\"";
+	private static String vaildAuthToken; 
 	private static String expiredAuthToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdXRoZW50aWNhdGlvbiIsImZpcnN0bmFtZSI6IkpvaG4iLCJyb2xlIjpbImFkbWluIiwic3VwZXJhZG1pbiJdLCJpc3MiOiJzaG9wc3lzdGVtIiwiZXhwIjoxNDY0OTg2MDcwLCJpYXQiOjE0NjQ5ODQyNzAsImp0aSI6IjEyMyIsImxhc3RuYW1lIjoiRG9lIn0.8nstFMPC3w3hInvZWZHp21k0bTDGrcW-ll4nQeKwy_DE4gSdcxpIEKyeLk_-d1XqMYWV9ES2c80xLOXGpee_JA";
 	private static String noSuchRoleAuthToken = "";
 	private RestTemplate restTemplate = new TestRestTemplate("test", "123");
@@ -56,70 +57,71 @@ public class ArticleResourceTest {
     public void restCallTestWithValidToken() {
     	Client client = ClientBuilder.newClient();
     	WebTarget target = client.target("http://localhost:8094").path("article");
-		target.request(MediaType.APPLICATION_JSON).header("AUTHORIZATION", vaildAuthToken).get(String.class);
+		Response response = target.request(MediaType.APPLICATION_JSON)
+								.header("AUTHORIZATION", vaildAuthToken).get(Response.class);
         
+		Assert.notNull(response);
+		Assert.isTrue(response.getStatus() == 200);
     }
 
-    @Test(expected=NotAuthorizedException.class)
-    @Ignore
+    @Test
     public void restCallTestWithExpiredToken() {
     	Client client = ClientBuilder.newClient();
     	WebTarget target = client.target("http://localhost:8094").path("article");
-    	WebTarget target2 = client.target("http://localhost:8094").path("article");
-    	try{
-    		target.request(MediaType.APPLICATION_JSON).header("AUTHORIZATION", expiredAuthToken).get(String.class);
-    	}catch(NotAuthorizedException e){
-    		try{
-    			target2.request(MediaType.APPLICATION_JSON).header("AUTHORIZATION", expiredAuthToken).get(String.class);    		
-    		}catch(NotAuthorizedException e2){
-    			
-    		}
-    	}
+    	Response response = target.request(MediaType.APPLICATION_JSON)
+    			.header("AUTHORIZATION", expiredAuthToken).post(Entity.json(new ArticleTo()));
+    	
+    	Assert.notNull(response);
+		Assert.isTrue(response.getStatus() == 401);
     }
-
-    @Test(expected=ForbiddenException.class)
+    
+    
+    @Test
     public void restCallTestWithNoValidUserRole() {
     	Client client = ClientBuilder.newClient();
     	WebTarget target = client.target("http://localhost:8094").path("article");
-		target.request(MediaType.APPLICATION_JSON).header("AUTHORIZATION", noSuchRoleAuthToken).get(String.class);
+		Response response = target.request(MediaType.APPLICATION_JSON)
+				.header("AUTHORIZATION", noSuchRoleAuthToken).post(Entity.json(new ArticleTo()));
+		
+		Assert.notNull(response);
+		Assert.isTrue(response.getStatus() == 403);
     }
     
+    
     @Test
-    @Ignore
     public void returnsAllPages() {
-        ResponseEntity<Page<ArticleTO>> responseEntity = getEntries("http://localhost:8094/article");
-        List<ArticleTO> articleDtoList = responseEntity.getBody().getContent();
+        ResponseEntity<Page<ArticleTo>> responseEntity = getEntries("http://localhost:8094/article");
+        List<ArticleTo> articleDtoList = responseEntity.getBody().getContent();
         
         System.out.println(responseEntity.getBody().getContent().toString());
         System.out.println("TestResult Size: " + articleDtoList.size());
         
-        for(ArticleTO stdto : articleDtoList){
-            System.out.println(stdto.toString() +", " + stdto.getId() + ", " + stdto.getName() + ", Linkssize: " + stdto.getLinks().size());	
+        for(ArticleTo stdto : articleDtoList){
+            Assert.notNull(stdto);
         }
     }
     
     
     @Test
-    @Ignore
     public void returnsOnePageById() {
-        ResponseEntity<Page<ArticleTO>> responseEntity = getEntries("http://localhost:8094/article/0");
-        List<ArticleTO> articleDtoList = responseEntity.getBody().getContent();
+        ResponseEntity<Page<ArticleTo>> responseEntity = getEntries("http://localhost:8094/article/0");
+        List<ArticleTo> articleDtoList = responseEntity.getBody().getContent();
         
         System.out.println(responseEntity.getBody().getContent().toString());
         System.out.println("TestResult Size: " + articleDtoList.size());
         
-        for(ArticleTO stdto : articleDtoList){
-            System.out.println(stdto.toString() +", " + stdto.getId() + ", " + stdto.getName() + ", Linkssize: " + stdto.getLinks().size());	
+        for(ArticleTo stdto : articleDtoList){
+            Assert.notNull(stdto);
         }
     }
 
     
-    private ResponseEntity<Page<ArticleTO>> getEntries(String uri) {
+    private ResponseEntity<Page<ArticleTo>> getEntries(String uri) {
         return restTemplate.exchange(uri, HttpMethod.GET, null, getParameterizedPageTypeReference());
     }
 
     
-    private ParameterizedTypeReference<Page<ArticleTO>> getParameterizedPageTypeReference() {
-        return new ParameterizedTypeReference<Page<ArticleTO>>(){};
+    private ParameterizedTypeReference<Page<ArticleTo>> getParameterizedPageTypeReference() {
+        return new ParameterizedTypeReference<Page<ArticleTo>>(){};
     }
 }

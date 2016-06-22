@@ -20,7 +20,21 @@
         </div>
         <button type="submit" class="btn btn-default">Suche starten</button>
       </form>
+      <button type="button" class="btn btn-default" (click)="modal.open()">Open me!</button>
       </ul>
     </div>
   </div>
 </nav>
+
+<modal #myModal>
+  <modal-header>
+    <h4 class="modal-title">I'm a modal!</h4>
+  </modal-header>
+  <modal-body>
+    <div class="form-group">
+      <label for="textbox">I'm a textbox!</label>
+      <input autofocus type="text" class="form-control" id="textbox">
+    </div>
+  </modal-body>
+  <modal-footer [show-default-buttons]="true"></modal-footer>
+</modal>

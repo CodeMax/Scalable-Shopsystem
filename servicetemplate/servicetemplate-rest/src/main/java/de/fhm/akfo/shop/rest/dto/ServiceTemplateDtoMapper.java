@@ -16,10 +16,10 @@ public class ServiceTemplateDtoMapper extends JaxRsResourceMapperSupport<Service
     }
 
     @Override
-    public ServiceTemplateTO toResource(ServiceTemplateDto entity) {
-    	ServiceTemplateTO resource = createResourceWithId(entity.getServicetemplateId(), entity);
-        resource.setName(entity.getName());
-        resource.setServicetemplateId(entity.getServicetemplateId());
+    public ServiceTemplateTO toResource(ServiceTemplateDto dto) {
+    	ServiceTemplateTO resource = createResourceWithId(dto.getServicetemplateId(), dto);
+        resource.setName(dto.getName());
+        resource.setServiceTemplateId(dto.getServicetemplateId());
         return resource;
     }
 

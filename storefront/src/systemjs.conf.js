@@ -4,7 +4,8 @@
 
     var map = {
         'app': 'src/tmp/app',
-        'test': 'src/tmp/test'
+        'test': 'src/tmp/test',
+        'ng2-bs3-modal': 'node_modules/ng2-bs3-modal'
     };
 
     var packages = {
@@ -18,6 +19,9 @@
             defaultExtension: 'js'
         },
         'angular2-cookie': {
+            defaultExtension: 'js'
+        },
+        'ng2-bs3-modal': {
             defaultExtension: 'js'
         }
     };
@@ -72,7 +76,7 @@
     if (global.filterSystemConfig) {
       global.filterSystemConfig(config);
     }
-    
+
     System.config(config);
 
 })(this);

@@ -33,23 +33,31 @@ public interface ArticleService {
 	
 	
 	/**
+	 * Erzeugt den aktuell gueltigen Eintrag für Article mit dem uebergebenen {@link ArticleDto}.
 	 * 
 	 * @param articleDto
 	 * @return
 	 * @throws ArticleValidationException 
 	 */
 	public ArticleDto saveArticle(ArticleDto articleDto) throws ArticleValidationException;
-	
-	
+
+
 	/**
-	 * Erzeugt bzw. ueberschreibt den aktuell gueltigen Eintrag für Article mit dem uebergebenen {@link ArticleDto}.
+	 * Ueberschreibt den aktuell gueltigen Eintrag für Article mit dem uebergebenen {@link ArticleDto}.
 	 * 
 	 * @param articleBo
 	 *            {@link ArticleDto}.
 	 * @throwsArticleValidationException
 	 *             wenn bei der Validierung von Article ein fachlicher Fehler auftritt.
+	 */	
+	public ArticleDto updateArticle(ArticleDto articleDto) throws ArticleValidationException;
+	
+	
+	/**
+	 * Löscht den aktuell gueltigen Eintrag für Article mit dem uebergebenen {@link ArticleDto}.
+	 * 
+	 * @param articleDto
+	 * @return
 	 */
-//	public void changeArticle(ArticleDto articleBo)
-//		throws ArticleValidationException;
-
+	public ArticleDto deleteArticle(ArticleDto articleDto);
 }

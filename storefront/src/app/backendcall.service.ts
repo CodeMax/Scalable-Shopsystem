@@ -5,6 +5,7 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
 import {Observable} from 'rxjs/Observable';
 import {Token} from './token.service';
+import {LoginService} from './login.service'
 
 @Injectable()
 export class BackendcallService {
@@ -12,8 +13,9 @@ export class BackendcallService {
       private actionUrl: string;
       private headers: Headers;
       private encodedString: string;
+      private login: LoginService;
 
-      constructor(private _http: Http, user: string, pw: string, actionUrl: string) {
+      constructor(private _http: Http, user: string, pw: string, actionUrl: string, _login: LoginService) {
         if (user === 'token') {
           this.encodedString = pw;
         } else {
@@ -26,6 +28,8 @@ export class BackendcallService {
         this.headers.append('Authorization', this.encodedString);
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
+
+        this.login = _login
       }
 
       public getAll = (): Observable<String[]> => {
@@ -50,8 +54,10 @@ export class BackendcallService {
         let errMsg = (error.message) ? error.message :
           error.status ? `${error.status} - ${error.statusText}` : 'Server error';
 
-        /*if ( error.status === 401 ) {
-        }*/
+        if ( error.status === 401 ) {
+          alert("Not Authorized");
+          // this.login.open();
+        }
 
         console.error(errMsg);
         return Observable.throw(errMsg);

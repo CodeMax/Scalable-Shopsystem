@@ -32,10 +32,11 @@ public class ArticleServiceImpl implements ArticleService {
 	/** Logger dieser Klasse. */
 	private static final Logger LOG = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
+	
 	/** Datenzugriffsschicht auf die Entitaet {@link Article}. */
     @Inject
 	private ArticleRepository articleRepo;
-    
+
 	
 	@Transactional(readOnly = true)
 	public List<ArticleDto> getArticleList() {
@@ -43,11 +44,10 @@ public class ArticleServiceImpl implements ArticleService {
 
 		List<ArticleDto> listOfArticle = new ArrayList<ArticleDto>();
 
-		Iterable<Article> findAll = articleRepo.findAll();
+		Iterable<Article> articleList = articleRepo.findAll();
 		
-		for (Article st : findAll) {
-			LOG.info("Datensatz in getArticleList gefunden: " + st.getId() + ", " + st.getName());
-			listOfArticle.add(new ArticleDto(st.getId(), st.getName()));
+		for (Article article : articleList) {
+			listOfArticle.add(ArticleDtoEntityMapper.INSTANCE.entityToDto(article));
 		}
 
 		return listOfArticle;
@@ -58,9 +58,9 @@ public class ArticleServiceImpl implements ArticleService {
 	public ArticleDto getArticle(long id) {
 		LOG.info("Aufruf der Methode getArticle()");
 
-		Article findOne = articleRepo.findOne(id);
+		Article article = articleRepo.findOne(id);
 		
-		return new ArticleDto(findOne.getId(), findOne.getName());
+		return ArticleDtoEntityMapper.INSTANCE.entityToDto(article);
 	}
 
 	
@@ -68,8 +68,22 @@ public class ArticleServiceImpl implements ArticleService {
 		throws ArticleValidationException {
 		LOG.info(String.format("Aufruf der Methode changeArticle(%s)", articleDto));
 
-		Article st = articleRepo.save(new Article(articleDto.getName())); 
+		Article st = articleRepo.save(ArticleDtoEntityMapper.INSTANCE.dtoToEntity(articleDto)); 
 		
-		return new ArticleDto(st.getId(), st.getName());
+		return ArticleDtoEntityMapper.INSTANCE.entityToDto(st);
+	}
+
+
+	@Override
+	public ArticleDto updateArticle(ArticleDto articleDto) throws ArticleValidationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public ArticleDto deleteArticle(ArticleDto articleDto) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -1,5 +1,6 @@
 package de.fhm.akfo.shop.article.rest.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.security.PermitAll;
@@ -7,6 +8,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -22,8 +24,9 @@ import org.springframework.hateoas.jaxrs.JaxRsLinkBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import de.fhm.akfo.shop.article.rest.dto.ArticleDtoMapper;
-import de.fhm.akfo.shop.article.rest.dto.ArticleTO;
+import de.fhm.akfo.shop.article.rest.to.ArticleDtoMapper;
+import de.fhm.akfo.shop.article.rest.to.ArticleTo;
+import de.fhm.akfo.shop.article.rest.to.ArticleToDtoMapper;
 import de.fhm.akfo.shop.article.service.api.ArticleService;
 import de.fhm.akfo.shop.article.service.api.dto.ArticleDto;
 import de.fhm.akfo.shop.article.service.api.exception.ArticleValidationException;
@@ -34,52 +37,67 @@ import de.fhm.akfo.shop.article.service.api.exception.ArticleValidationException
 @ExposesResourceFor(ArticleDto.class)
 @CrossOrigin
 public class ArticleResource {
-	
+
 	/** Logger dieser Klasse. */
 	private static final Logger LOG = LoggerFactory.getLogger(ArticleResource.class);
 
 	@Inject
 	private ArticleService articleService;
-	
-    @GET
-    @RolesAllowed(value = { "admin" })
-    public Response findAllResources() {
-    	LOG.info("Daten für find AllResources gefunden");
-        
-    	List<ArticleDto> articleDtoList = articleService.getArticleList();
-    	
-        List<ArticleTO> articleTOList = 
-        			new ArticleDtoMapper().toResources(articleDtoList);
-        
-        Resources<ArticleTO> wrapped = new Resources<ArticleTO>(articleTOList);
-        wrapped.add(
-                JaxRsLinkBuilder.linkTo(ArticleResource.class).withSelfRel()
-        );
 
-        return Response.ok(wrapped).build();
-    }
+	@GET
+	@PermitAll
+	public Response findAllResources() {
+		LOG.info("Daten für find AllResources gefunden");
 
-    @GET
-    @Path("{id}")
-    public Response findOne(@PathParam("id") Long id) {
-        Resource<ArticleDto> resource = new Resource<ArticleDto>(articleService.getArticle(id));
+		List<ArticleDto> articleDtoList = articleService.getArticleList();
+		Resources<ArticleTo> wrapped = null;
+		
+		if (articleDtoList != null) {
+			List<ArticleTo> articleTOList = new ArrayList<ArticleTo>();
+			for (ArticleDto dto : articleDtoList) {
+				ArticleTo to = ArticleToDtoMapper.INSTANCE.dtoToTo(dto);
+				articleTOList.add(new ArticleDtoMapper().toResource(to));
+			}
 
-//        Link selfRel = entityLinks.linkToSingleResource(ArticleTO.class, resource.getId()).withSelfRel();
-//        resource.add(selfRel);
-        resource.add(JaxRsLinkBuilder.linkTo(ArticleResource.class).withSelfRel());
+			wrapped = new Resources<ArticleTo>(articleTOList);
+			wrapped.add(JaxRsLinkBuilder.linkTo(ArticleResource.class).withSelfRel());
+		}
+		return Response.ok(wrapped).build();
+	}
 
-        return Response.ok(resource).build();
-    }
+	@GET
+	@Path("{id}")
+	@PermitAll
+	public Response findOne(@PathParam("id") Long id) {
+		Resource<ArticleDto> resource = new Resource<ArticleDto>(articleService.getArticle(id));
 
-    @POST
-    @PermitAll
-    public Response saveArticle(ArticleTO stto) throws ArticleValidationException {
-        Resource<ArticleDto> resource = 
-        		new Resource<ArticleDto>(articleService.saveArticle(new ArticleDto(0, stto.getName())));
+		// Link selfRel = entityLinks.linkToSingleResource(ArticleTo.class,
+		// resource.getId()).withSelfRel();
+		// resource.add(selfRel);
+		resource.add(JaxRsLinkBuilder.linkTo(ArticleResource.class).withSelfRel());
 
-        resource.add(JaxRsLinkBuilder.linkTo(ArticleResource.class).withSelfRel());
+		return Response.ok(resource).build();
+	}
 
-        return Response.ok(resource).build();
-    }
+	@POST
+	@RolesAllowed(value = { "admin" })
+	public Response saveArticle(ArticleTo stto) throws ArticleValidationException {
+		Resource<ArticleDto> resource = new Resource<ArticleDto>(
+				articleService.saveArticle(ArticleToDtoMapper.INSTANCE.toToDto(stto)));
 
+		resource.add(JaxRsLinkBuilder.linkTo(ArticleResource.class).withSelfRel());
+
+		return Response.ok(resource).build();
+	}
+
+	@PUT
+	@RolesAllowed(value = { "admin" })
+	public Response updateArticle(ArticleTo stto) throws ArticleValidationException {
+		Resource<ArticleDto> resource = new Resource<ArticleDto>(
+				articleService.updateArticle(ArticleToDtoMapper.INSTANCE.toToDto(stto)));
+
+		resource.add(JaxRsLinkBuilder.linkTo(ArticleResource.class).withSelfRel());
+
+		return Response.ok(resource).build();
+	}
 }

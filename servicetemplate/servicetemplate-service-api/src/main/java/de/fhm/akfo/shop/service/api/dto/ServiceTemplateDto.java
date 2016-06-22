@@ -43,12 +43,12 @@ public class ServiceTemplateDto {
 	}
 
 
-	public long getServicetemplateId() {
+	public long getServiceTemplateId() {
 		return servicetemplateId;
 	}
 
 
-	public void setServicetemplateId(long id) {
+	public void getServiceTemplateId(long id) {
 		this.servicetemplateId = id;
 	}
 
