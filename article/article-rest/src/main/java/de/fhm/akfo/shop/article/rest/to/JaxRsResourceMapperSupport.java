@@ -27,7 +27,6 @@ public abstract class JaxRsResourceMapperSupport<T, D extends ResourceSupport>
                 JaxRsLinkBuilder.linkTo(controllerClass, parameters)
                         .slash(id)
                         .withSelfRel());
-        
         return instance;
     }
 }
