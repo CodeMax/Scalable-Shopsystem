@@ -3,19 +3,20 @@ import { Http, Headers, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/toPromise';
+import 'rxjs/add/observable/throw';
 import {Observable} from 'rxjs/Observable';
 import {Token} from './token.service';
-import {LoginService} from './login.service'
+import {CONSTANTS} from './shared';
 
 @Injectable()
 export class BackendcallService {
 
+      private appBrand: string;
       private actionUrl: string;
       private headers: Headers;
       private encodedString: string;
-      private login: LoginService;
 
-      constructor(private _http: Http, user: string, pw: string, actionUrl: string, _login: LoginService) {
+      constructor(private _http: Http, user: string, pw: string, actionUrl: string) {
         if (user === 'token') {
           this.encodedString = pw;
         } else {
@@ -23,13 +24,10 @@ export class BackendcallService {
         }
 
         this.actionUrl = actionUrl;
-
         this.headers = new Headers();
         this.headers.append('Authorization', this.encodedString);
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
-
-        this.login = _login
       }
 
       public getAll = (): Observable<String[]> => {
@@ -43,7 +41,7 @@ export class BackendcallService {
                .toPromise()
                .then(response => response.json().jwtToken)
                .catch(this.handleError);
-  }
+      }
 
       private extractData(res: Response) {
           let body = res.json();
@@ -52,14 +50,9 @@ export class BackendcallService {
 
       private handleError (error: any) {
         let errMsg = (error.message) ? error.message :
-          error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-
-        if ( error.status === 401 ) {
-          alert("Not Authorized");
-          // this.login.open();
-        }
-
+           error.status ? `${error.status} - ${error.statusText}` : 'Server error';
         console.error(errMsg);
-        return Observable.throw(errMsg);
+        CONSTANTS.MAIN.APP.STATUS = 401;
+        return Observable.throw(401);
       }
 }

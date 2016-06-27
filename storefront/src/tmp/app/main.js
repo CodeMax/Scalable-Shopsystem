@@ -6,9 +6,7 @@ var http_1 = require('@angular/http');
 var app_component_1 = require('./app.component');
 var backendcall_service_1 = require('./backendcall.service');
 var token_service_1 = require('./token.service');
-var login_service_1 = require('./login.service');
 var core_2 = require('angular2-cookie/core');
-var ng2_bs3_modal_1 = require('ng2-bs3-modal/ng2-bs3-modal');
 if (ENV === 'production') {
     core_1.enableProdMode();
 }
@@ -18,10 +16,7 @@ platform_browser_dynamic_1.bootstrap(app_component_1.AppComponent, [
     http_1.ConnectionBackend,
     backendcall_service_1.BackendcallService,
     core_2.CookieService,
-    token_service_1.TokenService,
-    login_service_1.LoginService,
-    ng2_bs3_modal_1.MODAL_DIRECTIVES,
-    core_1.ViewChild
+    token_service_1.TokenService
 ]);
 
 //# sourceMappingURL=main.js.map

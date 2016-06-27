@@ -1,27 +1,35 @@
 <as-header></as-header>
 <as-navbar [routes]="appRoutes" [brand]="appBrand"></as-navbar>
+<as-login></as-login>
+
 <br/>
-<div class="container" style="margin-top: 100px;">
+<div class="container" style="margin-top: 10px;">
 	<router-outlet></router-outlet>
 </div>
-<div class="container" style="margin-top: 100px;">
-<p> This Client is based on a Prototype and is not used for Production yet.</p>
+<div class="container" style="margin-top: 10px;">
+	<p> This Client is based on a Prototype and is not used for Production yet.</p>
 </div>
 
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		 <div class="modal-dialog">
-				 <div class="modal-content" style="color: #333">
-						 <form class="antwortform" action="persistAttendees.php" method="post">
-						 <div class="modal-header">
-								 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-								 <h4 class="modal-title">Login</h4>
-						 </div>
-						 <div class="modal-body">
-								 <p>Login Area</p>
-						 </div>
-						 <div class="modal-footer">
-						 </div>
-						 </form>
-				 </div>
-		 </div>
- </div>
+<modal #myModal>
+	<form (ngSubmit)="onLoginSubmit(username, password)" #loginForm="ngForm">
+		<modal-header>
+			<h4 class="modal-title">Login</h4>
+		</modal-header>
+		<modal-body>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-inline">
+						<div class="form-inline">
+							<input required type="text" [(ngModel)]="username" placeholder="Username" #name="ngForm" type="text" class="form-control" size="50" />
+							<input required type="password" [(ngModel)]="password" placeholder="Password" class="form-control" size="50" />
+						</div>
+						<input type="checkbox" [(ngModel)]="rememberMe" class="form-control" size="50" /> Keep me logged in
+					</div>
+				</div>
+			</div>
+		</modal-body>
+		<modal-footer>
+			<button type="submit" class="btn btn-success">Login</button>
+		</modal-footer>
+	</form>
+</modal>

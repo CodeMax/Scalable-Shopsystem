@@ -13,10 +13,11 @@ var http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/catch');
 require('rxjs/add/operator/toPromise');
+require('rxjs/add/observable/throw');
 var Observable_1 = require('rxjs/Observable');
-var login_service_1 = require('./login.service');
+var shared_1 = require('./shared');
 var BackendcallService = (function () {
-    function BackendcallService(_http, user, pw, actionUrl, _login) {
+    function BackendcallService(_http, user, pw, actionUrl) {
         var _this = this;
         this._http = _http;
         this.getAll = function () {
@@ -35,7 +36,6 @@ var BackendcallService = (function () {
         this.headers.append('Authorization', this.encodedString);
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
-        this.login = _login;
     }
     BackendcallService.prototype.getToken = function () {
         return this._http.get(this.actionUrl, { headers: this.headers })
@@ -50,15 +50,13 @@ var BackendcallService = (function () {
     BackendcallService.prototype.handleError = function (error) {
         var errMsg = (error.message) ? error.message :
             error.status ? error.status + " - " + error.statusText : 'Server error';
-        if (error.status === 401) {
-            alert("Not Authorized");
-        }
         console.error(errMsg);
-        return Observable_1.Observable.throw(errMsg);
+        shared_1.CONSTANTS.MAIN.APP.STATUS = 401;
+        return Observable_1.Observable.throw(401);
     };
     BackendcallService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, String, String, String, login_service_1.LoginService])
+        __metadata('design:paramtypes', [http_1.Http, String, String, String])
     ], BackendcallService);
     return BackendcallService;
 }());

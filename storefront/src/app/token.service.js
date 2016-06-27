@@ -36,6 +36,9 @@ var TokenService = (function () {
     TokenService.prototype.getToken = function () {
         return this._cookieService.get(this.tokenstorekey);
     };
+    TokenService.prototype.clearLoginToken = function () {
+        this._cookieService.remove(this.tokenstorekey);
+    };
     TokenService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [core_2.CookieService])

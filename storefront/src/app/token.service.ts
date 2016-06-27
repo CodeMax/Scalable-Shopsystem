@@ -33,4 +33,7 @@ export class TokenService {
       return this._cookieService.get(this.tokenstorekey);
   }
 
+  public clearLoginToken(){
+    this._cookieService.remove(this.tokenstorekey);
+  }
 }

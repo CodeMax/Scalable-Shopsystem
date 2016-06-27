@@ -1,5 +1,6 @@
 export const MAIN = {
     APP: {
-        BRAND: 'Onlineshop'
+        BRAND: 'Onlineshop',
+        STATUS: 200
     }
 };

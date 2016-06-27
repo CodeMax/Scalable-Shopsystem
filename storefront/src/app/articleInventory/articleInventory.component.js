@@ -15,17 +15,26 @@ var backendcall_service_1 = require('./../backendcall.service');
 var token_service_1 = require('../token.service');
 var router_1 = require('@angular/router'); // Routes
 var article_component_1 = require('../article/article.component');
+var login_service_1 = require('./../login.service');
 var ArticleInventoryComponent = (function () {
-    function ArticleInventoryComponent(_http, _tokenService) {
+    function ArticleInventoryComponent(_http, _tokenService, _loginService) {
         this._http = _http;
         this._tokenService = _tokenService;
+        this._loginService = _loginService;
+        _loginService.loginNeeded$.subscribe(function (needForLogin) {
+            true;
+        });
     }
     ArticleInventoryComponent.prototype.ngOnInit = function () {
         var _this = this;
+        // this._login.startLogin();
         console.log(this._tokenService.getToken());
         this.backend = new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8083/article');
         this.backend.getAll()
-            .subscribe(function (data) { return _this.articles = data; }, function (error) { return console.log(error); }, function () { return console.log('Get all Items complete'); });
+            .subscribe(function (data) { return _this.articles = data; }, function (error) { return _this.handleError(error); }, function () { return console.log('Get all Items complete'); });
+    };
+    ArticleInventoryComponent.prototype.handleError = function (error) {
+        this._loginService.setLogin(true);
     };
     ArticleInventoryComponent = __decorate([
         core_1.Component({
@@ -35,7 +44,7 @@ var ArticleInventoryComponent = (function () {
             viewProviders: [http_1.HTTP_PROVIDERS],
             providers: [token_service_1.TokenService]
         }), 
-        __metadata('design:paramtypes', [http_1.Http, token_service_1.TokenService])
+        __metadata('design:paramtypes', [http_1.Http, token_service_1.TokenService, login_service_1.LoginService])
     ], ArticleInventoryComponent);
     return ArticleInventoryComponent;
 }());

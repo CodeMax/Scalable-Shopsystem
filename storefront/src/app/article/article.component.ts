@@ -5,6 +5,7 @@ import {BackendcallService} from './../backendcall.service';
 import {TokenService} from '../token.service';
 import {ROUTER_DIRECTIVES} from '@angular/router';
 import {RouteSegment} from '@angular/router';
+import {LoginService} from './../login.service';
 
 @Component({
     selector: 'as-article',
@@ -21,17 +22,26 @@ export class ArticleComponent implements OnInit {
       private id: string;
       private href: string;
 
-        constructor(private _http: Http, private _tokenService: TokenService, private params: RouteSegment) {
-          this.id = params.getParam('id'); // +params.getParam('id'); = Converting to number
-          this.href = params.getParam('href');
-        }
+      constructor(private _http: Http, private _tokenService: TokenService, private params: RouteSegment,
+                  private _loginService: LoginService) {
+        this.id = params.getParam('id'); // +params.getParam('id'); = Converting to number
+        this.href = params.getParam('href');
+        _loginService.loginNeeded$.subscribe(
+          needForLogin => {
+            true
+          });
+      }
 
       ngOnInit() {
         console.log(this._tokenService.getToken());
         this.backend = new BackendcallService(this._http, 'token', this._tokenService.getToken(), this.href);
         this.backend.getAll()
             .subscribe((data: string[] ) => this.servicetemplate = data,
-                error => console.log(error),
+                error => this.handleError(error),
                 () => console.log('Get all Items complete'));
+      }
+
+      handleError(error: any) {
+        this._loginService.setLogin(true);
       }
 }

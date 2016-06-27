@@ -5,8 +5,7 @@ import {ArticleInventoryComponent} from './articleInventory/articleInventory.com
 
 export var APP_ROUTES: any[] = [
     { path: '/', name: 'Home', component: HomeComponent },
-    { path: '/**', redirectTo: ['Home'] },
     { path: '/articleInventory', name: 'Articles', component: ArticleInventoryComponent },
-    { path: '/login', name: 'Login', component: LoginComponent },
+    // { path: '/account', name: 'Account', component: DashboardComponent },
     { path: '/articleInventory/article', component: ArticleComponent}
 ];
