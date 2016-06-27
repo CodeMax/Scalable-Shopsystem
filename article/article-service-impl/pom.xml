@@ -35,18 +35,14 @@
 			<version>${mapstruct.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct-processor</artifactId>
-			<version>${mapstruct.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
-	<build>
+	<!-- ${project.build.directory}/generated-sources -->
+	<!-- <build>
 		<plugins>
 			<plugin>
 				<groupId>org.bsc.maven</groupId>
@@ -57,14 +53,20 @@
 					<target>1.8</target>
 					<defaultOutputDirectory>
 						${project.basedir}/src/main/java
-						<!-- ${project.build.directory}/generated-sources -->
 					</defaultOutputDirectory>
 					<processors>
 						<processor>org.mapstruct.ap.MappingProcessor</processor>
 					</processors>
 				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.mapstruct</groupId>
+						<artifactId>mapstruct-processor</artifactId>
+						<version>${mapstruct.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
-			<!-- <plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
@@ -78,7 +80,40 @@
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
-			</plugin> -->
+			</plugin>
 		</plugins>
-	</build>
+	</build> 
+	<build>
+             <plugins>
+                    <plugin>
+                           <groupId>org.bsc.maven</groupId>
+                           <artifactId>maven-processor-plugin</artifactId>
+                           <version>2.2.4</version>
+                           <configuration>
+                                  <defaultOutputDirectory>
+                                        ${project.basedir}/src/main/java
+                                  </defaultOutputDirectory>
+                                  <processors>
+                                        <processor>org.mapstruct.ap.MappingProcessor</processor>
+                                  </processors>
+                           </configuration>
+                           <executions>
+                                  <execution>
+                                        <id>process</id>
+                                        <phase>generate-sources</phase>
+                                        <goals>
+                                               <goal>process</goal>
+                                        </goals>
+                                  </execution>
+                           </executions>
+                           <dependencies>
+                                  <dependency>
+                                        <groupId>org.mapstruct</groupId>
+                                        <artifactId>mapstruct-processor</artifactId>
+                                        <version>${mapstruct.version}</version>
+                                  </dependency>
+                           </dependencies>
+                    </plugin>
+             </plugins>
+       </build>-->
 </project>

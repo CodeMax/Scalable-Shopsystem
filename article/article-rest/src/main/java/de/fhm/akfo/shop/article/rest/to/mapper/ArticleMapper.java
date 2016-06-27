@@ -1,6 +1,7 @@
-package de.fhm.akfo.shop.article.rest.to;
+package de.fhm.akfo.shop.article.rest.to.mapper;
 
 import de.fhm.akfo.shop.article.rest.impl.ArticleResource;
+import de.fhm.akfo.shop.article.rest.to.ArticleTo;
 import de.fhm.akfo.shop.article.service.api.dto.ArticleDto;
 
 /**
@@ -9,16 +10,18 @@ import de.fhm.akfo.shop.article.service.api.dto.ArticleDto;
  * 
  * @author Spelsberg.Maximilian
  */
-public class ArticleDtoMapper extends JaxRsResourceMapperSupport<ArticleTo, ArticleTo> {
+public class ArticleMapper extends JaxRsResourceMapperSupport<ArticleDto, ArticleTo> {
 
-    public ArticleDtoMapper() {
+    public ArticleMapper() {
         super(ArticleResource.class, ArticleTo.class);
     }
 
     @Override
-    public ArticleTo toResource(ArticleTo dto) {
-    	ArticleTo resourceWithId = createResourceWithId(dto.getArticleId(), dto);
-        return resourceWithId;
+    public ArticleTo toResource(ArticleDto dto) {
+    	ArticleTo resourceLinks = createResourceWithId(dto.getId(), dto);
+		ArticleTo to = ArticleToDtoMapper.INSTANCE.dtoToTo(dto);
+		to.add(resourceLinks.getLinks());
+        return to;
     }
 
 }

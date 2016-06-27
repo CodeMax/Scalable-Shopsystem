@@ -24,9 +24,9 @@ import org.springframework.hateoas.jaxrs.JaxRsLinkBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import de.fhm.akfo.shop.article.rest.to.ArticleDtoMapper;
 import de.fhm.akfo.shop.article.rest.to.ArticleTo;
-import de.fhm.akfo.shop.article.rest.to.ArticleToDtoMapper;
+import de.fhm.akfo.shop.article.rest.to.mapper.ArticleMapper;
+import de.fhm.akfo.shop.article.rest.to.mapper.ArticleToDtoMapper;
 import de.fhm.akfo.shop.article.service.api.ArticleService;
 import de.fhm.akfo.shop.article.service.api.dto.ArticleDto;
 import de.fhm.akfo.shop.article.service.api.exception.ArticleValidationException;
@@ -45,7 +45,7 @@ public class ArticleResource {
 	private ArticleService articleService;
 
 	@GET
-	@PermitAll
+	@RolesAllowed(value = { "admin" })
 	public Response findAllResources() {
 		LOG.info("Daten für find AllResources gefunden");
 
@@ -55,8 +55,7 @@ public class ArticleResource {
 		if (articleDtoList != null) {
 			List<ArticleTo> articleTOList = new ArrayList<ArticleTo>();
 			for (ArticleDto dto : articleDtoList) {
-				ArticleTo to = ArticleToDtoMapper.INSTANCE.dtoToTo(dto);
-				articleTOList.add(new ArticleDtoMapper().toResource(to));
+				articleTOList.add(new ArticleMapper().toResource(dto));
 			}
 
 			wrapped = new Resources<ArticleTo>(articleTOList);
@@ -67,7 +66,7 @@ public class ArticleResource {
 
 	@GET
 	@Path("{id}")
-	@PermitAll
+	@RolesAllowed(value = { "admin" })
 	public Response findOne(@PathParam("id") Long id) {
 		Resource<ArticleDto> resource = new Resource<ArticleDto>(articleService.getArticle(id));
 

@@ -1,4 +1,4 @@
-package de.fhm.akfo.shop.article.rest.to;
+package de.fhm.akfo.shop.article.rest.to.mapper;
 
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.jaxrs.JaxRsLinkBuilder;

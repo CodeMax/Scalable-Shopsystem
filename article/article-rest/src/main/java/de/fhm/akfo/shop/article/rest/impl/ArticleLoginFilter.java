@@ -57,17 +57,11 @@ public class ArticleLoginFilter implements ContainerRequestFilter {
 			final MultivaluedMap<String, String> headers = requestContext.getHeaders();
 			final List<String> authorization = headers.get(AUTHORIZATION_PROPERTY);
 
-			for(String auth : authorization){
-				LOG.info("Authorization-Header: "+ auth);
-			}
-			
 			if (authorization == null || authorization.isEmpty()) {
 				throw new NotAuthorizedException("Authorization header must be provided");
 			}
-
-			String encodedUserPassword = authorization.get(0);
-			LOG.info("Authorization-Header to parse: "+ encodedUserPassword);
-			encodedUserPassword = stringifyJWTToken(encodedUserPassword);
+				
+			String encodedUserPassword = stringifyJWTToken(authorization.get(0));
 			LOG.info("Authorization-Header to parse: "+ encodedUserPassword);
 			
 			Claims credentials;
@@ -125,13 +119,14 @@ public class ArticleLoginFilter implements ContainerRequestFilter {
 
 	private String stringifyJWTToken(String jwt){
 		LOG.info("StringifyJWTToken: {}", jwt);
-		String token;
-		if(jwt.charAt(0) == '\"' && jwt.charAt(jwt.length()-1) == '\"'){
-			token = jwt.substring(1, jwt.length()-1);
-		}else{
-			token = jwt;
-		};
-		
+		String token = null;
+		if(jwt != null && jwt.length() > 0){
+			if(jwt.charAt(0) == '\"' && jwt.charAt(jwt.length()-1) == '\"'){
+				token = jwt.substring(1, jwt.length()-1);
+			}else{
+				token = jwt;
+			}
+		}
 		return token;
 	}
 }

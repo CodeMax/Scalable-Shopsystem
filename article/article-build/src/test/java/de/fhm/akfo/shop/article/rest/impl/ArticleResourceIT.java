@@ -27,7 +27,7 @@ import de.fhm.akfo.shop.article.rest.to.ArticleTo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ApplicationTest
-public class ArticleResourceTest {
+public class ArticleResourceIT {
 	
 	private static String vaildAuthToken; 
 	private static String expiredAuthToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdXRoZW50aWNhdGlvbiIsImZpcnN0bmFtZSI6IkpvaG4iLCJyb2xlIjpbImFkbWluIiwic3VwZXJhZG1pbiJdLCJpc3MiOiJzaG9wc3lzdGVtIiwiZXhwIjoxNDY0OTg2MDcwLCJpYXQiOjE0NjQ5ODQyNzAsImp0aSI6IjEyMyIsImxhc3RuYW1lIjoiRG9lIn0.8nstFMPC3w3hInvZWZHp21k0bTDGrcW-ll4nQeKwy_DE4gSdcxpIEKyeLk_-d1XqMYWV9ES2c80xLOXGpee_JA";
@@ -85,6 +85,17 @@ public class ArticleResourceTest {
 		
 		Assert.notNull(response);
 		Assert.isTrue(response.getStatus() == 403);
+    }
+    
+    @Test
+    public void restCallTestWithNullToken() {
+    	Client client = ClientBuilder.newClient();
+    	WebTarget target = client.target("http://localhost:8094").path("article");
+		Response response = target.request(MediaType.APPLICATION_JSON)
+				.header("AUTHORIZATION", null).post(Entity.json(new ArticleTo()));
+		
+		Assert.notNull(response);
+		Assert.isTrue(response.getStatus() == 401);
     }
     
     

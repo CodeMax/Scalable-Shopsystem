@@ -1,5 +1,6 @@
-package de.fhm.akfo.shop.article.rest.to;
+package de.fhm.akfo.shop.article.rest.to.mapper;
 
+import de.fhm.akfo.shop.article.rest.to.ArticleTo;
 import de.fhm.akfo.shop.article.service.api.dto.ArticleDto;
 import javax.annotation.Generated;
 
