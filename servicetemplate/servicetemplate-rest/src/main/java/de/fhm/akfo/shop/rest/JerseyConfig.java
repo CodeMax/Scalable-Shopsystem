@@ -10,7 +10,7 @@ import org.springframework.hateoas.config.EnableEntityLinks;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 import org.springframework.stereotype.Component;
 
-import de.fhm.akfo.shop.rest.impl.ServiceTemplateLoginFilter;
+import de.fhm.akfo.shop.rest.filter.ServiceTemplateLoginFilter;
 import de.fhm.akfo.shop.rest.impl.ServiceTemplateResource;
 
 @Component

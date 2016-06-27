@@ -22,8 +22,8 @@ import org.springframework.hateoas.jaxrs.JaxRsLinkBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import de.fhm.akfo.shop.rest.dto.ServiceTemplateDtoMapper;
-import de.fhm.akfo.shop.rest.dto.ServiceTemplateTO;
+import de.fhm.akfo.shop.rest.to.ServiceTemplateTo;
+import de.fhm.akfo.shop.rest.to.mapper.ServiceTemplateMapper;
 import de.fhm.akfo.shop.service.api.ServiceTemplateService;
 import de.fhm.akfo.shop.service.api.dto.ServiceTemplateDto;
 import de.fhm.akfo.shop.service.api.exception.ServiceTemplateValidationException;
@@ -48,10 +48,10 @@ public class ServiceTemplateResource {
         
     	List<ServiceTemplateDto> servicetemplateDtoList = servicetemplateService.getServiceTemplateList();
     	
-        List<ServiceTemplateTO> servicetemplateTOList = 
-        			new ServiceTemplateDtoMapper().toResources(servicetemplateDtoList);
+        List<ServiceTemplateTo> servicetemplateTOList = 
+        			new ServiceTemplateMapper().toResources(servicetemplateDtoList);
         
-        Resources<ServiceTemplateTO> wrapped = new Resources<ServiceTemplateTO>(servicetemplateTOList);
+        Resources<ServiceTemplateTo> wrapped = new Resources<ServiceTemplateTo>(servicetemplateTOList);
         wrapped.add(
                 JaxRsLinkBuilder.linkTo(ServiceTemplateResource.class).withSelfRel()
         );
@@ -63,17 +63,14 @@ public class ServiceTemplateResource {
     @Path("{id}")
     public Response findOne(@PathParam("id") Long id) {
         Resource<ServiceTemplateDto> resource = new Resource<ServiceTemplateDto>(servicetemplateService.getServiceTemplate(id));
-
-//        Link selfRel = entityLinks.linkToSingleResource(ServiceTemplateTO.class, resource.getId()).withSelfRel();
-//        resource.add(selfRel);
         resource.add(JaxRsLinkBuilder.linkTo(ServiceTemplateResource.class).withSelfRel());
 
         return Response.ok(resource).build();
     }
 
     @POST
-    @PermitAll
-    public Response saveServiceTemplate(ServiceTemplateTO stto) throws ServiceTemplateValidationException {
+    @RolesAllowed(value = { "admin" })
+    public Response saveServiceTemplate(ServiceTemplateTo stto) throws ServiceTemplateValidationException {
         Resource<ServiceTemplateDto> resource = 
         		new Resource<ServiceTemplateDto>(servicetemplateService.saveServiceTemplate(new ServiceTemplateDto(0, stto.getName())));
 

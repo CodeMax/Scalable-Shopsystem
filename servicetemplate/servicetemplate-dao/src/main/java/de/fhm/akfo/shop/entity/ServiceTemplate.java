@@ -27,7 +27,7 @@ public class ServiceTemplate extends AbstractEntity {
     }
 
 
-    protected ServiceTemplate() {}
+    public ServiceTemplate() {}
 
 	
     public String getName() {

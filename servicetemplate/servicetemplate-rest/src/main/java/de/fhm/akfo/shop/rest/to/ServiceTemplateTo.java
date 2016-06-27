@@ -1,4 +1,4 @@
-package de.fhm.akfo.shop.rest.dto;
+package de.fhm.akfo.shop.rest.to;
 
 import org.springframework.hateoas.ResourceSupport;
 
@@ -7,7 +7,7 @@ import org.springframework.hateoas.ResourceSupport;
  * 
  * @author Spelsberg.Maximilian
  */
-public class ServiceTemplateTO extends ResourceSupport {
+public class ServiceTemplateTo extends ResourceSupport {
 
 	/** ServiceTemplate-Id */
 	private Long servicetemplateId;
@@ -19,7 +19,7 @@ public class ServiceTemplateTO extends ResourceSupport {
 	/**
 	 * Default-Konstruktor.
 	 */
-	public ServiceTemplateTO() {
+	public ServiceTemplateTo() {
 	}
 	
 
@@ -28,7 +28,7 @@ public class ServiceTemplateTO extends ResourceSupport {
 	 * 
 	 * @param name ServiceTemplate-Name String
 	 */
-	public ServiceTemplateTO(String name, long id) {
+	public ServiceTemplateTo(String name, Long id) {
 		this.name = name;
 		this.servicetemplateId = id;
 	}
@@ -44,13 +44,13 @@ public class ServiceTemplateTO extends ResourceSupport {
 	}
 
 
-	public long getServiceTemplateId() {
+	public Long getServicetemplateId() {
 		return servicetemplateId;
 	}
 
 
-	public void setServiceTemplateId(long id) {
-		this.servicetemplateId = id;
+	public void setServicetemplateId(Long servicetemplateId) {
+		this.servicetemplateId = servicetemplateId;
 	}
 
 }

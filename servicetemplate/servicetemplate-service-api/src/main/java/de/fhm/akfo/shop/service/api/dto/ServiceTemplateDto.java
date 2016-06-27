@@ -8,7 +8,7 @@ package de.fhm.akfo.shop.service.api.dto;
 public class ServiceTemplateDto {
 
 	/** ServiceTemplate-Id */
-	private Long servicetemplateId;
+	private Long id;
 	
 	/** ServiceTemplate-Name. */
 	private String name;
@@ -27,7 +27,7 @@ public class ServiceTemplateDto {
 	 * @param name ServiceTemplate-Name String
 	 */
 	public ServiceTemplateDto(long id, String name) {
-		this.servicetemplateId = id;
+		this.id = id;
 		this.name = name;
 	}
 
@@ -43,13 +43,13 @@ public class ServiceTemplateDto {
 	}
 
 
-	public long getServiceTemplateId() {
-		return servicetemplateId;
+	public Long getId() {
+		return id;
 	}
 
 
-	public void getServiceTemplateId(long id) {
-		this.servicetemplateId = id;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

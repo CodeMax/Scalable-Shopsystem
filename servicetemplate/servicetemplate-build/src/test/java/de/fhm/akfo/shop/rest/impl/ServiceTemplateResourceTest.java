@@ -5,15 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.ForbiddenException;
-import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.TestRestTemplate;
@@ -21,14 +20,16 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
-import de.fhm.akfo.shop.rest.dto.ServiceTemplateTO;
+
+import de.fhm.akfo.shop.rest.to.ServiceTemplateTo;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ApplicationTest
 public class ServiceTemplateResourceTest {
 	
-	private static String vaildAuthToken;
+	private static String vaildAuthToken; 
 	private static String expiredAuthToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhdXRoZW50aWNhdGlvbiIsImZpcnN0bmFtZSI6IkpvaG4iLCJyb2xlIjpbImFkbWluIiwic3VwZXJhZG1pbiJdLCJpc3MiOiJzaG9wc3lzdGVtIiwiZXhwIjoxNDY0OTg2MDcwLCJpYXQiOjE0NjQ5ODQyNzAsImp0aSI6IjEyMyIsImxhc3RuYW1lIjoiRG9lIn0.8nstFMPC3w3hInvZWZHp21k0bTDGrcW-ll4nQeKwy_DE4gSdcxpIEKyeLk_-d1XqMYWV9ES2c80xLOXGpee_JA";
 	private static String noSuchRoleAuthToken = "";
 	private RestTemplate restTemplate = new TestRestTemplate("test", "123");
@@ -56,70 +57,82 @@ public class ServiceTemplateResourceTest {
     public void restCallTestWithValidToken() {
     	Client client = ClientBuilder.newClient();
     	WebTarget target = client.target("http://localhost:8094").path("servicetemplate");
-		target.request(MediaType.APPLICATION_JSON).header("AUTHORIZATION", vaildAuthToken).get(String.class);
+		Response response = target.request(MediaType.APPLICATION_JSON)
+								.header("AUTHORIZATION", vaildAuthToken).get(Response.class);
         
+		Assert.notNull(response);
+		Assert.isTrue(response.getStatus() == 200);
     }
 
-    @Test(expected=NotAuthorizedException.class)
-    @Ignore
+    @Test
     public void restCallTestWithExpiredToken() {
     	Client client = ClientBuilder.newClient();
     	WebTarget target = client.target("http://localhost:8094").path("servicetemplate");
-    	WebTarget target2 = client.target("http://localhost:8094").path("servicetemplate");
-    	try{
-    		target.request(MediaType.APPLICATION_JSON).header("AUTHORIZATION", expiredAuthToken).get(String.class);
-    	}catch(NotAuthorizedException e){
-    		try{
-    			target2.request(MediaType.APPLICATION_JSON).header("AUTHORIZATION", expiredAuthToken).get(String.class);    		
-    		}catch(NotAuthorizedException e2){
-    			
-    		}
-    	}
+    	Response response = target.request(MediaType.APPLICATION_JSON)
+    			.header("AUTHORIZATION", expiredAuthToken).post(Entity.json(new ServiceTemplateTo()));
+    	
+    	Assert.notNull(response);
+		Assert.isTrue(response.getStatus() == 401);
     }
-
-    @Test(expected=ForbiddenException.class)
+    
+    
+    @Test
     public void restCallTestWithNoValidUserRole() {
     	Client client = ClientBuilder.newClient();
     	WebTarget target = client.target("http://localhost:8094").path("servicetemplate");
-		target.request(MediaType.APPLICATION_JSON).header("AUTHORIZATION", noSuchRoleAuthToken).get(String.class);
+		Response response = target.request(MediaType.APPLICATION_JSON)
+				.header("AUTHORIZATION", noSuchRoleAuthToken).post(Entity.json(new ServiceTemplateTo()));
+		
+		Assert.notNull(response);
+		Assert.isTrue(response.getStatus() == 403);
     }
     
     @Test
-    @Ignore
+    public void restCallTestWithNullToken() {
+    	Client client = ClientBuilder.newClient();
+    	WebTarget target = client.target("http://localhost:8094").path("servicetemplate");
+		Response response = target.request(MediaType.APPLICATION_JSON)
+				.header("AUTHORIZATION", null).post(Entity.json(new ServiceTemplateTo()));
+		
+		Assert.notNull(response);
+		Assert.isTrue(response.getStatus() == 401);
+    }
+    
+    
+    @Test
     public void returnsAllPages() {
-        ResponseEntity<Page<ServiceTemplateTO>> responseEntity = getEntries("http://localhost:8094/servicetemplate");
-        List<ServiceTemplateTO> servicetemplateDtoList = responseEntity.getBody().getContent();
+        ResponseEntity<Page<ServiceTemplateTo>> responseEntity = getEntries("http://localhost:8094/servicetemplate");
+        List<ServiceTemplateTo> servicetemplateDtoList = responseEntity.getBody().getContent();
         
         System.out.println(responseEntity.getBody().getContent().toString());
         System.out.println("TestResult Size: " + servicetemplateDtoList.size());
         
-        for(ServiceTemplateTO stdto : servicetemplateDtoList){
-            System.out.println(stdto.toString() +", " + stdto.getId() + ", " + stdto.getName() + ", Linkssize: " + stdto.getLinks().size());	
+        for(ServiceTemplateTo stdto : servicetemplateDtoList){
+            Assert.notNull(stdto);
         }
     }
     
     
     @Test
-    @Ignore
     public void returnsOnePageById() {
-        ResponseEntity<Page<ServiceTemplateTO>> responseEntity = getEntries("http://localhost:8094/servicetemplate/0");
-        List<ServiceTemplateTO> servicetemplateDtoList = responseEntity.getBody().getContent();
+        ResponseEntity<Page<ServiceTemplateTo>> responseEntity = getEntries("http://localhost:8094/servicetemplate/0");
+        List<ServiceTemplateTo> servicetemplateDtoList = responseEntity.getBody().getContent();
         
         System.out.println(responseEntity.getBody().getContent().toString());
         System.out.println("TestResult Size: " + servicetemplateDtoList.size());
         
-        for(ServiceTemplateTO stdto : servicetemplateDtoList){
-            System.out.println(stdto.toString() +", " + stdto.getId() + ", " + stdto.getName() + ", Linkssize: " + stdto.getLinks().size());	
+        for(ServiceTemplateTo stdto : servicetemplateDtoList){
+            Assert.notNull(stdto);
         }
     }
 
     
-    private ResponseEntity<Page<ServiceTemplateTO>> getEntries(String uri) {
+    private ResponseEntity<Page<ServiceTemplateTo>> getEntries(String uri) {
         return restTemplate.exchange(uri, HttpMethod.GET, null, getParameterizedPageTypeReference());
     }
 
     
-    private ParameterizedTypeReference<Page<ServiceTemplateTO>> getParameterizedPageTypeReference() {
-        return new ParameterizedTypeReference<Page<ServiceTemplateTO>>(){};
+    private ParameterizedTypeReference<Page<ServiceTemplateTo>> getParameterizedPageTypeReference() {
+        return new ParameterizedTypeReference<Page<ServiceTemplateTo>>(){};
     }
 }
