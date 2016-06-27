@@ -1,6 +1,6 @@
 DROP TABLE Service_Template IF EXISTS;
 
-CREATE TABLE Service_Template (
+CREATE TABLE Authentication (
   id        BIGINT IDENTITY PRIMARY KEY,
   name		VARCHAR(30)
 );
