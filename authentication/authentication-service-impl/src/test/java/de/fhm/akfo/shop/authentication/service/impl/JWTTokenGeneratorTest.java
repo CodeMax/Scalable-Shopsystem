@@ -30,6 +30,7 @@ public class JWTTokenGeneratorTest {
 		parseJWT(token);
 	}
 
+
 	private void parseJWT(String jwt) {
 
 		Claims claims = Jwts.parser().setSigningKey(DatatypeConverter.parseBase64Binary("a3br-rni2-ie2b-lo4y"))

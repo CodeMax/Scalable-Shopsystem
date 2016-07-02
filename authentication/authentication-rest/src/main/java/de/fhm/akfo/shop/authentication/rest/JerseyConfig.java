@@ -10,7 +10,9 @@ import org.springframework.hateoas.config.EnableEntityLinks;
 import org.springframework.hateoas.config.EnableHypermediaSupport;
 import org.springframework.stereotype.Component;
 
+import de.fhm.akfo.shop.authentication.rest.filter.AuthenticationLoginFilter;
 import de.fhm.akfo.shop.authentication.rest.impl.AuthenticationResource;
+import de.fhm.akfo.shop.authentication.rest.impl.UserResource;
 
 @Component
 @ApplicationPath("/")
@@ -19,7 +21,9 @@ import de.fhm.akfo.shop.authentication.rest.impl.AuthenticationResource;
 public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
-        register(AuthenticationResource.class);
+        register(AuthenticationLoginFilter.class);
+    	register(AuthenticationResource.class);
+        register(UserResource.class);
     }
     
     @GET
