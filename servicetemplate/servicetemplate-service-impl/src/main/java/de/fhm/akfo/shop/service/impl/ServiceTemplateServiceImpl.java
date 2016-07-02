@@ -16,6 +16,7 @@ import de.fhm.akfo.shop.repo.ServiceTemplateRepository;
 import de.fhm.akfo.shop.service.api.ServiceTemplateService;
 import de.fhm.akfo.shop.service.api.dto.ServiceTemplateDto;
 import de.fhm.akfo.shop.service.api.exception.ServiceTemplateValidationException;
+import de.fhm.akfo.shop.service.impl.mapper.ServiceTemplateDtoEntityMapper;
 
 
 /**
@@ -47,7 +48,7 @@ public class ServiceTemplateServiceImpl implements ServiceTemplateService {
 		
 		for (ServiceTemplate st : findAll) {
 			LOG.info("Datensatz in getServiceTemplateList gefunden: " + st.getId() + ", " + st.getName());
-			listOfServiceTemplate.add(new ServiceTemplateDto(st.getId(), st.getName()));
+			listOfServiceTemplate.add(ServiceTemplateDtoEntityMapper.INSTANCE.entityToDto(st));
 		}
 
 		return listOfServiceTemplate;
@@ -58,9 +59,9 @@ public class ServiceTemplateServiceImpl implements ServiceTemplateService {
 	public ServiceTemplateDto getServiceTemplate(long id) {
 		LOG.info("Aufruf der Methode getServiceTemplate()");
 
-		ServiceTemplate findOne = servicetemplateRepo.findOne(id);
+		ServiceTemplate st = servicetemplateRepo.findOne(id);
 		
-		return new ServiceTemplateDto(findOne.getId(), findOne.getName());
+		return ServiceTemplateDtoEntityMapper.INSTANCE.entityToDto(st);
 	}
 
 	
@@ -70,6 +71,6 @@ public class ServiceTemplateServiceImpl implements ServiceTemplateService {
 
 		ServiceTemplate st = servicetemplateRepo.save(new ServiceTemplate(servicetemplateDto.getName())); 
 		
-		return new ServiceTemplateDto(st.getId(), st.getName());
+		return ServiceTemplateDtoEntityMapper.INSTANCE.entityToDto(st);
 	}
 }

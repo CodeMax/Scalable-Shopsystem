@@ -3,9 +3,9 @@ package de.fhm.akfo.shop.article.rest.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -45,7 +45,7 @@ public class ArticleResource {
 	private ArticleService articleService;
 
 	@GET
-	@RolesAllowed(value = { "admin" })
+	@RolesAllowed(value = { "user" })
 	public Response findAllResources() {
 		LOG.info("Daten für find AllResources gefunden");
 
@@ -66,7 +66,7 @@ public class ArticleResource {
 
 	@GET
 	@Path("{id}")
-	@RolesAllowed(value = { "admin" })
+	@RolesAllowed(value = { "user" })
 	public Response findOne(@PathParam("id") Long id) {
 		Resource<ArticleDto> resource = new Resource<ArticleDto>(articleService.getArticle(id));
 
@@ -79,7 +79,7 @@ public class ArticleResource {
 	}
 
 	@POST
-	@RolesAllowed(value = { "admin" })
+	@RolesAllowed(value = { "user" })
 	public Response saveArticle(ArticleTo stto) throws ArticleValidationException {
 		Resource<ArticleDto> resource = new Resource<ArticleDto>(
 				articleService.saveArticle(ArticleToDtoMapper.INSTANCE.toToDto(stto)));
@@ -90,7 +90,7 @@ public class ArticleResource {
 	}
 
 	@PUT
-	@RolesAllowed(value = { "admin" })
+	@RolesAllowed(value = { "user" })
 	public Response updateArticle(ArticleTo stto) throws ArticleValidationException {
 		Resource<ArticleDto> resource = new Resource<ArticleDto>(
 				articleService.updateArticle(ArticleToDtoMapper.INSTANCE.toToDto(stto)));
@@ -98,5 +98,12 @@ public class ArticleResource {
 		resource.add(JaxRsLinkBuilder.linkTo(ArticleResource.class).withSelfRel());
 
 		return Response.ok(resource).build();
+	}
+	
+	@DELETE
+	@RolesAllowed(value = { "admin" })
+	public Response deleteArticle(@PathParam("id") Long id) {
+		// TODO
+		return Response.serverError().build();
 	}
 }

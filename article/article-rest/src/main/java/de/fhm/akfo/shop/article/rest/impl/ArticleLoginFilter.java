@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -89,11 +90,13 @@ public class ArticleLoginFilter implements ContainerRequestFilter {
 	}
 
 	
-	private boolean ceckAllowedRoles(Set<String> rolesSet, ArrayList<String> userRoles) {
+	private boolean ceckAllowedRoles(Set<String> rolesSet, ArrayList<LinkedHashMap<String, String>> userRoles) {
 		boolean userHasRole = false;
-		for(String userRole : userRoles){
-			if(rolesSet.contains(userRole)){
-				userHasRole = true;
+		for(LinkedHashMap<String, String> userRolesMap : userRoles){
+			for(String userRole : userRolesMap.values()){
+				if(rolesSet.contains(userRole)){
+					userHasRole = true;
+				}
 			}
 		}
 		return userHasRole;
