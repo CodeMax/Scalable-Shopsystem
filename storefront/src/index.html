@@ -40,5 +40,18 @@
         .catch(function(err) { console.error(err); });
     </script>
     <!-- endbuild -->
+
+    <script>
+    $(document).ready(function() {
+      $(window).scroll(function () {
+        if ($(window).scrollTop() > 280) {
+          $('#headernavbar').addClass('navbar-fixed');
+        }
+        if ($(window).scrollTop() < 281) {
+          $('#headernavbar').removeClass('navbar-fixed');
+        }
+      });
+    });
+    </script>
   </body>
 </html>

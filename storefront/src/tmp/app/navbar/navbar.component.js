@@ -22,12 +22,19 @@ var NavbarComponent = (function () {
         core_1.Input(), 
         __metadata('design:type', Array)
     ], NavbarComponent.prototype, "routes", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Array)
+    ], NavbarComponent.prototype, "routesright", void 0);
     NavbarComponent = __decorate([
         core_1.Component({
             selector: 'as-navbar',
             templateUrl: 'app/navbar/navbar.html',
             changeDetection: core_1.ChangeDetectionStrategy.OnPush,
-            directives: [router_1.ROUTER_DIRECTIVES, common_1.CORE_DIRECTIVES]
+            directives: [router_1.ROUTER_DIRECTIVES, common_1.CORE_DIRECTIVES],
+            styleUrls: [
+                'app/navbar/navbar.css'
+            ]
         }), 
         __metadata('design:paramtypes', [])
     ], NavbarComponent);

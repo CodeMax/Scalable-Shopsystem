@@ -1,35 +1,83 @@
 <as-header></as-header>
-<as-navbar [routes]="appRoutes" [brand]="appBrand"></as-navbar>
+<as-navbar [routes]="appRoutes" [routesright]="appRoutesRight" [brand]="appBrand"></as-navbar>
 <as-login></as-login>
 
 <br/>
 <div class="container" style="margin-top: 10px;">
 	<router-outlet></router-outlet>
 </div>
+
 <div class="container" style="margin-top: 10px;">
-	<p> This Client is based on a Prototype and is not used for Production yet.</p>
+	<div class="col-md-3 col-xs-4"></div>
+<div class="col-md-6 col-xs-4">
+	<span class="label label-danger">Dieser Client basiert auf einem Prototypen und ist noch nicht für einen produktiven Einsatz geeignet.</span>
 </div>
+<div class="col-md-3 col-xs-4"></div>
+</div>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
 
 <modal #myModal>
-	<form (ngSubmit)="onLoginSubmit(username, password)" #loginForm="ngForm">
-		<modal-header>
-			<h4 class="modal-title">Login</h4>
-		</modal-header>
-		<modal-body>
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-inline">
-						<div class="form-inline">
-							<input required type="text" [(ngModel)]="username" placeholder="Username" #name="ngForm" type="text" class="form-control" size="50" />
-							<input required type="password" [(ngModel)]="password" placeholder="Password" class="form-control" size="50" />
-						</div>
-						<input type="checkbox" [(ngModel)]="rememberMe" class="form-control" size="50" /> Keep me logged in
-					</div>
-				</div>
-			</div>
-		</modal-body>
-		<modal-footer>
-			<button type="submit" class="btn btn-success">Login</button>
-		</modal-footer>
-	</form>
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">Login</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="well">
+										<form (ngSubmit)="onLoginSubmit(username, password)" #loginForm="ngForm">
+                      	<div class="form-group">
+                            <label for="username" class="control-label">Username</label>
+                            <input required type="text" [(ngModel)]="username" class="form-control" id="username" name="username" value="" title="Please enter you username" placeholder="user@mail.com">
+                            <span class="help-block"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="control-label">Password</label>
+                            <input required type="password" [(ngModel)]="password" class="form-control" id="password" name="password" value="" title="Please enter your password">
+                            <span class="help-block"></span>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">Login</button>
+                        <a href="/forgot/" class="btn btn-default btn-block">Help to login</a>
+                    </form>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <p class="lead">Register now for <span class="text-success">FREE</span></p>
+                <ul class="list-unstyled" style="line-height: 2">
+                    <li><span class="fa fa-check text-success"></span> Fast order placement</li>
+                    <li><span class="fa fa-check text-success"></span> See all your orders</li>
+                    <li><span class="fa fa-check text-success"></span> Sell unlimited Articles</li>
+                    <li><span class="fa fa-check text-success"></span> Save your favorites</li>
+                    <li><span class="fa fa-check text-success"></span> Get a special gift <small>(only new customers)</small></li>
+                    <!--<li><a href="/read-more/"><u>Read more</u></a></li>-->
+              	</ul>
+                <p><a [routerLink]="['/register']" (click)="modal.close()" class="btn btn-info btn-block">Register</a></p>
+            </div>
+        </div>
+    </div>
 </modal>
+
+<!-- Static bottom navbar -->
+<div class="navbar navbar-default navbar-fixed-bottom">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".bottom-collapse"> <!-- NOTE! data-target was changed to .bottom-collapse -->
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <!--<a class="navbar-brand" href="#">Bottom Bar</a>-->
+    </div>
+    <div class="navbar-collapse collapse bottom-collapse">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Über uns</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="../navbar/">Knotakt</a></li>
+        <li><a href="../navbar-fixed-top/">Impressum</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div>
+</div>

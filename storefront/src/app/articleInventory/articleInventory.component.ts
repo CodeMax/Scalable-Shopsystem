@@ -3,7 +3,7 @@ import {CORE_DIRECTIVES} from '@angular/common';
 import {Http, HTTP_PROVIDERS} from '@angular/http';
 import {BackendcallService} from './../backendcall.service';
 import {TokenService} from '../token.service';
-import {ROUTER_DIRECTIVES} from '@angular/router'; // Routes
+import {ROUTER_DIRECTIVES, Router} from '@angular/router';
 import {ArticleComponent} from '../article/article.component';
 import {LoginService} from './../login.service';
 
@@ -20,10 +20,11 @@ export class ArticleInventoryComponent implements OnInit {
       private articles: string[];
       private backend: BackendcallService;
 
-      constructor(private _http: Http, private _tokenService: TokenService, private _loginService: LoginService) {
+      constructor(private _http: Http, private _tokenService: TokenService, private _loginService: LoginService,
+                  private _router: Router) {
         _loginService.loginNeeded$.subscribe(
           needForLogin => {
-            true
+            needForLogin = true;
           });
       }
 
@@ -40,5 +41,10 @@ export class ArticleInventoryComponent implements OnInit {
 
       handleError(error: any) {
         this._loginService.setLogin(true);
+      }
+
+      onSelect(id: number) {
+        console.log('onSelect aufgerufen mit der id: ' + id);
+        this._router.navigate(['/article', id]);
       }
 }

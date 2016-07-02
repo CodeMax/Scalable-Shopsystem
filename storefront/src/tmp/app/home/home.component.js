@@ -9,9 +9,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var http_1 = require('@angular/http');
+var token_service_1 = require('../token.service');
 var HomeComponent = (function () {
-    function HomeComponent() {
+    function HomeComponent(_http, _tokenService) {
+        this._http = _http;
+        this._tokenService = _tokenService;
     }
+    HomeComponent.prototype.ngOnInit = function () {
+        if (this._tokenService.getToken() != null) {
+        }
+    };
     HomeComponent = __decorate([
         core_1.Component({
             selector: 'as-home',
@@ -20,7 +28,7 @@ var HomeComponent = (function () {
                 'app/home/home.css'
             ]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [http_1.Http, token_service_1.TokenService])
     ], HomeComponent);
     return HomeComponent;
 }());

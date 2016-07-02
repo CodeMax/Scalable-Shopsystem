@@ -22,20 +22,16 @@ var LoginService = (function () {
         this.needForLogin = new Subject_1.Subject();
         this.loginNeeded$ = this.needForLogin.asObservable();
         this.submitted = false;
-        this.tokenservice = _tokenService;
     }
     LoginService.prototype.setLogin = function (needForLogin) {
         console.log('setLogin() handleError: ' + needForLogin);
         this.needForLogin.next(needForLogin);
+        this._router.navigateByUrl('/');
     };
     LoginService.prototype.onSubmit = function (username, password) {
         this.submitted = true;
-        console.log(this.username + ', ' + this.password);
-        this.authenticateForToken(this.username, this.password);
-    };
-    LoginService.prototype.logout = function () {
-        this.tokenservice.clearLoginToken();
-        this._router.navigateByUrl('/');
+        console.log(username + ', ' + password);
+        this.authenticateForToken(username, password);
     };
     LoginService.prototype.authenticateForToken = function (user, pw) {
         var _this = this;

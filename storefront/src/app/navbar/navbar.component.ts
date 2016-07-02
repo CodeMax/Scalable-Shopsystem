@@ -6,9 +6,13 @@ import {ROUTER_DIRECTIVES} from '@angular/router';
     selector: 'as-navbar',
     templateUrl: 'app/navbar/navbar.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES]
+    directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES],
+    styleUrls: [
+        'app/navbar/navbar.css'
+    ]
 })
 export class NavbarComponent {
     @Input() brand: string;
     @Input() routes: any[];
+    @Input() routesright: any[];
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {CookieService} from 'angular2-cookie/core';
 
 @Injectable()
@@ -33,7 +33,7 @@ export class TokenService {
       return this._cookieService.get(this.tokenstorekey);
   }
 
-  public clearLoginToken(){
+  public clearLoginToken() {
     this._cookieService.remove(this.tokenstorekey);
   }
 }

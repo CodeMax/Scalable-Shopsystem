@@ -14,16 +14,16 @@ var app_routes_1 = require('./app.routes');
 var navbar_component_1 = require('./navbar/navbar.component');
 var login_service_1 = require('./login.service');
 var header_component_1 = require('./header/header.component');
-// import {CONSTANTS} from './shared';
 var ng2_bs3_modal_1 = require('ng2-bs3-modal/ng2-bs3-modal');
 var articleInventory_component_1 = require('./articleInventory/articleInventory.component');
+var register_component_1 = require('./register/register.component');
 var AppComponent = (function () {
     function AppComponent(_router, _loginService) {
         var _this = this;
         this._router = _router;
         this._loginService = _loginService;
         this.appRoutes = app_routes_1.APP_ROUTES;
-        // this.appBrand = CONSTANTS.MAIN.APP.BRAND;
+        this.appRoutesRight = app_routes_1.APP_ROUTES_RIGHT;
         _loginService.loginNeeded$.subscribe(function (needForLogin) {
             _this.startLogin();
         });
@@ -38,7 +38,16 @@ var AppComponent = (function () {
                 continue;
             }
         }
-        if (!validRoute) {
+        var validRouteRight = false;
+        for (var i = 0, len = this.appRoutesRight.length; i < len; i++) {
+            var routeRight = this.appRoutesRight[i];
+            var urlTreeRight = this._router.createUrlTree([routeRight]);
+            validRouteRight = this._router.urlTree.contains(urlTreeRight);
+            if (validRouteRight) {
+                continue;
+            }
+        }
+        if (!validRoute || !validRouteRight) {
             this._router.navigateByUrl('/');
         }
     };
@@ -46,12 +55,12 @@ var AppComponent = (function () {
         this.modal.close();
     };
     AppComponent.prototype.startLogin = function () {
-        console.log('start open()-method');
         this.modal.open();
     };
     AppComponent.prototype.onLoginSubmit = function (username, password) {
+        console.log('onLoginSubmit()-Credentials: ' + username + ', ' + password);
         this._loginService.onSubmit(username, password);
-        this.close;
+        this.close();
     };
     __decorate([
         core_1.ViewChild('myModal'), 
@@ -61,10 +70,11 @@ var AppComponent = (function () {
         core_1.Component({
             selector: 'as-main-app',
             templateUrl: 'app/app.html',
-            directives: [navbar_component_1.NavbarComponent, articleInventory_component_1.ArticleInventoryComponent, header_component_1.HeaderComponent, router_1.ROUTER_DIRECTIVES, ng2_bs3_modal_1.MODAL_DIRECTIVES],
+            directives: [navbar_component_1.NavbarComponent, articleInventory_component_1.ArticleInventoryComponent, header_component_1.HeaderComponent,
+                register_component_1.RegisterComponent, router_1.ROUTER_DIRECTIVES, ng2_bs3_modal_1.MODAL_DIRECTIVES],
             providers: [login_service_1.LoginService]
         }),
-        router_1.Routes(app_routes_1.APP_ROUTES), 
+        router_1.Routes(app_routes_1.APP_ROUTES.concat(app_routes_1.APP_ROUTES_RIGHT)), 
         __metadata('design:paramtypes', [router_1.Router, login_service_1.LoginService])
     ], AppComponent);
     return AppComponent;

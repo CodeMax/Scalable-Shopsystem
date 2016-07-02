@@ -13,16 +13,17 @@ var common_1 = require('@angular/common');
 var http_1 = require('@angular/http');
 var backendcall_service_1 = require('./../backendcall.service');
 var token_service_1 = require('../token.service');
-var router_1 = require('@angular/router'); // Routes
+var router_1 = require('@angular/router');
 var article_component_1 = require('../article/article.component');
 var login_service_1 = require('./../login.service');
 var ArticleInventoryComponent = (function () {
-    function ArticleInventoryComponent(_http, _tokenService, _loginService) {
+    function ArticleInventoryComponent(_http, _tokenService, _loginService, _router) {
         this._http = _http;
         this._tokenService = _tokenService;
         this._loginService = _loginService;
+        this._router = _router;
         _loginService.loginNeeded$.subscribe(function (needForLogin) {
-            true;
+            needForLogin = true;
         });
     }
     ArticleInventoryComponent.prototype.ngOnInit = function () {
@@ -36,6 +37,10 @@ var ArticleInventoryComponent = (function () {
     ArticleInventoryComponent.prototype.handleError = function (error) {
         this._loginService.setLogin(true);
     };
+    ArticleInventoryComponent.prototype.onSelect = function (id) {
+        console.log('onSelect aufgerufen mit der id: ' + id);
+        this._router.navigate(['/article', id]);
+    };
     ArticleInventoryComponent = __decorate([
         core_1.Component({
             selector: 'as-kebab-case',
@@ -44,7 +49,7 @@ var ArticleInventoryComponent = (function () {
             viewProviders: [http_1.HTTP_PROVIDERS],
             providers: [token_service_1.TokenService]
         }), 
-        __metadata('design:paramtypes', [http_1.Http, token_service_1.TokenService, login_service_1.LoginService])
+        __metadata('design:paramtypes', [http_1.Http, token_service_1.TokenService, login_service_1.LoginService, router_1.Router])
     ], ArticleInventoryComponent);
     return ArticleInventoryComponent;
 }());

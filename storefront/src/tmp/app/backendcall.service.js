@@ -15,7 +15,6 @@ require('rxjs/add/operator/catch');
 require('rxjs/add/operator/toPromise');
 require('rxjs/add/observable/throw');
 var Observable_1 = require('rxjs/Observable');
-var shared_1 = require('./shared');
 var BackendcallService = (function () {
     function BackendcallService(_http, user, pw, actionUrl) {
         var _this = this;
@@ -23,6 +22,14 @@ var BackendcallService = (function () {
         this.getAll = function () {
             return _this._http.get(_this.actionUrl, { headers: _this.headers })
                 .map(_this.extractData)
+                .catch(_this.handleError);
+        };
+        this.postUserData = function (username, firstname, lastname, password, address, postcode, city, country) {
+            var body = JSON.stringify({ username: username, firstname: firstname, lastname: lastname, password: password, address: address, postcode: postcode, city: city, country: country });
+            var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+            var options = new http_1.RequestOptions({ headers: headers });
+            return _this._http.post(_this.actionUrl, body, options)
+                .map(_this.extractToken)
                 .catch(_this.handleError);
         };
         if (user === 'token') {
@@ -38,20 +45,26 @@ var BackendcallService = (function () {
         this.headers.append('Accept', 'application/json');
     }
     BackendcallService.prototype.getToken = function () {
+        var _this = this;
         return this._http.get(this.actionUrl, { headers: this.headers })
             .toPromise()
-            .then(function (response) { return response.json().jwtToken; })
+            .then(function (response) { return _this.extractToken(response); })
             .catch(this.handleError);
     };
     BackendcallService.prototype.extractData = function (res) {
+        console.log('extractData() is executed.');
         var body = res.json();
         return body.content || {};
+    };
+    BackendcallService.prototype.extractToken = function (res) {
+        console.log('extractData() is executed.');
+        var token = res.json().jwtToken;
+        return token || {};
     };
     BackendcallService.prototype.handleError = function (error) {
         var errMsg = (error.message) ? error.message :
             error.status ? error.status + " - " + error.statusText : 'Server error';
         console.error(errMsg);
-        shared_1.CONSTANTS.MAIN.APP.STATUS = 401;
         return Observable_1.Observable.throw(401);
     };
     BackendcallService = __decorate([

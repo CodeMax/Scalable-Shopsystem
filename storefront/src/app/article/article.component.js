@@ -10,43 +10,44 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
-var http_1 = require('@angular/http');
-var backendcall_service_1 = require('./../backendcall.service');
+// import {Http, HTTP_PROVIDERS} from '@angular/http';
+// import {BackendcallService} from './../backendcall.service';
 var token_service_1 = require('../token.service');
 var router_1 = require('@angular/router');
-var router_2 = require('@angular/router');
+// import {RouteSegment} from '@angular/router';
 var login_service_1 = require('./../login.service');
 var ArticleComponent = (function () {
-    function ArticleComponent(_http, _tokenService, params, _loginService) {
-        this._http = _http;
+    // private servicetemplate: string[];
+    //      private backend: BackendcallService;
+    // private id: string;
+    // private href: string;
+    function ArticleComponent(_tokenService, _loginService) {
         this._tokenService = _tokenService;
-        this.params = params;
         this._loginService = _loginService;
-        this.id = params.getParam('id'); // +params.getParam('id'); = Converting to number
-        this.href = params.getParam('href');
+        // this.id = params.getParam('id'); // +params.getParam('id'); = Converting to number
+        // this.href = params.getParam('href');
+        console.log('Article-Component constructor()');
         _loginService.loginNeeded$.subscribe(function (needForLogin) {
-            true;
+            needForLogin = true;
         });
     }
     ArticleComponent.prototype.ngOnInit = function () {
-        var _this = this;
         console.log(this._tokenService.getToken());
-        this.backend = new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), this.href);
-        this.backend.getAll()
-            .subscribe(function (data) { return _this.servicetemplate = data; }, function (error) { return _this.handleError(error); }, function () { return console.log('Get all Items complete'); });
-    };
-    ArticleComponent.prototype.handleError = function (error) {
-        this._loginService.setLogin(true);
+        // this.backend = new BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8083/article');
+        // this.backend.getAll()
+        //    .subscribe((data: string[] ) => this.servicetemplate = data,
+        //        error => this.handleError(error),
+        //        () => console.log('Get all Items complete'));
     };
     ArticleComponent = __decorate([
         core_1.Component({
             selector: 'as-article',
             templateUrl: 'app/article/article.html',
             directives: [router_1.ROUTER_DIRECTIVES, common_1.CORE_DIRECTIVES],
-            viewProviders: [http_1.HTTP_PROVIDERS],
+            // viewProviders: [HTTP_PROVIDERS],
             providers: [token_service_1.TokenService]
         }), 
-        __metadata('design:paramtypes', [http_1.Http, token_service_1.TokenService, router_2.RouteSegment, login_service_1.LoginService])
+        __metadata('design:paramtypes', [token_service_1.TokenService, login_service_1.LoginService])
     ], ArticleComponent);
     return ArticleComponent;
 }());

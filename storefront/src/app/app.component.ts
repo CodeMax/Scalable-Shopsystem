@@ -1,31 +1,31 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Routes, ROUTER_DIRECTIVES, Router} from '@angular/router';
-import {APP_ROUTES} from './app.routes';
+import {APP_ROUTES, APP_ROUTES_RIGHT} from './app.routes';
 import {NavbarComponent} from './navbar/navbar.component';
 import {LoginService} from './login.service';
 import {HeaderComponent} from './header/header.component';
-// import {CONSTANTS} from './shared';
 import {MODAL_DIRECTIVES, ModalComponent} from 'ng2-bs3-modal/ng2-bs3-modal';
 import {ArticleInventoryComponent} from './articleInventory/articleInventory.component';
+import {RegisterComponent} from './register/register.component';
 
 @Component({
     selector: 'as-main-app',
     templateUrl: 'app/app.html',
-    directives: [NavbarComponent, ArticleInventoryComponent, HeaderComponent, ROUTER_DIRECTIVES, MODAL_DIRECTIVES], // LoginComponent,
+    directives: [NavbarComponent, ArticleInventoryComponent, HeaderComponent,
+                RegisterComponent, ROUTER_DIRECTIVES, MODAL_DIRECTIVES],
     providers: [LoginService]
 })
-@Routes(APP_ROUTES)
+@Routes(APP_ROUTES.concat(APP_ROUTES_RIGHT))
 export class AppComponent implements OnInit {
     public appRoutes: any[];
-    // public appBrand: string;
+    public appRoutesRight: any[];
 
     @ViewChild('myModal')
     modal: ModalComponent;
 
     constructor(private _router: Router, private _loginService: LoginService) {
         this.appRoutes = APP_ROUTES;
-        // this.appBrand = CONSTANTS.MAIN.APP.BRAND;
-
+        this.appRoutesRight = APP_ROUTES_RIGHT;
         _loginService.loginNeeded$.subscribe(
           needForLogin => {
             this.startLogin();
@@ -43,7 +43,17 @@ export class AppComponent implements OnInit {
             }
          }
 
-         if (!validRoute) {
+         let validRouteRight = false;
+         for (let i = 0, len = this.appRoutesRight.length; i < len; i++) {
+             let routeRight = this.appRoutesRight[i];
+             let urlTreeRight = this._router.createUrlTree([routeRight]);
+             validRouteRight = this._router.urlTree.contains(urlTreeRight);
+             if (validRouteRight) {
+                 continue;
+             }
+          }
+
+         if (!validRoute || !validRouteRight) {
             this._router.navigateByUrl('/');
          }
     }
@@ -53,12 +63,12 @@ export class AppComponent implements OnInit {
     }
 
     startLogin() {
-        console.log('start open()-method');
         this.modal.open();
     }
 
     onLoginSubmit(username, password) {
+      console.log('onLoginSubmit()-Credentials: ' + username + ', ' + password);
       this._loginService.onSubmit(username, password);
-      this.close;
+      this.close();
     }
 }
