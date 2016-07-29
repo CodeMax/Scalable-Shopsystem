@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<parent>
-		<groupId>de.fhm.akfo.shop</groupId>
+		<groupId>de.hm.shop</groupId>
 		<artifactId>article</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>article-build</artifactId>
-	<packaging>jar</packaging>
-	<name>article-build</name>
-	<url>http://maven.apache.org</url>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<start-class>de.fhm.akfo.shop.article.Application</start-class>
+		<start-class>de.hm.shop.article.Application</start-class>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>de.fhm.akfo.shop</groupId>
-			<artifactId>article-dao</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>de.fhm.akfo.shop</groupId>
-			<artifactId>article-service-impl</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>de.fhm.akfo.shop</groupId>
-			<artifactId>article-service-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>de.fhm.akfo.shop</groupId>
+			<groupId>de.hm.shop</groupId>
 			<artifactId>article-rest</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
+			<groupId>de.hm.shop</groupId>
+			<artifactId>article-service-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>de.hm.shop</groupId>
+			<artifactId>article-service-impl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>de.hm.shop</groupId>
+			<artifactId>article-dao</artifactId>
+		</dependency>
+		
+		<!-- Springboot -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
 		</dependency>
 	</dependencies>
-
+	
 	<build>
 		<finalName>article</finalName>
 		<plugins>
@@ -60,6 +60,9 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<mainClass>${start-class}</mainClass>
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>

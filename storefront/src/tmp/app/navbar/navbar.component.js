@@ -11,13 +11,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
 var router_1 = require('@angular/router');
+var app_routes_1 = require('../app.routes');
 var NavbarComponent = (function () {
     function NavbarComponent() {
     }
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', String)
-    ], NavbarComponent.prototype, "brand", void 0);
+    NavbarComponent.prototype.ngOnInit = function () {
+        this.routes = app_routes_1.APP_ROUTES;
+        this.routesright = app_routes_1.APP_ROUTES_RIGHT;
+    };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', Array)

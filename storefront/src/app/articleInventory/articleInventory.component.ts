@@ -8,7 +8,7 @@ import {ArticleComponent} from '../article/article.component';
 import {LoginService} from './../login.service';
 
 @Component({
-    selector: 'as-kebab-case', // as-articleInventory
+    selector: 'as-kebab-case',
     templateUrl: 'app/articleInventory/articleInventory.html',
     directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES, ArticleComponent],
     viewProviders: [HTTP_PROVIDERS],
@@ -29,11 +29,10 @@ export class ArticleInventoryComponent implements OnInit {
       }
 
       ngOnInit() {
-        // this._login.startLogin();
         console.log(this._tokenService.getToken());
         this.backend = new BackendcallService(this._http, 'token', this._tokenService.getToken(),
                       'http://192.168.99.100:8083/article');
-        this.backend.getAll()
+        this.backend.getAllArticle()
             .subscribe((data: string[] ) => this.articles = data,
             error => this.handleError(error),
             () => console.log('Get all Items complete'));

@@ -15,16 +15,6 @@ public class UserDto implements Cloneable {
 	private String username;
 	
 	/**
-	 * First Name of User
-	 */
-	private String firstname;
-	
-	/**
-	 * Last Name of User
-	 */
-	private String lastname;
-	
-	/**
 	 * Password of User 
 	 */
 	private String password;
@@ -33,26 +23,6 @@ public class UserDto implements Cloneable {
 	 * Roles of User
 	 */
 	private List<RoleDto> roles;
-	
-	/**
-	 * Address (Street and Number) of User
-	 */
-	private String address;
-	
-	/**
-	 * City of User
-	 */
-	private String city;
-	
-	/**
-	 * Postcode of User
-	 */
-	private String postcode;
-	
-	/**
-	 * Country of User
-	 */
-	private String country;
 
 	/**
 	 * Failed Logins since last successful login 
@@ -84,26 +54,18 @@ public class UserDto implements Cloneable {
 		super();
 		this.id = id;
 		this.username = username;
-		this.firstname = firstname;
-		this.lastname = lastname;
 		this.password = password;
 		this.roles = roles;
-		this.address = address;
-		this.city = city;
-		this.postcode = postcode;
-		this.country = country;
 		this.failedlogins = failedlogins;
 	}
 	
 	
 	@Override
 	public String toString() {
-		return "UserDto [id=" + id + ", username=" + username + ", firstname=" + firstname + ", lastname=" + lastname
-				+ ", password=" + password + ", roles=" + roles + ", address=" + address + ", city=" + city
-				+ ", postcode=" + postcode + ", country=" + country + ", failedlogins=" + failedlogins + "]";
+		return "UserDto [id=" + id + ", username=" + username + ", password=" + password + ", roles=" + roles
+				+ ", failedlogins=" + failedlogins + "]";
 	}
 
-	
 	public UserDto(String username, String password) {
 		super();
 		this.username = username;
@@ -131,26 +93,6 @@ public class UserDto implements Cloneable {
 	}
 
 
-	public String getFirstname() {
-		return firstname;
-	}
-
-
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-
-
-	public String getLastname() {
-		return lastname;
-	}
-
-
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-
 	public String getPassword() {
 		return password;
 	}
@@ -168,46 +110,6 @@ public class UserDto implements Cloneable {
 
 	public void setRoles(List<RoleDto> roles) {
 		this.roles = roles;
-	}
-
-
-	public String getAddress() {
-		return address;
-	}
-
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-
-	public String getCity() {
-		return city;
-	}
-
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-
-	public String getPostcode() {
-		return postcode;
-	}
-
-
-	public void setPostcode(String postcode) {
-		this.postcode = postcode;
-	}
-
-
-	public String getCountry() {
-		return country;
-	}
-
-
-	public void setCountry(String country) {
-		this.country = country;
 	}
 
 

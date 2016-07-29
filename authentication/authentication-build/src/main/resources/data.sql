@@ -1,6 +1,6 @@
 truncate schema public restart identity and commit no check
-insert into User (id, username, firstname, lastname, password, address, city, postcode, country, failedLogins) 
-values (0, 'John', 'Jonny', 'Doe', 'Doe', 'DoeStreet', 'CapitalCity', '12345', 'Moon', 0);
+insert into User (id, username, password, failedLogins) 
+values (0, 'John', 'Doe', 0);
 
 insert into Role (id,role) values (0, 'admin');
 

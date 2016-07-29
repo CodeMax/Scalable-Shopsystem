@@ -1,31 +1,27 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Routes, ROUTER_DIRECTIVES, Router} from '@angular/router';
-import {APP_ROUTES, APP_ROUTES_RIGHT} from './app.routes';
+import {ROUTER_DIRECTIVES, Router} from '@angular/router';
 import {NavbarComponent} from './navbar/navbar.component';
 import {LoginService} from './login.service';
 import {HeaderComponent} from './header/header.component';
 import {MODAL_DIRECTIVES, ModalComponent} from 'ng2-bs3-modal/ng2-bs3-modal';
 import {ArticleInventoryComponent} from './articleInventory/articleInventory.component';
 import {RegisterComponent} from './register/register.component';
+import {AboutComponent} from './about/about.component';
 
 @Component({
     selector: 'as-main-app',
     templateUrl: 'app/app.html',
     directives: [NavbarComponent, ArticleInventoryComponent, HeaderComponent,
-                RegisterComponent, ROUTER_DIRECTIVES, MODAL_DIRECTIVES],
+                RegisterComponent, AboutComponent, ROUTER_DIRECTIVES, MODAL_DIRECTIVES],
     providers: [LoginService]
 })
-@Routes(APP_ROUTES.concat(APP_ROUTES_RIGHT))
+
 export class AppComponent implements OnInit {
-    public appRoutes: any[];
-    public appRoutesRight: any[];
 
     @ViewChild('myModal')
     modal: ModalComponent;
 
     constructor(private _router: Router, private _loginService: LoginService) {
-        this.appRoutes = APP_ROUTES;
-        this.appRoutesRight = APP_ROUTES_RIGHT;
         _loginService.loginNeeded$.subscribe(
           needForLogin => {
             this.startLogin();
@@ -33,7 +29,7 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-        let validRoute = false;
+      /* let validRoute = false;
         for (let i = 0, len = this.appRoutes.length; i < len; i++) {
             let route = this.appRoutes[i];
             let urlTree = this._router.createUrlTree([route]);
@@ -42,7 +38,6 @@ export class AppComponent implements OnInit {
                 continue;
             }
          }
-
          let validRouteRight = false;
          for (let i = 0, len = this.appRoutesRight.length; i < len; i++) {
              let routeRight = this.appRoutesRight[i];
@@ -52,10 +47,10 @@ export class AppComponent implements OnInit {
                  continue;
              }
           }
-
          if (!validRoute || !validRouteRight) {
             this._router.navigateByUrl('/');
          }
+         */
     }
 
     close() {

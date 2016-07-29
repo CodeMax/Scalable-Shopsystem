@@ -28,10 +28,9 @@ var ArticleInventoryComponent = (function () {
     }
     ArticleInventoryComponent.prototype.ngOnInit = function () {
         var _this = this;
-        // this._login.startLogin();
         console.log(this._tokenService.getToken());
         this.backend = new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8083/article');
-        this.backend.getAll()
+        this.backend.getAllArticle()
             .subscribe(function (data) { return _this.articles = data; }, function (error) { return _this.handleError(error); }, function () { return console.log('Get all Items complete'); });
     };
     ArticleInventoryComponent.prototype.handleError = function (error) {

@@ -27,13 +27,7 @@ public class UserToDtoMapperImpl implements UserToDtoMapper {
 
         userDto.setId( to.getId() );
         userDto.setUsername( to.getUsername() );
-        userDto.setFirstname( to.getFirstname() );
-        userDto.setLastname( to.getLastname() );
         userDto.setPassword( to.getPassword() );
-        userDto.setAddress( to.getAddress() );
-        userDto.setCity( to.getCity() );
-        userDto.setPostcode( to.getPostcode() );
-        userDto.setCountry( to.getCountry() );
         userDto.setFailedlogins( to.getFailedlogins() );
 
         if(to.getRoles() != null){
@@ -57,13 +51,7 @@ public class UserToDtoMapperImpl implements UserToDtoMapper {
 
         userTo.setId( dto.getId() );
         userTo.setUsername( dto.getUsername() );
-        userTo.setFirstname( dto.getFirstname() );
-        userTo.setLastname( dto.getLastname() );
         userTo.setPassword( dto.getPassword() );
-        userTo.setAddress( dto.getAddress() );
-        userTo.setCity( dto.getCity() );
-        userTo.setPostcode( dto.getPostcode() );
-        userTo.setCountry( dto.getCountry() );
         userTo.setFailedlogins( dto.getFailedlogins() );
         
         if(dto.getRoles() != null){

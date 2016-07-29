@@ -19,17 +19,42 @@ var BackendcallService = (function () {
     function BackendcallService(_http, user, pw, actionUrl) {
         var _this = this;
         this._http = _http;
-        this.getAll = function () {
+        this.getAllArticle = function () {
             return _this._http.get(_this.actionUrl, { headers: _this.headers })
-                .map(_this.extractData)
+                .map(_this.extractContent)
                 .catch(_this.handleError);
         };
-        this.postUserData = function (username, firstname, lastname, password, address, postcode, city, country) {
-            var body = JSON.stringify({ username: username, firstname: firstname, lastname: lastname, password: password, address: address, postcode: postcode, city: city, country: country });
+        this.getArticle = function () {
+            return _this._http.get(_this.actionUrl, { headers: _this.headers })
+                .map(_this.extract)
+                .catch(_this.handleError);
+        };
+        this.getAllShoppingcartItems = function () {
+            return _this._http.get(_this.actionUrl, { headers: _this.headers })
+                .map(_this.extractShoppingCartList)
+                .catch(_this.handleError);
+        };
+        this.postArticleToShoppingcart = function (supplierId, userId, quantity) {
+            var body = JSON.stringify({ supplierId: supplierId, userId: userId, quantity: quantity });
             var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
             var options = new http_1.RequestOptions({ headers: headers });
             return _this._http.post(_this.actionUrl, body, options)
                 .map(_this.extractToken)
+                .catch(_this.handleError);
+        };
+        this.updateUserData = function (id, firstname, lastname, address, postcode, city, country) {
+            var body = JSON.stringify({ id: id, firstname: firstname, lastname: lastname, address: address, postcode: postcode, city: city, country: country });
+            var options = new http_1.RequestOptions({ headers: _this.headers });
+            return _this._http.put(_this.actionUrl, body, options)
+                .map(_this.extract)
+                .catch(_this.handleError);
+        };
+        this.saveAuthData = function (username, password) {
+            var body = JSON.stringify({ username: username, password: password });
+            var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+            var options = new http_1.RequestOptions({ headers: headers });
+            return _this._http.post(_this.actionUrl, body, options)
+                .map(_this.extract)
                 .catch(_this.handleError);
         };
         if (user === 'token') {
@@ -51,10 +76,20 @@ var BackendcallService = (function () {
             .then(function (response) { return _this.extractToken(response); })
             .catch(this.handleError);
     };
-    BackendcallService.prototype.extractData = function (res) {
+    BackendcallService.prototype.extractContent = function (res) {
         console.log('extractData() is executed.');
         var body = res.json();
         return body.content || {};
+    };
+    BackendcallService.prototype.extract = function (res) {
+        console.log('extract() is executed.');
+        var body = res.json();
+        return body || {};
+    };
+    BackendcallService.prototype.extractShoppingCartList = function (res) {
+        console.log('extract() is executed.');
+        var body = res.json();
+        return body.shoppingcartList || {};
     };
     BackendcallService.prototype.extractToken = function (res) {
         console.log('extractData() is executed.');

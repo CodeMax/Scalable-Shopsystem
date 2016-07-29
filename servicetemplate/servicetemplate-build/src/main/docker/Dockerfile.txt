@@ -1,5 +1,0 @@
-FROM java:8
-ADD servicetemplate.jar /opt/projectName/
-EXPOSE 8082
-WORKDIR /opt/projectName/
-CMD ["java", "-Xms512m", "-Xmx1g", "-jar", "servicetemplate.jar"]

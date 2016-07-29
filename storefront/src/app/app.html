@@ -68,16 +68,15 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <!--<a class="navbar-brand" href="#">Bottom Bar</a>-->
     </div>
     <div class="navbar-collapse collapse bottom-collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Über uns</a></li>
+        <li><a [routerLink]="['/about']">Über uns</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="../navbar/">Knotakt</a></li>
-        <li><a href="../navbar-fixed-top/">Impressum</a></li>
+        <li><a [routerLink]="['/contact']">Kontakt</a></li>
+        <li><a [routerLink]="['/impressum']">Impressum</a></li>
       </ul>
-    </div><!--/.nav-collapse -->
+    </div>
   </div>
 </div>

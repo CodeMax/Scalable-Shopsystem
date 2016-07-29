@@ -20,7 +20,6 @@ public class Role extends AbstractEntity {
 	 * 
 	 */
 	@ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL)
-//	@JoinColumn(name = "id", referencedColumnName = "id_role")
 	public List<User> user;
 	
 	/**

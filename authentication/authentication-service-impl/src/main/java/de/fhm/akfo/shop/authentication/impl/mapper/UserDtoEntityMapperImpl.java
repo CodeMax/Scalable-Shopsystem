@@ -27,13 +27,7 @@ public class UserDtoEntityMapperImpl implements UserDtoEntityMapper {
 
         userDto.setId( User.getId() );
         userDto.setUsername( User.getUsername() );
-        userDto.setFirstname( User.getFirstname() );
-        userDto.setLastname( User.getLastname() );
         userDto.setPassword( User.getPassword() );
-        userDto.setAddress( User.getAddress() );
-        userDto.setCity( User.getCity() );
-        userDto.setPostcode( User.getPostcode() );
-        userDto.setCountry( User.getCountry() );
         userDto.setFailedlogins( User.getFailedlogins() );
 
         if(User.getRoles() != null){
@@ -56,13 +50,7 @@ public class UserDtoEntityMapperImpl implements UserDtoEntityMapper {
         User user = new User();
 
         user.setUsername( User.getUsername() );
-        user.setFirstname( User.getFirstname() );
-        user.setLastname( User.getLastname() );
         user.setPassword( User.getPassword() );
-        user.setAddress( User.getAddress() );
-        user.setCity( User.getCity() );
-        user.setPostcode( User.getPostcode() );
-        user.setCountry( User.getCountry() );
         user.setFailedlogins( User.getFailedlogins() );
 
         if(User.getRoles() != null){

@@ -55,8 +55,14 @@ public class AuthenticationResource {
    		LOG.info("AuthenticationDto: " + dto.toString());
    		
     	String token = authenticationService.getAuthenticationToken(dto.getUsername(), dto.getPassword());
-    	AuthenticateTo to = new AuthenticateTo(token);
+    	AuthenticateTo to;
     	
+    	if(token != null){
+        	to = new AuthenticateTo(token);    		
+    	}else{
+    		return null;
+    	}
+    	    	
     	List<AuthenticateTo> servicetemplateTOList = new ArrayList<AuthenticateTo>();
     	servicetemplateTOList.add(to);
     	

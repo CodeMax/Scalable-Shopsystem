@@ -1,4 +1,0 @@
-truncate schema public restart identity and commit no check
-insert into Article (id, articlenumber, articletitle, articledescription, articleean, articleprice, articlestock, supplierid) values (0, '111', 'One', 'DescriptionOne', '1234567891011', 11.11, 1, 'supplier1');
-insert into Article (id, articlenumber, articletitle, articledescription, articleean, articleprice, articlestock, supplierid) values (1, '222', 'Two', 'DescriptionTwo', '2345678901011', 22.22, 2, 'supplier2');
-insert into Article (id, articlenumber, articletitle, articledescription, articleean, articleprice, articlestock, supplierid) values (2, '333', 'Three', 'DescriptionThree', '3456789121011', 33.33, 3, 'supplier3');

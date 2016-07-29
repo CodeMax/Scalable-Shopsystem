@@ -10,9 +10,7 @@
                     <br>
                     <ul style="list-style-type: none; padding:0; margin:0;">
                         <li *ngFor="let existingArticle of articles" class="panel panel-default col-xs-6 col-md-3">
-                            <!-- <a href='{{ article.links[0].href }}'> -->
-                            <button (click)="onSelect(1)">Test</button>
-                            <a [routerLink]="['/article/1']"> <!--, {id: article.articleId, href: article.links[0].href }]">-->
+                            <a (click)="onSelect(existingArticle.articleId)" style="cursor: pointer">
                                 <div class="panel-body">
                                     <img src="assets/images/ng2.jpg" alt="..." class="img-thumbnail">
                                 </div>

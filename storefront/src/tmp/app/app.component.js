@@ -10,46 +10,45 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
-var app_routes_1 = require('./app.routes');
 var navbar_component_1 = require('./navbar/navbar.component');
 var login_service_1 = require('./login.service');
 var header_component_1 = require('./header/header.component');
 var ng2_bs3_modal_1 = require('ng2-bs3-modal/ng2-bs3-modal');
 var articleInventory_component_1 = require('./articleInventory/articleInventory.component');
 var register_component_1 = require('./register/register.component');
+var about_component_1 = require('./about/about.component');
 var AppComponent = (function () {
     function AppComponent(_router, _loginService) {
         var _this = this;
         this._router = _router;
         this._loginService = _loginService;
-        this.appRoutes = app_routes_1.APP_ROUTES;
-        this.appRoutesRight = app_routes_1.APP_ROUTES_RIGHT;
         _loginService.loginNeeded$.subscribe(function (needForLogin) {
             _this.startLogin();
         });
     }
     AppComponent.prototype.ngOnInit = function () {
-        var validRoute = false;
-        for (var i = 0, len = this.appRoutes.length; i < len; i++) {
-            var route = this.appRoutes[i];
-            var urlTree = this._router.createUrlTree([route]);
-            validRoute = this._router.urlTree.contains(urlTree);
-            if (validRoute) {
-                continue;
+        /* let validRoute = false;
+          for (let i = 0, len = this.appRoutes.length; i < len; i++) {
+              let route = this.appRoutes[i];
+              let urlTree = this._router.createUrlTree([route]);
+              validRoute = this._router.urlTree.contains(urlTree);
+              if (validRoute) {
+                  continue;
+              }
+           }
+           let validRouteRight = false;
+           for (let i = 0, len = this.appRoutesRight.length; i < len; i++) {
+               let routeRight = this.appRoutesRight[i];
+               let urlTreeRight = this._router.createUrlTree([routeRight]);
+               validRouteRight = this._router.urlTree.contains(urlTreeRight);
+               if (validRouteRight) {
+                   continue;
+               }
             }
-        }
-        var validRouteRight = false;
-        for (var i = 0, len = this.appRoutesRight.length; i < len; i++) {
-            var routeRight = this.appRoutesRight[i];
-            var urlTreeRight = this._router.createUrlTree([routeRight]);
-            validRouteRight = this._router.urlTree.contains(urlTreeRight);
-            if (validRouteRight) {
-                continue;
-            }
-        }
-        if (!validRoute || !validRouteRight) {
-            this._router.navigateByUrl('/');
-        }
+           if (!validRoute || !validRouteRight) {
+              this._router.navigateByUrl('/');
+           }
+           */
     };
     AppComponent.prototype.close = function () {
         this.modal.close();
@@ -71,10 +70,9 @@ var AppComponent = (function () {
             selector: 'as-main-app',
             templateUrl: 'app/app.html',
             directives: [navbar_component_1.NavbarComponent, articleInventory_component_1.ArticleInventoryComponent, header_component_1.HeaderComponent,
-                register_component_1.RegisterComponent, router_1.ROUTER_DIRECTIVES, ng2_bs3_modal_1.MODAL_DIRECTIVES],
+                register_component_1.RegisterComponent, about_component_1.AboutComponent, router_1.ROUTER_DIRECTIVES, ng2_bs3_modal_1.MODAL_DIRECTIVES],
             providers: [login_service_1.LoginService]
-        }),
-        router_1.Routes(app_routes_1.APP_ROUTES.concat(app_routes_1.APP_ROUTES_RIGHT)), 
+        }), 
         __metadata('design:paramtypes', [router_1.Router, login_service_1.LoginService])
     ], AppComponent);
     return AppComponent;

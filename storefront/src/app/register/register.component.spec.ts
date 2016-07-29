@@ -7,7 +7,6 @@ import {
     describe,
 } from '@angular/core/testing';
 import { TestComponentBuilder } from '@angular/compiler/testing';
-import { ROUTER_FAKE_PROVIDERS } from '@angular/router/testing';
 import { Component } from '@angular/core';
 import { RegisterComponent } from './register.component';
 
@@ -18,9 +17,6 @@ class TestComponent {
 }
 
 describe('RegisterComponent', () => {
-    beforeEachProviders(() => [
-        ROUTER_FAKE_PROVIDERS
-    ]);
 
     it('should have brand Angular 2 Starter', async(inject([TestComponentBuilder],
         (tsb: TestComponentBuilder) => {

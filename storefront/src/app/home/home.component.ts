@@ -16,8 +16,8 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
-      if(this._tokenService.getToken() != null) {
-
+      if ( this._tokenService.getToken() != null ) {
+        // TODO
       }
     }
 }

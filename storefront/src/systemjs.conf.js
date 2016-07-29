@@ -1,82 +1,63 @@
-
+/**
+ * System configuration for Angular 2 samples
+ * Adjust as necessary for your application needs.
+ */
 (function(global) {
-    global.ENV = global.ENV || 'development';
+  global.ENV = global.ENV || 'development';
 
-    var map = {
-        'app': 'src/tmp/app',
-        'test': 'src/tmp/test',
-        'ng2-bs3-modal': 'node_modules/ng2-bs3-modal'
-    };
-
-    var packages = {
-        'app': {
-            defaultExtension: 'js'
-        },
-        'test': {
-            defaultExtension: 'js'
-        },
-        'rxjs': {
-            defaultExtension: 'js'
-        },
-        'angular2-cookie': {
-            defaultExtension: 'js'
-        },
-        'ng2-bs3-modal': {
-            defaultExtension: 'js'
-        }
-    };
-
-    var npmPackages = [
-        '@angular',
-        'rxjs',
-        'lodash',
-        'angular2-cookie'
-    ];
-
-    var packageNames = [
-        // App barrels
-        'app/shared',
-
-        // 3rd party barrels
-        'lodash',
-        'angular2-cookie'
-    ];
-
-    // Add package entries for angular packages
-    var ngPackageNames = [
-        'common',
-        'compiler',
-        'core',
-        'http',
-        'platform-browser',
-        'platform-browser-dynamic',
-        'router'
-    ];
-
-    npmPackages.forEach(function (pkgName) {
-        map[pkgName] = 'node_modules/' + pkgName;
-    });
-
-    packageNames.forEach(function(pkgName) {
-        packages[pkgName] = { main: 'index.js', defaultExtension: 'js' };
-    });
-
-    ngPackageNames.forEach(function(pkgName) {
-        var main = global.ENV === 'testing' ? 'index.js' :
-            pkgName + '.umd.js';
-
-        packages['@angular/'+pkgName] = { main: main, defaultExtension: 'js' };
-    });
-
-    var config = {
-        map: map,
-        packages: packages
-    };
-
-    if (global.filterSystemConfig) {
-      global.filterSystemConfig(config);
+  // map tells the System loader where to look for things
+  var map = {
+    'app':                        'src/tmp/app', // 'dist',
+    'test':                       'src/tmp/test',
+    '@angular':                   'node_modules/@angular',
+    'ng2-bs3-modal':              'node_modules/ng2-bs3-modal',
+    'rxjs':                       'node_modules/rxjs',
+    'angular2-cookie':            'node_modules/angular2-cookie'
+  };
+  // packages tells the System loader how to load when no filename and/or no extension
+  var packages = {
+    'app': {
+        defaultExtension: 'js'
+    },
+    'test': {
+        defaultExtension: 'js'
+    },
+    'rxjs': {
+        defaultExtension: 'js'
+    },
+    'angular2-cookie': {
+        defaultExtension: 'js'
+    },
+    'ng2-bs3-modal': {
+        defaultExtension: 'js'
     }
-
-    System.config(config);
-
+  };
+  var ngPackageNames = [
+    'common',
+    'compiler',
+    'core',
+    'http',
+    'platform-browser',
+    'platform-browser-dynamic',
+    'router',
+    'router-deprecated',
+    'upgrade',
+  ];
+  // Individual files (~300 requests):
+  function packIndex(pkgName) {
+    packages['@angular/'+pkgName] = { main: 'index.js', defaultExtension: 'js' };
+  }
+  // Bundled (~40 requests):
+  function packUmd(pkgName) {
+    packages['@angular/'+pkgName] = { main: '/bundles/' + pkgName + '.umd.js', defaultExtension: 'js' };
+  }
+  // Most environments should use UMD; some (Karma) need the individual index files
+  var setPackageConfig = System.packageWithIndex ? packIndex : packUmd;
+  // Add package entries for angular packages
+  ngPackageNames.forEach(setPackageConfig);
+  var config = {
+    map: map,
+    packages: packages
+  };
+  System.config(config);
 })(this);

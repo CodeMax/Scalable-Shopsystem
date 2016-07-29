@@ -3,13 +3,16 @@ package de.fhm.akfo.shop.authentication.rest.impl;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
@@ -51,6 +54,7 @@ public class UserResource {
 
 	
     @GET
+    @DenyAll
     @RolesAllowed("user")
     public Response getUserdata() {
    		ExtractTokenInformation extractToken = new ExtractTokenInformation();
@@ -72,9 +76,7 @@ public class UserResource {
    		
     	UserDto user = null;
 		try {
-			user = authenticationService.getUserData((String) credentialmap.get("username"), 
-															 (String) credentialmap.get("firstname"), 
-															 (String) credentialmap.get("lastname"));
+			user = authenticationService.getUserData((String) credentialmap.get("username"));
 		} catch (AuthenticationValidationException e) {
 			LOG.error("Some Userdata was not available from Token of User: {}", (String) credentialmap.get("username"));
 		}
@@ -84,19 +86,20 @@ public class UserResource {
     }
     
     
+    
     @POST
     @PermitAll
     public Response registrate(UserTo userTo){
     	LOG.info("Methode registrate() mit den Nutzerdaten {} wird ausgeführt.", userTo);
-    	Response response = null;
-    	AuthenticateTo tokenTo = new AuthenticateTo();
+    	if(userTo == null){
+    		return Response.status(Status.BAD_REQUEST).build();
+    	}
+    	
     	try {
-    		tokenTo.setJwtToken(authenticationService.saveUserData(UserToDtoMapper.INSTANCE.toToDto(userTo)));
-    		response = Response.ok(tokenTo).build(); 
+    		return Response.ok(authenticationService.saveUserData(UserToDtoMapper.INSTANCE.toToDto(userTo))).build();
 		} catch (AuthenticationValidationException e) {
-			response = Response.status(Status.BAD_REQUEST).build();
+			return Response.status(Status.BAD_REQUEST).build();
 		}
-		return response;
     }
     
 

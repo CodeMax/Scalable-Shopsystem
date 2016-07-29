@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var testing_1 = require('@angular/core/testing');
 var testing_2 = require('@angular/compiler/testing');
-var testing_3 = require('@angular/router/testing');
 var core_1 = require('@angular/core');
 var register_component_1 = require('./register.component');
 var TestComponent = (function () {
@@ -25,9 +24,6 @@ var TestComponent = (function () {
     return TestComponent;
 }());
 testing_1.describe('RegisterComponent', function () {
-    testing_1.beforeEachProviders(function () { return [
-        testing_3.ROUTER_FAKE_PROVIDERS
-    ]; });
     testing_1.it('should have brand Angular 2 Starter', testing_1.async(testing_1.inject([testing_2.TestComponentBuilder], function (tsb) {
         tsb.createAsync(TestComponent).then(function (fixture) {
             fixture.detectChanges();

@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
 import {Router} from '@angular/router';
 import {Http} from '@angular/http';
 import {TokenService, Token} from './token.service';
@@ -22,15 +21,30 @@ export class UserService {
 
 @Injectable()
 export class User {
-  id: number;
-  username: String;
-  firstname: String;
-  lastname: String;
-  password: String;
-  roles: String[];
-  address: String;
-  city: String;
-  postcode: String;
-  country: String;
-  failedlogins: number;
+  id: Number;
+  username: string;
+  firstname: string;
+  lastname: string;
+  password: string;
+  roles: string[];
+  address: string;
+  city: string;
+  postcode: string;
+  country: string;
+  failedlogins: Number;
+
+  constructor(id: Number, username: string, firstname: string, lastname: string,
+                    password: string, address: string, postcode: string,
+                    city: string, country: string, failedlogins: Number) {
+      this.id = id;
+      this.username = username;
+      this.password = password;
+      this.firstname = firstname;
+      this.lastname = lastname;
+      this.address = address;
+      this.postcode = postcode;
+      this.city = city;
+      this.country = country;
+      this.failedlogins = failedlogins;
+  }
 }

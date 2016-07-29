@@ -12,9 +12,9 @@ var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
 var common_1 = require('@angular/common');
-var router_2 = require('@angular/router');
 var backendcall_service_1 = require('./../backendcall.service');
 var token_service_1 = require('./../token.service');
+var user_service_1 = require('./../user.service');
 var RegisterComponent = (function () {
     function RegisterComponent(_http, _router, _tokenService) {
         this._http = _http;
@@ -23,25 +23,34 @@ var RegisterComponent = (function () {
     }
     RegisterComponent.prototype.onRegisterSubmit = function (username, firstname, lastname, password, address, postcode, city, country) {
         var _this = this;
-        new backendcall_service_1.BackendcallService(this._http, null, null, 'http://192.168.99.100:8088/user')
-            .postUserData(username, firstname, lastname, password, address, postcode, city, country)
-            .subscribe(function (data) { return _this.onRegisterSuccess(data); }, function (error) { return console.log(error); });
+        this._newUser = new user_service_1.User(0, username, firstname, lastname, password, address, postcode, city, country, 0);
+        new backendcall_service_1.BackendcallService(this._http, null, null, 'http://192.168.99.100:8088/user/')
+            .saveAuthData(username, password)
+            .subscribe(function (userId) { return _this.getTokenToSaveUser(userId); }, function (error) { return console.log(error); });
     };
-    RegisterComponent.prototype.onRegisterSuccess = function (data) {
-        // TODO:
-        // 1. Token speichern
-        this._tokenService.saveToken(data);
-        // 2. Erfolgsmeldung herausgeben
-        console.log('Erfolgreich angemeldet.');
-        // 3. Delay
-        // 4. Redirect
+    RegisterComponent.prototype.getTokenToSaveUser = function (userId) {
+        var _this = this;
+        this._newUser.id = userId;
+        new backendcall_service_1.BackendcallService(this._http, this._newUser.username, this._newUser.password, 'http://192.168.99.100:8088/authentication')
+            .getToken().then(function (data) { return _this.saveUserDetail(data); })
+            .then(function () { return console.log(_this._tokenService.getToken()); });
+    };
+    RegisterComponent.prototype.saveUserDetail = function (token) {
+        var _this = this;
+        this._tokenService.saveToken(token);
+        new backendcall_service_1.BackendcallService(this._http, 'token', JSON.stringify(token), 'http://192.168.99.100:8087/user/' + this._newUser.id)
+            .updateUserData(this._newUser.id, this._newUser.firstname, this._newUser.lastname, this._newUser.address, this._newUser.postcode, this._newUser.city, this._newUser.country)
+            .subscribe(function (data) { return _this.onRegisterSuccess(); }, function (error) { return console.log(error); });
+    };
+    RegisterComponent.prototype.onRegisterSuccess = function () {
+        alert('Erfolgreich angemeldet.');
         this._router.navigateByUrl('/');
     };
     RegisterComponent = __decorate([
         core_1.Component({
             selector: 'as-kebab-case',
             templateUrl: 'app/register/register.html',
-            directives: [router_2.ROUTER_DIRECTIVES, common_1.CORE_DIRECTIVES],
+            directives: [router_1.ROUTER_DIRECTIVES, common_1.CORE_DIRECTIVES],
             viewProviders: [http_1.HTTP_PROVIDERS]
         }), 
         __metadata('design:paramtypes', [http_1.Http, router_1.Router, token_service_1.TokenService])

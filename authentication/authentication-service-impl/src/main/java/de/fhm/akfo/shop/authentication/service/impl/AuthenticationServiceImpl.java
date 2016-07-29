@@ -43,9 +43,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	private UserRepository userRepo;
 
     
-	/** Datenzugriffsschicht auf die Entitaet {@link Role}. */
-    @Inject
-	private RoleRepository roleRepo;
+//	/** Datenzugriffsschicht auf die Entitaet {@link Role}. */
+//    @Inject
+//	private RoleRepository roleRepo;
     
     
     private final String ISSUER = "shopsystem";
@@ -77,10 +77,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 	
 	
 	
-	public String saveUserData(UserDto dto) throws AuthenticationValidationException {
+	public Long saveUserData(UserDto dto) throws AuthenticationValidationException {
 		LOG.info("Die Methode saveUserData() wird ausgeführt mit dem Dto " + dto.toString());
 		
-		if(!validateRegistrationCredentials(dto)){
+		if(!validateRegistrationCredentialsForSave(dto)){
 			throw new AuthenticationValidationException(ISSUER);
 		}
 		
@@ -94,12 +94,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 			return null;
 		}
 		
-		LOG.info(" >>> Normal-Query: Entity after Save: " + user.toString());
 		UserDto userDto = UserDtoEntityMapper.INSTANCE.entityToDto(user);
-		LOG.info(" >>> Normal-Query: Dto after Save: " + userDto.toString());
-		LOG.info("{}", userDto.getId());
-		return new JWTTokenGenerator().createJWT(userDto.getId().toString(), 
-				ISSUER, SUBJECT, EXPIRATION_MILLISECONDS, createCredentials(userDto));
+		LOG.info(" >>> saved Dto: " + userDto.toString());
+		
+		return userDto.getId();
 	}
 	
 	
@@ -113,25 +111,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
 	
-	public boolean validateRegistrationCredentials(UserDto dto){
+	public boolean validateRegistrationCredentialsForSave(UserDto dto){
 		LOG.info("Die Methode validateRegistrationCredentials() wird ausgeführt mit den Credentials {} ", dto);
 		boolean goodCredentials = true;
 		
 		// Check for required Credentials
-		if(dto.getPostcode() == null ||
-		   dto.getAddress() == null ||
-		   dto.getCity() == null ||
-		   dto.getCountry() == null ||
-		   dto.getFirstname() == null ||
-		   dto.getLastname() == null ||
-		   dto.getPassword() == null ||
-		   dto.getUsername() == null){
+		if(dto.getPassword() == null || dto.getUsername() == null){
 			goodCredentials = false;
 		};
-		
-		if(dto.getPostcode() == null || dto.getPostcode().length() < 3 || dto.getPostcode().length() > 15){
+		// Check for double username
+		if(!userRepo.findUserByUsername(dto.getUsername()).isEmpty()){
 			goodCredentials = false;
-		};
+		}
 		
 		return goodCredentials;
 	}
@@ -144,8 +135,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		
 		credentials.put("username", dto.getUsername());
 		credentials.put("role", dto.getRoles());
-		credentials.put("firstname", dto.getFirstname());
-		credentials.put("lastname", dto.getLastname());
 		credentials.put("failedLogins", dto.getFailedlogins());
 		
 		return credentials;
@@ -153,14 +142,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
 	
-	public UserDto getUserData(String username, String firstname, String lastname) throws AuthenticationValidationException {
+	public UserDto getUserData(String username) throws AuthenticationValidationException {
 		LOG.info("Die Methode getUserData() wird für den User {} ausgeführt.", username);
 		
-		if(username == null || firstname == null || lastname == null) {
+		if(username == null) {
 			throw new AuthenticationValidationException("Some usercredentials in Token are not available");
 		}
 		
-		List<User> user = userRepo.findUserByUsernameAndFullname(username, firstname, lastname);
+		List<User> user = userRepo.findUserByUsername(username);
 		UserDto userDto = UserDtoEntityMapper.INSTANCE.entityToDto(user.get(0));
 		
 		return userDto;

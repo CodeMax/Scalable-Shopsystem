@@ -23,10 +23,10 @@ public interface AuthenticationService {
 	/**
 	 * Zur Registrierung eines neuen Nutzers, werden die Nutzerdaten gespeichert.
 	 * @param dto
-	 * @return 
+	 * @return userId
 	 * @throws AuthenticationValidationException 
 	 */
-	public String saveUserData(UserDto dto) throws AuthenticationValidationException;
+	public Long saveUserData(UserDto dto) throws AuthenticationValidationException;
 
 
 	/**
@@ -37,6 +37,6 @@ public interface AuthenticationService {
 	 * @return
 	 * @throws AuthenticationValidationException 
 	 */
-	public UserDto getUserData(String username, String firstname, String lastname) throws AuthenticationValidationException;
+	public UserDto getUserData(String username) throws AuthenticationValidationException;
 	
 }

@@ -6,10 +6,60 @@
         <div class="row">
             <div class="col-md-12">
               <div class="form-group">
-                    <h5>Article XY</h5>
                     <br>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <img src="assets/images/ng2.jpg" alt="..." class="img-thumbnail">
+                      </div>
+                      <div class="col-md-6">
+                        <h3 *ngIf="selectedArticle">{{selectedArticle.articleTitle}}</h3>
+                        <br>
+                        <div *ngIf="selectedArticle">Preis {{selectedArticle.articlePrice}} €</div>
+                        <br>
+                        <div *ngIf="selectedArticle">Es sind nur noch {{selectedArticle.articleStock}} Stück übrig.</div>
+                        <br>
+                        <div class="row">
+                          <div class="col-md-6">
+                            <input class="form-control input-lg" type="number" min="1" max="100" value="1">
+                          </div>
+                          <div class="col-md-6">
+                            <button class="btn btn-success btn-lg" type="submit">In den Warenkorb</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Artikelbeschreibung</h3>
+                      </div>
+                      <div class="panel-body">
+                        <div *ngIf="selectedArticle">{{selectedArticle.articleDescription}}</div>
+                        <br>
+                        EAN: <div *ngIf="selectedArticle">{{selectedArticle.articleEAN}}</div>
+                      </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Ähnliche Artikel</h3>
+                      </div>
+                      <div class="panel-body">
+                      </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h3 class="panel-title">Bewertungen</h3>
+                      </div>
+                      <div class="panel-body">
+                      </div>
+                    </div>
             </div>
           </div>
         </div>
+    </div>
+    <div class="outer-outlet">
+        <router-outlet></router-outlet>
     </div>
 </div>
