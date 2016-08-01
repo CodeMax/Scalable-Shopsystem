@@ -2,6 +2,8 @@ package de.hm.shop.user.dao.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -15,10 +17,10 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  */
 @Entity
 @Table(name = "User")
-@SequenceGenerator(name = AbstractEntity.ID_GENERATOR_NAME, sequenceName = "SEQ_User", initialValue = 1,
+@SequenceGenerator(name = AbstractEntity.ID_GENERATOR, sequenceName = "SEQ_User", initialValue = 1,
 		allocationSize = 1)
 public class UserEntity extends AbstractEntity {
-
+	
 	@Column
 	private String firstname;
 	
@@ -38,9 +40,9 @@ public class UserEntity extends AbstractEntity {
 	private String country;
 
 	@Column
+	@SequenceGenerator(name = "seq", sequenceName = "seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
 	private Long supplierId;
-	
-	
 	
 
 

@@ -1,6 +1,6 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-angellist"></i> Shoppingcart</h3>
+        <h3 class="panel-title"><i class="fa fa-shopping-cart"></i> Shoppingcart</h3>
     </div>
     <div class="panel-body">
         <div class="container">
@@ -17,22 +17,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let scEntries of shoppingcart" class="panel panel-default col-xs-6 col-md-3">
+                            <tr *ngFor="let article of articles">
                                 <td class="col-sx-6 col-md-6">
                                     <a class="pull-left" href="#">
                                         <img class="media-object" src="assets/images/ng2.jpg" style="width: 100px; height: 72px; margin:15px;">
                                     </a>
                                     <div class="media-body">
-                                        <h4 class="media-heading"><a href="#">{{scEntries.userId}}</a></h4>
-                                        <h5 class="media-heading"> von <a href="#">Supplier</a></h5>
-                                        <span>Status: </span><span class="text-success"><strong>Auf Lager</strong></span>
+                                        <h4 class="media-heading"><a href="#">{{article.articleTitle}}</a></h4>
+                                        <h5 class="media-heading"> von <a href="#">Supplier = {{article.supplierId}}</a></h5>
+                                        <span>Status: </span><span class="text-success" *ngIf="article.articleStock > 0"><strong>Auf Lager</strong></span>
+                                        <span class="text-success" *ngIf="article.articleStock == 0"><strong>Nicht auf Lager</strong></span>
                                     </div>
                                 </td>
                                 <td class="col-sx-1 col-sm-1 col-md-1" style="text-align: center">
-                                    <input type="email" class="form-control" id="exampleInputEmail1" value="3">
+                                    <input type="number" [(ngModel)]="article.quantity" value="3" min="1" required>
+                                    <!--<input type="number" class="form-control" id="quantityInput" value="3" min="1" required>-->
                                 </td>
-                                <td class="col-sx-1 col-sm-1 col-md-1 text-center"><strong>$4.87</strong></td>
-                                <td class="col-sx-1 col-sm-1 col-md-1 text-center"><strong>$14.61</strong></td>
+                                <td class="col-sx-1 col-sm-1 col-md-1 text-center"><strong>{{article.articlePrice}} €</strong></td>
+                                <td class="col-sx-1 col-sm-1 col-md-1 text-center"><strong>{{article.articlePrice*article.quantity}} €</strong></td>
                                 <td class="col-sx-0 col-sm-1 col-md-1">
                                     <div class="row" style="margin:25px;">
                                         <div style="display: inline-block; vertical-align: middle; float: none;">
@@ -40,72 +42,6 @@
                                         </div>
                                     </div>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td class="col-sx-6 col-md-6">
-                                    <a class="pull-left" href="#">
-                                        <img class="media-object" src="assets/images/ng2.jpg" style="width: 100px; height: 72px; margin:15px;">
-                                    </a>
-                                    <div class="media-body">
-                                        <h4 class="media-heading"><a href="#">Produkttitel</a></h4>
-                                        <h5 class="media-heading"> von <a href="#">Supplier</a></h5>
-                                        <span>Status: </span><span class="text-success"><strong>Auf Lager</strong></span>
-                                    </div>
-                                </td>
-                                <td class="col-sx-1 col-sm-1 col-md-1" style="text-align: center">
-                                    <input type="email" class="form-control" id="exampleInputEmail1" value="3">
-                                </td>
-                                <td class="col-sx-1 col-sm-1 col-md-1 text-center"><strong>$4.87</strong></td>
-                                <td class="col-sx-1 col-sm-1 col-md-1 text-center"><strong>$14.61</strong></td>
-                                <td class="col-sx-0 col-sm-1 col-md-1">
-                                    <div class="row" style="margin:25px;">
-                                        <div style="display: inline-block; vertical-align: middle; float: none;">
-                                            <a href="#" style="color: #d9534f;"><span class="fa fa-times fa-2x"></span></a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col-sx-6 col-md-6">
-                                    <a class="pull-left" href="#">
-                                        <img class="media-object" src="assets/images/ng2.jpg" style="width: 100px; height: 72px; margin:15px;">
-                                    </a>
-                                    <div class="media-body">
-                                        <h4 class="media-heading"><a href="#">Produkttitel</a></h4>
-                                        <h5 class="media-heading"> von <a href="#">Supplier</a></h5>
-                                        <span>Status: </span><span class="text-warning"><strong>Nicht auf Lager</strong></span>
-                                    </div>
-                                </td>
-                                <td class="col-md-1" style="text-align: center">
-                                    <input type="email" class="form-control" id="exampleInputEmail1" value="2">
-                                </td>
-                                <td class="col-md-1 text-center"><strong>$4.99</strong></td>
-                                <td class="col-md-1 text-center"><strong>$9.98</strong></td>
-                                <td class="col-sx-1 col-sm-1 col-md-1">
-                                    <div class="row" style="margin:25px;">
-                                        <div style="display: inline-block; vertical-align: middle; float: none;">
-                                            <a href="#" style="color: #d9534f;"><span class="fa fa-times fa-2x"></span></a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>   </td>
-                                <td>   </td>
-                                <td>   </td>
-                                <td>
-                                    <h5>Subtotal</h5></td>
-                                <td class="text-right">
-                                    <h5><strong>$24.59</strong></h5></td>
-                            </tr>
-                            <tr>
-                                <td>   </td>
-                                <td>   </td>
-                                <td>   </td>
-                                <td>
-                                    <h5>Estimated shipping</h5></td>
-                                <td class="text-right">
-                                    <h5><strong>$6.94</strong></h5></td>
                             </tr>
                             <tr>
                                 <td>   </td>
@@ -114,19 +50,37 @@
                                 <td>
                                     <h3>Total</h3></td>
                                 <td class="text-right">
-                                    <h3><strong>$31.53</strong></h3></td>
+                                    <h3><strong>{{totalOfCart}} €</strong></h3></td>
                             </tr>
                             <tr>
                                 <td>   </td>
                                 <td>   </td>
                                 <td>   </td>
                                 <td>
-                                    <button type="button" class="btn btn-default btn-lg">
+                                    <h5>Netto</h5></td>
+                                <td class="text-right">
+                                    <h5><strong>24.59 €</strong></h5></td>
+                            </tr>
+                            <tr>
+                                <td>   </td>
+                                <td>   </td>
+                                <td>   </td>
+                                <td>
+                                    <h5>Estimated shipping</h5></td>
+                                <td class="text-right">
+                                    <h5><strong>6.94 €</strong></h5></td>
+                            </tr>
+                            <tr>
+                                <td>   </td>
+                                <td>   </td>
+                                <td>   </td>
+                                <td>
+                                    <button type="button" class="btn btn-default btn-lg" (click)="goOnShopping()">
                                         <span class="fa fa-shopping-cart"></span> Weiter einkaufen
                                     </button>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn-success btn-lg">
+                                    <button type="button" class="btn btn-success btn-lg" (click)="goToCheckout()">
                                         Zur Kasse <span class="fa fa-caret-right"></span>
                                     </button>
                                 </td>

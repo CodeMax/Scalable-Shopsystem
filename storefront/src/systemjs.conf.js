@@ -12,7 +12,8 @@
     '@angular':                   'node_modules/@angular',
     'ng2-bs3-modal':              'node_modules/ng2-bs3-modal',
     'rxjs':                       'node_modules/rxjs',
-    'angular2-cookie':            'node_modules/angular2-cookie'
+    'angular2-cookie':            'node_modules/angular2-cookie',
+    'angular2-jwt':               'node_modules/angular2-jwt/angular2-jwt'
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
@@ -29,6 +30,9 @@
         defaultExtension: 'js'
     },
     'ng2-bs3-modal': {
+        defaultExtension: 'js'
+    },
+    'angular2-jwt': {
         defaultExtension: 'js'
     }
   };
@@ -56,6 +60,7 @@
   // Add package entries for angular packages
   ngPackageNames.forEach(setPackageConfig);
   var config = {
+    defaultJSExtensions: true,
     map: map,
     packages: packages
   };

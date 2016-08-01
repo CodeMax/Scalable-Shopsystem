@@ -14,10 +14,11 @@ public interface ShoppingcartService {
 
 	/**
 	 * Liefert alle {@link ShoppingcartBo}s zurück.
+	 * @param userId 
 	 *
 	 * @return alle {@link ShoppingcartBo}s
 	 */
-	List<ShoppingcartBo> getAll();
+	List<ShoppingcartBo> getAllForUser(Long userId);
 
 
 
@@ -51,6 +52,6 @@ public interface ShoppingcartService {
 	 * @param id
 	 *            die Id des zu löschenden {@link ShoppingcartBo}
 	 */
-	void delete(final Long id);
+	void delete(final Long id, final Long userId);
 
 }

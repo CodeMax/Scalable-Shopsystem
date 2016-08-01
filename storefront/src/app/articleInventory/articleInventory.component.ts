@@ -12,7 +12,10 @@ import {LoginService} from './../login.service';
     templateUrl: 'app/articleInventory/articleInventory.html',
     directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES, ArticleComponent],
     viewProviders: [HTTP_PROVIDERS],
-    providers: [TokenService]
+    providers: [TokenService],
+    styleUrls: [
+        'app/articleInventory/articleInventory.css'
+    ]
 })
 
 export class ArticleInventoryComponent implements OnInit {
@@ -20,8 +23,8 @@ export class ArticleInventoryComponent implements OnInit {
       private articles: string[];
       private backend: BackendcallService;
 
-      constructor(private _http: Http, private _tokenService: TokenService, private _loginService: LoginService,
-                  private _router: Router) {
+      constructor(private _http: Http, private _tokenService: TokenService,
+                  private _loginService: LoginService, private _router: Router) {
         _loginService.loginNeeded$.subscribe(
           needForLogin => {
             needForLogin = true;
@@ -31,7 +34,7 @@ export class ArticleInventoryComponent implements OnInit {
       ngOnInit() {
         console.log(this._tokenService.getToken());
         this.backend = new BackendcallService(this._http, 'token', this._tokenService.getToken(),
-                      'http://192.168.99.100:8083/article');
+                      'http://192.168.99.100:8083/articles');
         this.backend.getAllArticle()
             .subscribe((data: string[] ) => this.articles = data,
             error => this.handleError(error),

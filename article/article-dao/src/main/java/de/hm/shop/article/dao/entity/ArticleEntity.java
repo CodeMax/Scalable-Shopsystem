@@ -2,6 +2,8 @@ package de.hm.shop.article.dao.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -54,7 +56,7 @@ public class ArticleEntity extends AbstractEntity {
 	 * SupplierId des Article-Objekts
 	 */
 	@Column
-    private String supplierId;
+	private Long supplierId;
 
 	
 	/**
@@ -125,13 +127,13 @@ public class ArticleEntity extends AbstractEntity {
 
 
 
-	public String getSupplierId() {
+	public Long getSupplierId() {
 		return supplierId;
 	}
 
 
 
-	public void setSupplierId(String supplierId) {
+	public void setSupplierId(Long supplierId) {
 		this.supplierId = supplierId;
 	}
 

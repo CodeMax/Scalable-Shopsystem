@@ -32,7 +32,24 @@ public class ShoppingcartEntity extends AbstractEntity {
 	@Column
 	private Integer quantity;
 
-	
+	/**
+	 * Default-Konstruktor
+	 */
+	public ShoppingcartEntity(){
+	}
+
+	/**
+	 * Konstruktor
+	 * @param articleId
+	 * @param userId
+	 * @param quantity
+	 */
+	public ShoppingcartEntity(Long articleId, Long userId, Integer quantity) {
+		super();
+		this.articleId = articleId;
+		this.userId = userId;
+		this.quantity = quantity;
+	}
 
 
 

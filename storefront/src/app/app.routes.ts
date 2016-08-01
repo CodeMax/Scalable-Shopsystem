@@ -6,6 +6,7 @@ import {RegisterComponent} from './register/register.component';
 import {AboutComponent} from './about/about.component';
 import {ShoppingcartComponent} from './shoppingcart/shoppingcart.component';
 import {provideRouter, RouterConfig} from '@angular/router';
+import {ArticleCheckoutComponent} from './articleCheckout/articleCheckout.component';
 
 export const APP_ROUTES = [
     { path: '', name: 'Home', component: HomeComponent },
@@ -21,6 +22,7 @@ export const OTHER_ROUTES = [
   { path: 'shoppingcart', component: ShoppingcartComponent },
   { path: 'about', component: AboutComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'shippment', component: ArticleCheckoutComponent},
   { path: '**', component: HomeComponent }
 ];
 

@@ -16,29 +16,42 @@ var token_service_1 = require('../token.service');
 var router_1 = require('@angular/router');
 var router_2 = require('@angular/router');
 var login_service_1 = require('./../login.service');
+var angular2_jwt_1 = require('angular2-jwt');
 var ArticleComponent = (function () {
-    function ArticleComponent(_http, _tokenService, _loginService, _route) {
+    function ArticleComponent(_http, _tokenService, _loginService, _activeRoute, _router) {
         this._http = _http;
         this._tokenService = _tokenService;
         this._loginService = _loginService;
-        this._route = _route;
+        this._activeRoute = _activeRoute;
+        this._router = _router;
+        this.jwtHelper = new angular2_jwt_1.JwtHelper();
         console.log('Article-Component constructor()');
         _loginService.loginNeeded$.subscribe(function (needForLogin) {
             needForLogin = true;
         });
+        var token = this._tokenService.getToken();
+        console.log(this.jwtHelper.decodeToken(token), this.jwtHelper.getTokenExpirationDate(token), this.jwtHelper.isTokenExpired(token));
     }
     ArticleComponent.prototype.ngOnInit = function () {
         var _this = this;
         console.log(this._tokenService.getToken());
-        this.sub = this._route.params.subscribe(function (params) {
-            _this.backend = new backendcall_service_1.BackendcallService(_this._http, 'token', _this._tokenService.getToken(), 'http://192.168.99.100:8083/article/' + params.id);
+        this._activeRoute.params.subscribe(function (params) {
+            _this.backend = new backendcall_service_1.BackendcallService(_this._http, 'token', _this._tokenService.getToken(), 'http://192.168.99.100:8083/articles/' + params.id);
             _this.backend.getArticle()
-                .subscribe(function (data) { return _this.selectedArticle = data; }, function (error) { return _this.handleError(error); }, function () { return console.log('Get all Items complete'
-                + JSON.stringify(_this.selectedArticle)); });
+                .subscribe(function (data) { return _this.selectedArticle = data; }, function (error) { return _this.handleError(error); }, function () { return console.log('Get all Items complete' + JSON.stringify(_this.selectedArticle)); });
         });
     };
     ArticleComponent.prototype.handleError = function (error) {
-        console.log('ArticleComponent.handleError: ' + error);
+        this._loginService.setLogin(true);
+    };
+    ArticleComponent.prototype.onShoppingcartSubmit = function (quantity) {
+        var _this = this;
+        console.log('Shoppingcart-Eintrag:'
+            + this.jwtHelper.decodeToken(this._tokenService.getToken()).userId + ', '
+            + this.selectedArticle.supplierId + ', ' + quantity);
+        new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8084/shoppingcart/')
+            .postArticleToShoppingcart(this.selectedArticle.id, this.jwtHelper.decodeToken(this._tokenService.getToken()).userId, quantity)
+            .subscribe(function (data) { return _this._router.navigate(['/shoppingcart']); }, function (error) { return _this.handleError(error); });
     };
     ArticleComponent = __decorate([
         core_1.Component({
@@ -48,9 +61,19 @@ var ArticleComponent = (function () {
             viewProviders: [http_1.HTTP_PROVIDERS],
             providers: [token_service_1.TokenService]
         }), 
-        __metadata('design:paramtypes', [http_1.Http, token_service_1.TokenService, login_service_1.LoginService, router_2.ActivatedRoute])
+        __metadata('design:paramtypes', [http_1.Http, token_service_1.TokenService, login_service_1.LoginService, router_2.ActivatedRoute, router_2.Router])
     ], ArticleComponent);
     return ArticleComponent;
 }());
 exports.ArticleComponent = ArticleComponent;
+var Article = (function () {
+    function Article() {
+    }
+    Article = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [])
+    ], Article);
+    return Article;
+}());
+exports.Article = Article;
 //# sourceMappingURL=article.component.js.map

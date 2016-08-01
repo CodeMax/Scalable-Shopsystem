@@ -40,7 +40,7 @@ public class ArticleBo extends AbstractBo {
 	/**
 	 * SupplierId des Article-Objekts
 	 */
-    private String supplierId;
+    private Long supplierId;
 
 
 
@@ -60,7 +60,7 @@ public class ArticleBo extends AbstractBo {
 	 *            Name
 	 */
 	public ArticleBo(final Long id, final String articleTitle, final String articleDescription, 
-			final String articleEAN, final Double articlePrice, final Integer articleStock, final String supplierId) {
+			final String articleEAN, final Double articlePrice, final Integer articleStock, final Long supplierId) {
 		super(id);
 		this.articleTitle = articleTitle;
 		this.articleDescription = articleDescription;
@@ -132,13 +132,13 @@ public class ArticleBo extends AbstractBo {
 
 
 
-	public String getSupplierId() {
+	public Long getSupplierId() {
 		return supplierId;
 	}
 
 
 
-	public void setSupplierId(String supplierId) {
+	public void setSupplierId(Long supplierId) {
 		this.supplierId = supplierId;
 	}
 

@@ -2,7 +2,9 @@
 exports.MAIN = {
     APP: {
         BRAND: 'Onlineshop',
-        STATUS: 200
+        STATUS: 200,
+        USERID: 1,
+        SUPPLIERID: 1
     }
 };
 

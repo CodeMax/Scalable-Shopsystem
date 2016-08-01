@@ -54,7 +54,9 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional(readOnly = true)
 	public UserBo getById(final long id) {
+		LOG.info("Aufruf der getById()-Methode in der Businessschnicht mit der id: {}", id);
 		final UserEntity userEntity = userRepository.findOne(id);
+		LOG.info("Folgende UserEntity gefunden: {}", userEntity.toString());
 		return userEntity != null ? userMapper.mapEntityToBo(userEntity) : null;
 	}
 

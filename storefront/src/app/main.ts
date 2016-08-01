@@ -6,6 +6,7 @@ import {BackendcallService} from './backendcall.service';
 import {TokenService} from './token.service';
 import {CookieService} from 'angular2-cookie/core';
 import {APP_ROUTER_PROVIDERS} from './app.routes';
+import {AuthHttp} from 'angular2-jwt';
 
 declare var ENV: string;
 
@@ -19,5 +20,6 @@ bootstrap(AppComponent, [
     ConnectionBackend,
     BackendcallService,
     CookieService,
-    TokenService
+    TokenService,
+    AuthHttp
 ]).catch(err => console.error(err));

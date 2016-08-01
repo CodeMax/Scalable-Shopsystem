@@ -38,13 +38,15 @@ public class ShoppingcartServiceImpl implements ShoppingcartService {
 
 
 	@Transactional(readOnly = true)
-	public List<ShoppingcartBo> getAll() {
+	public List<ShoppingcartBo> getAllForUser(Long userId) {
 		final List<ShoppingcartBo> shoppingcartBos = new ArrayList<ShoppingcartBo>();
 
-		final Iterable<ShoppingcartEntity> shoppingcartEntities = shoppingcartRepository.findAll();
+		final Iterable<ShoppingcartEntity> shoppingcartEntities = shoppingcartRepository.findEntriesByUserId(userId);
 		if (shoppingcartEntities != null) {
 			for (final ShoppingcartEntity shoppingcartEntity : shoppingcartEntities) {
-				shoppingcartBos.add(shoppingcartMapper.mapEntityToBo(shoppingcartEntity));
+				if(shoppingcartEntity != null){
+					shoppingcartBos.add(shoppingcartMapper.mapEntityToBo(shoppingcartEntity));
+				}
 			}
 		}
 
@@ -67,19 +69,44 @@ public class ShoppingcartServiceImpl implements ShoppingcartService {
 				shoppingcartBo.getArticleId(), shoppingcartBo.getUserId());
 
 		final ShoppingcartEntity shoppingcartEntity = shoppingcartMapper.mapBoToEntity(shoppingcartBo);
-		final ShoppingcartEntity shoppingcartEntitySaved = shoppingcartRepository.save(shoppingcartEntity);
+		
+		Iterable<ShoppingcartEntity> entriesOfUser = shoppingcartRepository.findEntriesByUserId(shoppingcartEntity.getUserId());
 
+		ShoppingcartEntity shoppingcartEntitySaved = null;
+		
+		Boolean saved = false;
+		if(entriesOfUser != null) {
+			while (entriesOfUser.iterator().hasNext()) {
+	            ShoppingcartEntity sce = entriesOfUser.iterator().next();
+	            if (sce.getArticleId().equals(shoppingcartEntity.getArticleId())) {
+	            	shoppingcartEntity.setQuantity(shoppingcartEntity.getQuantity()+sce.getQuantity());
+	            	delete(sce.getId(), sce.getUserId());
+	            	shoppingcartEntitySaved = shoppingcartRepository.save(shoppingcartEntity);
+	            	saved = true;
+	            	break;
+	            }
+	        }
+		}
+		
+		if(saved == false) {
+			shoppingcartEntitySaved = shoppingcartRepository.save(shoppingcartEntity);
+		}
+		
 		return shoppingcartMapper.mapEntityToBo(shoppingcartEntitySaved);
 	}
 
 
 
-	public void delete(final Long id) {
+	public void delete(final Long id, final Long userId) {
 		Validate.notNull(id);
 		LOG.debug("Lösche Example mit Id {}", id);
 
 		if (shoppingcartRepository.exists(id)) {
-			shoppingcartRepository.delete(id);
+			
+			ShoppingcartEntity entity = shoppingcartRepository.findOne(id);
+			if(userId.equals(entity.getUserId())){
+				shoppingcartRepository.delete(id);
+			}
 		}
 	}
 }

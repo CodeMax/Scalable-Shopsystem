@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import de.fhm.akfo.shop.authentication.entity.User;
 import de.fhm.akfo.shop.authentication.impl.mapper.UserDtoEntityMapper;
-import de.fhm.akfo.shop.authentication.repo.RoleRepository;
 import de.fhm.akfo.shop.authentication.repo.UserRepository;
 import de.fhm.akfo.shop.authentication.service.api.AuthenticationService;
 import de.fhm.akfo.shop.authentication.service.api.dto.RoleDto;
@@ -133,6 +132,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 		LOG.info("Die Methode createCredentials() wird ausgeführt mit den Credentials {} ", dto);
 		Map<String, Object> credentials = new HashMap<String, Object>();
 		
+		credentials.put("userId", dto.getId());
 		credentials.put("username", dto.getUsername());
 		credentials.put("role", dto.getRoles());
 		credentials.put("failedLogins", dto.getFailedlogins());

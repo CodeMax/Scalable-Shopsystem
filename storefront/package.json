@@ -44,6 +44,7 @@
     "@angular/router-deprecated": "2.0.0-rc.2",
     "@angular/upgrade": "2.0.0-rc.4",
     "angular2-cookie": "^1.2.2",
+    "angular2-jwt": "0.1.18",
     "angular2-localstorage": "^0.3.0",
     "bootstrap": "^3.3.6",
     "bootstrap-sass": "^3.3.6",

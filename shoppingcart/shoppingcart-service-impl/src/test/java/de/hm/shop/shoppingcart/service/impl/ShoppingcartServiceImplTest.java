@@ -18,6 +18,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.google.common.collect.Lists;
@@ -54,35 +55,19 @@ public class ShoppingcartServiceImplTest {
 
 
 	@Test
-	public void testGetAll() {
-		when(shoppingcartRepositoryMock.findAll()).thenReturn(Lists.newArrayList(shoppingcartEntity1, shoppingcartEntity2));
+	public void testGetAllForUser() {
+		when(shoppingcartRepositoryMock.findEntriesByUserId(Mockito.any())).thenReturn(Lists.newArrayList(shoppingcartEntity1, shoppingcartEntity2));
 		when(shoppingcartMapperMock.mapEntityToBo(shoppingcartEntity1)).thenReturn(shoppingcartDto1);
 		when(shoppingcartMapperMock.mapEntityToBo(shoppingcartEntity2)).thenReturn(shoppingcartDto2);
 
-		final List<ShoppingcartBo> result = sut.getAll();
+		final List<ShoppingcartBo> result = sut.getAllForUser(new Long(123));
 		assertThat(result, is(notNullValue()));
 		assertThat(result, containsInAnyOrder(shoppingcartDto1, shoppingcartDto2));
 
 		final InOrder order = inOrder(shoppingcartRepositoryMock, shoppingcartMapperMock);
-		order.verify(shoppingcartRepositoryMock).findAll();
+		order.verify(shoppingcartRepositoryMock).findEntriesByUserId(Mockito.any());
 		order.verify(shoppingcartMapperMock).mapEntityToBo(shoppingcartEntity1);
 		order.verify(shoppingcartMapperMock).mapEntityToBo(shoppingcartEntity2);
-		order.verifyNoMoreInteractions();
-	}
-
-
-
-	@Test
-	public void testGetById() {
-		when(shoppingcartRepositoryMock.findOne(Long.valueOf(100L))).thenReturn(shoppingcartEntity1);
-		when(shoppingcartMapperMock.mapEntityToBo(shoppingcartEntity1)).thenReturn(shoppingcartDto1);
-
-		final ShoppingcartBo result = sut.getByUserId(100L);
-		assertThat(result, is(theInstance(shoppingcartDto1)));
-
-		final InOrder order = inOrder(shoppingcartRepositoryMock, shoppingcartMapperMock);
-		order.verify(shoppingcartRepositoryMock).findOne(Long.valueOf(100L));
-		order.verify(shoppingcartMapperMock).mapEntityToBo(shoppingcartEntity1);
 		order.verifyNoMoreInteractions();
 	}
 
@@ -109,9 +94,11 @@ public class ShoppingcartServiceImplTest {
 	@Test
 	public void testDelete() {
 		final Long id = Long.valueOf(100L);
+		final Long userId = Long.valueOf(123);
 		when(shoppingcartRepositoryMock.exists(id)).thenReturn(true);
-
-		sut.delete(100L);
+		when(shoppingcartRepositoryMock.findOne(id)).thenReturn(new ShoppingcartEntity(new Long(100L), userId, 0));
+		
+		sut.delete(100L, userId);
 
 		final InOrder order = inOrder(shoppingcartRepositoryMock);
 		order.verify(shoppingcartRepositoryMock).exists(id);
@@ -127,7 +114,7 @@ public class ShoppingcartServiceImplTest {
 	public void testDelete_NotFound() {
 		final Long id = Long.valueOf(100L);
 
-		sut.delete(id.longValue());
+		sut.delete(id.longValue(), new Long(123));
 
 		final InOrder order = inOrder(shoppingcartRepositoryMock);
 		order.verify(shoppingcartRepositoryMock).exists(id);

@@ -7,6 +7,7 @@ import java.util.Collection;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -58,43 +59,33 @@ public class UserResource {
 	@Context
 	private UriInfo uriInfo;
 
+	@Context
+	private transient HttpServletRequest servletRequest;
+	
 	@Inject
 	private EntityLinks entityLinks;
 
 
-
-	@GET
-	@DenyAll
-	@RolesAllowed(value = { "user" })
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response getAllUser() {
-		LOG.info("Aufruf der getAllUser()-Methode");
-		
-		final Collection<UserBo> userBos = userService.getAll();
-		final Collection<UserDto> userDtos = mapBosToDtos(userBos);
-
-		for (final UserDto userDto : userDtos) {
-			addSelfLink(userDto);
-		}
-
-		final UserDtoList userDtoList = new UserDtoList(userDtos,
-				entityLinks.linkToCollectionResource(UserDto.class));
-		return Response.ok(userDtoList).build();
-	}
-
-
 	@GET
 	@Path("{id}")
+	@RolesAllowed(value = { "user" })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getById(@PathParam("id") final Long id) {
 		LOG.info("Aufruf der getById()-Methode mit der id: {}", id);
 		
 		Validate.notNull(id);
+		
+		Long realUserId = ((Integer) this.servletRequest.getAttribute("realUserId")).longValue();
+
+		if(!id.equals(realUserId)){
+			return Response.status(Status.BAD_REQUEST).build();
+		}
 
 		final UserBo userBo = userService.getById(id);
 		if (userBo != null) {
 			final UserDto userDto = userMapper.mapBoToDto(userBo);
+			LOG.info("UserDto wird herausgereicht: {}", userDto.toString());
 			return okResponseWithSelfLink(userDto);
 		} else {
 			return Response.status(Status.NOT_FOUND).entity(Status.NOT_FOUND.getReasonPhrase()).build();
@@ -112,7 +103,8 @@ public class UserResource {
 		
 		Validate.notNull(userDto);
 		Validate.validState(userDto.getId() == null);
-
+		Validate.validState(userDto.getSupplierId() == null);
+		
 		final UserDto userDtoSaved = saveImpl(userDto);
 		final Link selfLink = addSelfLink(userDtoSaved);
 
@@ -121,8 +113,9 @@ public class UserResource {
 
 
 
-	@PUT
+	@PUT	
 	@Path("{id}")
+	@RolesAllowed(value = { "user" })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response updateUser(@PathParam(value = "id") String id, final UserDto userDto) {
@@ -130,7 +123,7 @@ public class UserResource {
 		
 		Validate.notNull(userDto);
 		Validate.notNull(userDto.getId());
-
+		
 		if(Long.decode(id) != userDto.getId()){
 			return Response.status(Status.BAD_REQUEST).build();
 		}
@@ -143,6 +136,7 @@ public class UserResource {
 
 	@Path("{id}")
 	@DELETE
+	@RolesAllowed(value = { "user" })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response deleteById(@PathParam("id") final Long id) {

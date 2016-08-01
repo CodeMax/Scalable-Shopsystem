@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {ROUTER_DIRECTIVES, Router} from '@angular/router';
 import {NavbarComponent} from './navbar/navbar.component';
 import {LoginService} from './login.service';
@@ -13,10 +13,13 @@ import {AboutComponent} from './about/about.component';
     templateUrl: 'app/app.html',
     directives: [NavbarComponent, ArticleInventoryComponent, HeaderComponent,
                 RegisterComponent, AboutComponent, ROUTER_DIRECTIVES, MODAL_DIRECTIVES],
-    providers: [LoginService]
+    providers: [LoginService],
+    styleUrls: [
+        'app/app.css'
+    ]
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent {
 
     @ViewChild('myModal')
     modal: ModalComponent;
@@ -26,31 +29,6 @@ export class AppComponent implements OnInit {
           needForLogin => {
             this.startLogin();
           });
-    }
-
-    ngOnInit() {
-      /* let validRoute = false;
-        for (let i = 0, len = this.appRoutes.length; i < len; i++) {
-            let route = this.appRoutes[i];
-            let urlTree = this._router.createUrlTree([route]);
-            validRoute = this._router.urlTree.contains(urlTree);
-            if (validRoute) {
-                continue;
-            }
-         }
-         let validRouteRight = false;
-         for (let i = 0, len = this.appRoutesRight.length; i < len; i++) {
-             let routeRight = this.appRoutesRight[i];
-             let urlTreeRight = this._router.createUrlTree([routeRight]);
-             validRouteRight = this._router.urlTree.contains(urlTreeRight);
-             if (validRouteRight) {
-                 continue;
-             }
-          }
-         if (!validRoute || !validRouteRight) {
-            this._router.navigateByUrl('/');
-         }
-         */
     }
 
     close() {

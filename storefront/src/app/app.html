@@ -21,7 +21,7 @@
 <modal #myModal>
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-        <h4 class="modal-title" id="myModalLabel">Login</h4>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-user" aria-hidden="true"></i> Login</h4>
     </div>
     <div class="modal-body">
         <div class="row">
@@ -30,27 +30,26 @@
 										<form (ngSubmit)="onLoginSubmit(username, password)" #loginForm="ngForm">
                       	<div class="form-group">
                             <label for="username" class="control-label">Username</label>
-                            <input required type="text" [(ngModel)]="username" class="form-control" id="username" name="username" value="" title="Please enter you username" placeholder="user@mail.com">
+                            <input required type="text" [(ngModel)]="username" class="form-control" id="username" name="username" value="" title="Bitte Nutzername eingeben" placeholder="name">
                             <span class="help-block"></span>
                         </div>
                         <div class="form-group">
                             <label for="password" class="control-label">Password</label>
-                            <input required type="password" [(ngModel)]="password" class="form-control" id="password" name="password" value="" title="Please enter your password">
+                            <input required type="password" [(ngModel)]="password" class="form-control" id="password" name="password" value="" title="Bitte Passwort eingeben">
                             <span class="help-block"></span>
                         </div>
                         <button type="submit" class="btn btn-success btn-block">Login</button>
-                        <a href="/forgot/" class="btn btn-default btn-block">Help to login</a>
+                        <a href="/forgot/" class="btn btn-default btn-block">Passwort vergessen</a>
                     </form>
                 </div>
             </div>
             <div class="col-xs-6">
-                <p class="lead">Register now for <span class="text-success">FREE</span></p>
+                <p class="lead">Jetzt <span class="text-success">KOSTENLOS</span> Registrieren</p>
                 <ul class="list-unstyled" style="line-height: 2">
-                    <li><span class="fa fa-check text-success"></span> Fast order placement</li>
-                    <li><span class="fa fa-check text-success"></span> See all your orders</li>
-                    <li><span class="fa fa-check text-success"></span> Sell unlimited Articles</li>
-                    <li><span class="fa fa-check text-success"></span> Save your favorites</li>
-                    <li><span class="fa fa-check text-success"></span> Get a special gift <small>(only new customers)</small></li>
+                    <li><span class="fa fa-check text-success"></span> Schnelle Kaufdurchführung</li>
+                    <li><span class="fa fa-check text-success"></span> Speichern des Warenkorbs</li>
+                    <li><span class="fa fa-check text-success"></span> Verkaufe Produkte ohne Limit</li>
+                    <li><span class="fa fa-check text-success"></span> Willkommensgeschenk <small>(nur neue Kunden)</small></li>
                     <!--<li><a href="/read-more/"><u>Read more</u></a></li>-->
               	</ul>
                 <p><a [routerLink]="['/register']" (click)="modal.close()" class="btn btn-info btn-block">Register</a></p>

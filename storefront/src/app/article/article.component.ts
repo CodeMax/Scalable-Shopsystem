@@ -1,12 +1,12 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Injectable} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
 import {Http, HTTP_PROVIDERS} from '@angular/http';
 import {BackendcallService} from './../backendcall.service';
 import {TokenService} from '../token.service';
 import {ROUTER_DIRECTIVES} from '@angular/router';
-import {ActivatedRoute} from '@angular/router';
+import {Router, ActivatedRoute} from '@angular/router';
 import {LoginService} from './../login.service';
-import {Article} from './article.service';
+import {JwtHelper} from 'angular2-jwt';
 
 @Component({
     selector: 'as-article',
@@ -20,34 +20,62 @@ export class ArticleComponent implements OnInit {
 
       public selectedArticle: Article;
       private backend: BackendcallService;
-      private sub: any;
+      private jwtHelper: JwtHelper = new JwtHelper();
 
       constructor(private _http: Http,
                   private _tokenService: TokenService,
                   private _loginService: LoginService,
-                  private _route: ActivatedRoute) {
+                  private _activeRoute: ActivatedRoute,
+                  private _router: Router) {
         console.log('Article-Component constructor()');
         _loginService.loginNeeded$.subscribe(
           needForLogin => {
             needForLogin = true;
           });
+        let token = this._tokenService.getToken();
+        console.log(this.jwtHelper.decodeToken(token),
+                    this.jwtHelper.getTokenExpirationDate(token),
+                    this.jwtHelper.isTokenExpired(token));
       }
 
       ngOnInit() {
         console.log(this._tokenService.getToken());
-        this.sub = this._route.params.subscribe((params: {id: string}) => {
-          this.backend = new BackendcallService(this._http, 'token',
+        this._activeRoute.params.subscribe((params: {id: string}) => {
+        this.backend = new BackendcallService(this._http, 'token',
                          this._tokenService.getToken(),
-                         'http://192.168.99.100:8083/article/' + params.id);
+                         'http://192.168.99.100:8083/articles/' + params.id);
           this.backend.getArticle()
             .subscribe(( data: Article ) => this.selectedArticle = data,
                 error => this.handleError(error),
-                () => console.log('Get all Items complete'
-                                  + JSON.stringify(this.selectedArticle)));
+                () => console.log('Get all Items complete' + JSON.stringify(this.selectedArticle)));
         });
       }
 
       handleError(error: any) {
-        console.log('ArticleComponent.handleError: ' + error);
+        this._loginService.setLogin(true);
       }
+
+      onShoppingcartSubmit(quantity) {
+        console.log('Shoppingcart-Eintrag:'
+              + this.jwtHelper.decodeToken(this._tokenService.getToken()).userId + ', '
+              + this.selectedArticle.supplierId + ', ' + quantity);
+        new BackendcallService(this._http, 'token', this._tokenService.getToken(),
+            'http://192.168.99.100:8084/shoppingcart/')
+            .postArticleToShoppingcart(this.selectedArticle.id,
+              this.jwtHelper.decodeToken(this._tokenService.getToken()).userId, quantity)
+              .subscribe(( data: any ) => this._router.navigate(['/shoppingcart']),
+                  error => this.handleError(error));
+      }
+}
+
+@Injectable()
+export class Article {
+  public id: number;
+  public articleTitle: string;
+  public articleDescription: string;
+  public articleEAN: string;
+  public articlePrice: number;
+  public articleStock: number;
+  public supplierId: number;
+  public quantity: number;
 }

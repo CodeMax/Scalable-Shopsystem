@@ -26,30 +26,6 @@ var AppComponent = (function () {
             _this.startLogin();
         });
     }
-    AppComponent.prototype.ngOnInit = function () {
-        /* let validRoute = false;
-          for (let i = 0, len = this.appRoutes.length; i < len; i++) {
-              let route = this.appRoutes[i];
-              let urlTree = this._router.createUrlTree([route]);
-              validRoute = this._router.urlTree.contains(urlTree);
-              if (validRoute) {
-                  continue;
-              }
-           }
-           let validRouteRight = false;
-           for (let i = 0, len = this.appRoutesRight.length; i < len; i++) {
-               let routeRight = this.appRoutesRight[i];
-               let urlTreeRight = this._router.createUrlTree([routeRight]);
-               validRouteRight = this._router.urlTree.contains(urlTreeRight);
-               if (validRouteRight) {
-                   continue;
-               }
-            }
-           if (!validRoute || !validRouteRight) {
-              this._router.navigateByUrl('/');
-           }
-           */
-    };
     AppComponent.prototype.close = function () {
         this.modal.close();
     };
@@ -71,7 +47,10 @@ var AppComponent = (function () {
             templateUrl: 'app/app.html',
             directives: [navbar_component_1.NavbarComponent, articleInventory_component_1.ArticleInventoryComponent, header_component_1.HeaderComponent,
                 register_component_1.RegisterComponent, about_component_1.AboutComponent, router_1.ROUTER_DIRECTIVES, ng2_bs3_modal_1.MODAL_DIRECTIVES],
-            providers: [login_service_1.LoginService]
+            providers: [login_service_1.LoginService],
+            styleUrls: [
+                'app/app.css'
+            ]
         }), 
         __metadata('design:paramtypes', [router_1.Router, login_service_1.LoginService])
     ], AppComponent);

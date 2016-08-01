@@ -54,6 +54,8 @@ public class ShoppingcartResourceTest {
 	private static final String HOST = "http://localhost:9000";
 	private static final Logger LOG = Logger.getLogger(ShoppingcartResourceTest.class.getName());
 	
+	private final Long userId = Long.valueOf(100L);
+	
 	private final Client client = ClientBuilder.newClient().register(new LoggingFilter(LOG, true));
 
 	@Inject
@@ -65,7 +67,7 @@ public class ShoppingcartResourceTest {
 
 	@Before
 	public void setUp() throws ShoppingcartException {
-		shoppingcartBo1 = createAndSaveShoppingcartBo("Max");
+		shoppingcartBo1 = createAndSaveShoppingcartBo(new Long(123), new Long(321), 50);
 		
 		String issuer = "shopsystem";
         String subject = "authentication";
@@ -79,6 +81,8 @@ public class ShoppingcartResourceTest {
    		userRolesMap.put("role", "user");
    		roles.add(userRolesMap);
    		credentials.put("role", roles);
+		credentials.put("userId", this.userId);
+
     	vaildAuthToken = new JWTTokenGenerator().createJWT("1", issuer, subject, ttlMiS, credentials);
 	}
 
@@ -86,17 +90,17 @@ public class ShoppingcartResourceTest {
 
 	@After
 	public void cleanUp() {
-		shoppingcartService.delete(shoppingcartBo1.getId());
+		shoppingcartService.delete(shoppingcartBo1.getId(), shoppingcartBo1.getUserId());
 	}
 
 
 
 	@Test
 	@Ignore
-	public void testGetAll() throws ShoppingcartException {
-		final ShoppingcartBo shoppingcartBo2 = createAndSaveShoppingcartBo("Max");
+	public void testGetAllById() throws ShoppingcartException {
+		final ShoppingcartBo shoppingcartBo2 = createAndSaveShoppingcartBo(new Long(123), new Long(321), 50);
 
-		final Response result = client.target(HOST).path("shoppingcart").request(MediaType.APPLICATION_JSON)
+		final Response result = client.target(HOST).path("shoppingcart/"+shoppingcartBo2.getUserId()).request(MediaType.APPLICATION_JSON)
 											.header("AUTHORIZATION", vaildAuthToken).get(Response.class);
 		assertThat(result, is(notNullValue()));
 		assertThat(result.getStatus(), is(equalTo(Status.OK.getStatusCode())));
@@ -133,42 +137,10 @@ public class ShoppingcartResourceTest {
 
 
 	@Test
-	public void testGetById() {
-		final Response result = client.target(HOST).path("shoppingcart/" + shoppingcartBo1.getId())
-				.request(MediaType.APPLICATION_XML).header("AUTHORIZATION", vaildAuthToken).get();
-		assertThat(result, is(notNullValue()));
-		assertThat(result.getStatus(), is(equalTo(Status.OK.getStatusCode())));
-		assertThat(result.getLocation(), is(nullValue()));
-		assertThat(result.getLinks(), is(notNullValue()));
-		assertThat(result.getLinks(), is(empty()));
-
-		final ShoppingcartDto resultShoppingcart = result.readEntity(ShoppingcartDto.class);
-		assertThat(resultShoppingcart, is(notNullValue()));
-		assertThat(resultShoppingcart.getId(), is(equalTo(shoppingcartBo1.getId())));
-		assertSelfLink(resultShoppingcart.getLinks(), shoppingcartBo1.getId());
-	}
-
-
-
-	@Test
-	public void testGetById_NotFound() {
-		final Response result = client.target(HOST).path("shoppingcart/" + System.currentTimeMillis())
-				.request(MediaType.APPLICATION_XML).header("AUTHORIZATION", vaildAuthToken).get();
-		assertThat(result, is(notNullValue()));
-		assertThat(result.getStatus(), is(equalTo(Status.NOT_FOUND.getStatusCode())));
-		assertThat(result.getLocation(), is(nullValue()));
-		assertThat(result.getLinks(), is(notNullValue()));
-		assertThat(result.getLinks(), is(empty()));
-		assertThat(result.readEntity(String.class), is(equalTo(Status.NOT_FOUND.getReasonPhrase())));
-	}
-
-
-
-	@Test
 	public void testCreateShoppingcart() {
 		final ShoppingcartDto newShoppingcart = new ShoppingcartDto();
 		newShoppingcart.setArticleId(new Long(123));
-		newShoppingcart.setUserId(new Long(345));
+		newShoppingcart.setUserId(this.userId);
 		newShoppingcart.setQuantity(2);
 
 		final Response result = client.target(HOST).path("shoppingcart").request(MediaType.APPLICATION_XML)
@@ -184,7 +156,7 @@ public class ShoppingcartResourceTest {
 		assertThat(resultShoppingcart.getId(), is(notNullValue()));
 		assertSelfLink(resultShoppingcart.getLinks(), result.getLocation().toString());
 
-		shoppingcartService.delete(resultShoppingcart.getId());
+		shoppingcartService.delete(resultShoppingcart.getId(), resultShoppingcart.getUserId());
 	}
 
 
@@ -194,7 +166,7 @@ public class ShoppingcartResourceTest {
 		final ShoppingcartDto shoppingcartDto = new ShoppingcartDto();
 		shoppingcartDto.setId(shoppingcartBo1.getId());
 		shoppingcartDto.setArticleId(new Long(123));
-		shoppingcartDto.setUserId(new Long(345));
+		shoppingcartDto.setUserId(this.userId);
 		shoppingcartDto.setQuantity(2);
 
 		final Response result = client.target(HOST).path("shoppingcart").path(shoppingcartBo1.getId().toString()).request(MediaType.APPLICATION_XML)
@@ -242,11 +214,11 @@ public class ShoppingcartResourceTest {
 
 
 
-	private ShoppingcartBo createAndSaveShoppingcartBo(final String name) throws ShoppingcartException {
+	private ShoppingcartBo createAndSaveShoppingcartBo(final Long articleId, final Long userId, final Integer quantity) throws ShoppingcartException {
 		ShoppingcartBo shoppingcartBo = new ShoppingcartBo();
-		shoppingcartBo.setArticleId(new Long(123));
-		shoppingcartBo.setUserId(new Long(345));
-		shoppingcartBo.setQuantity(2);
+		shoppingcartBo.setArticleId(articleId);
+		shoppingcartBo.setUserId(userId);
+		shoppingcartBo.setQuantity(quantity);
 		return (shoppingcartBo = shoppingcartService.save(shoppingcartBo));
 	}
 

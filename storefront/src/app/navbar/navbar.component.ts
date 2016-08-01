@@ -20,5 +20,4 @@ export class NavbarComponent implements OnInit {
       this.routes = APP_ROUTES;
       this.routesright = APP_ROUTES_RIGHT;
     }
-
 }

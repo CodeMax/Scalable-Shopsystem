@@ -4,9 +4,9 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -60,30 +60,13 @@ public class ShoppingcartResource {
 	private ShoppingcartDtoBoMapper shoppingcartMapper;
 
 	@Context
+	private transient HttpServletRequest servletRequest;
+	
+	@Context
 	private UriInfo uriInfo;
 
 	@Inject
 	private EntityLinks entityLinks;
-
-
-
-	@GET
-	@DenyAll
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response getAllShoppingcart() {
-		LOG.info("Aufruf der getAllShoppingcart()-Methode");
-		
-		final Collection<ShoppingcartBo> shoppingcartBos = shoppingcartService.getAll();
-		final Collection<ShoppingcartDto> shoppingcartDtos = mapBosToDtos(shoppingcartBos);
-
-		for (final ShoppingcartDto shoppingcartDto : shoppingcartDtos) {
-			addSelfLink(shoppingcartDto);
-		}
-
-		final ShoppingcartDtoList shoppingcartDtoList = new ShoppingcartDtoList(shoppingcartDtos,
-				entityLinks.linkToCollectionResource(ShoppingcartDto.class));
-		return Response.ok(shoppingcartDtoList).build();
-	}
 
 
 
@@ -97,13 +80,29 @@ public class ShoppingcartResource {
 		
 		Validate.notNull(userId);
 
-		final ShoppingcartBo shoppingcartBo = shoppingcartService.getByUserId(userId);
-		if (shoppingcartBo != null) {
-			final ShoppingcartDto shoppingcartDto = shoppingcartMapper.mapBoToDto(shoppingcartBo);
-			return okResponseWithSelfLink(shoppingcartDto);
-		} else {
-			return Response.status(Status.NOT_FOUND).entity(Status.NOT_FOUND.getReasonPhrase()).build();
+		Long realUserId = ((Integer) this.servletRequest.getAttribute("realUserId")).longValue();
+
+		if(!userId.equals(realUserId)){
+			return Response.status(Status.BAD_REQUEST).build();
 		}
+		
+		
+		final Collection<ShoppingcartBo> shoppingcartBos = shoppingcartService.getAllForUser(userId);
+		
+		
+		if(shoppingcartBos == null || shoppingcartBos.isEmpty()){
+			return Response.status(404).entity("Not Found").build();
+		}
+		
+		final Collection<ShoppingcartDto> shoppingcartDtos = mapBosToDtos(shoppingcartBos);
+		
+		for (final ShoppingcartDto shoppingcartDto : shoppingcartDtos) {
+			addSelfLink(shoppingcartDto);
+		}
+
+		final ShoppingcartDtoList shoppingcartDtoList = new ShoppingcartDtoList(shoppingcartDtos,
+				entityLinks.linkToCollectionResource(ShoppingcartDto.class));
+		return Response.ok(shoppingcartDtoList).build();
 	}
 
 
@@ -118,6 +117,12 @@ public class ShoppingcartResource {
 		Validate.notNull(shoppingcartDto);
 		Validate.validState(shoppingcartDto.getId() == null);
 
+		Long userId = ((Integer) this.servletRequest.getAttribute("realUserId")).longValue();
+
+		if(!userId.equals(shoppingcartDto.getUserId())){
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		
 		final ShoppingcartDto shoppingcartDtoSaved = saveImpl(shoppingcartDto);
 		final Link selfLink = addSelfLink(shoppingcartDtoSaved);
 
@@ -136,8 +141,11 @@ public class ShoppingcartResource {
 		
 		Validate.notNull(shoppingcartDto);
 		Validate.notNull(shoppingcartDto.getId());
+		
+		Long userId = ((Integer) this.servletRequest.getAttribute("realUserId")).longValue();
 
-		if(Long.decode(id) != shoppingcartDto.getId()){
+		if(Long.decode(id) != shoppingcartDto.getId()
+				|| !userId.equals(shoppingcartDto.getUserId())){
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 		
@@ -153,8 +161,14 @@ public class ShoppingcartResource {
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response deleteById(@PathParam("id") final Long id) {
 		Validate.notNull(id);
-
-		shoppingcartService.delete(id);
+		
+		if(!(this.servletRequest.getAttribute("realUserId") instanceof Integer)){
+			return Response.status(Status.BAD_REQUEST).build();
+		}
+		
+		Long userId = ((Integer) this.servletRequest.getAttribute("realUserId")).longValue();
+		shoppingcartService.delete(id, userId);
+		
 		return Response.noContent().build();
 	}
 

@@ -39,7 +39,7 @@ public class ArticleRepositoryTest extends AbstractTransactionalJUnit4SpringCont
 		articleEntity.setArticlePrice(12.40);
 		articleEntity.setArticleEAN("123456789123");
 		articleEntity.setArticleDescription("testbeschreibung");
-		articleEntity.setSupplierId("testsupplier123");
+		articleEntity.setSupplierId(new Long(321));
 		articleEntity = sut.save(articleEntity);
 	}
 
@@ -54,7 +54,7 @@ public class ArticleRepositoryTest extends AbstractTransactionalJUnit4SpringCont
 		serviceArticleEntity1.setArticlePrice(12.40);
 		serviceArticleEntity1.setArticleEAN("123456789123");
 		serviceArticleEntity1.setArticleDescription("testbeschreibung");
-		serviceArticleEntity1.setSupplierId("testsupplier123");
+		serviceArticleEntity1.setSupplierId(new Long(123));
 		
 		articleEntity = sut.save(articleEntity);
 
@@ -78,7 +78,7 @@ public class ArticleRepositoryTest extends AbstractTransactionalJUnit4SpringCont
 		articleEntity.setArticlePrice(1.20);
 		articleEntity.setArticleEAN("987654321");
 		articleEntity.setArticleDescription("testbeschreibung");
-		articleEntity.setSupplierId("testsupplier124");
+		articleEntity.setSupplierId(new Long(124));
 		articleEntity = sut.save(articleEntity);
 
 		final ArticleEntity result = sut.save(articleEntity);

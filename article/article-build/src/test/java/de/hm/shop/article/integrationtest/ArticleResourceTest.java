@@ -171,7 +171,6 @@ public class ArticleResourceTest {
 		newArticle.setArticlePrice(432.3);
 		newArticle.setArticleEAN("123412341234");
 		newArticle.setArticleDescription("Beschriebung");
-		newArticle.setSupplierId("supplierNo1");
 		
 		final Response result = client.target(HOST).path("articles").request(MediaType.APPLICATION_XML)
 				.header("AUTHORIZATION", vaildAuthToken).post(Entity.xml(newArticle));
@@ -201,7 +200,6 @@ public class ArticleResourceTest {
 		articleDto.setArticlePrice(432.3);
 		articleDto.setArticleEAN("123412341234");
 		articleDto.setArticleDescription("Beschriebung");
-		articleDto.setSupplierId("supplierNo1");
 
 		final Response result = client.target(HOST).path("articles").path(articleBo1.getId().toString()).request(MediaType.APPLICATION_XML)
 				.header("AUTHORIZATION", vaildAuthToken).put(Entity.xml(articleDto));
@@ -256,7 +254,6 @@ public class ArticleResourceTest {
 		articleBo.setArticlePrice(432.3);
 		articleBo.setArticleEAN("123412341234");
 		articleBo.setArticleDescription("Beschriebung");
-		articleBo.setSupplierId("supplierNo1");
 		return (articleBo = articleService.save(articleBo));
 	}
 

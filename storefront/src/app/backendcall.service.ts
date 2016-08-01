@@ -6,7 +6,7 @@ import 'rxjs/add/operator/toPromise';
 import 'rxjs/add/observable/throw';
 import {Observable} from 'rxjs/Observable';
 import {Token} from './token.service';
-import {Article} from './article/article.service';
+import {Article} from './article/article.component';
 import {Shoppingcart} from './shoppingcart/shoppingcart.service';
 import {User} from './user.service';
 
@@ -31,24 +31,22 @@ export class BackendcallService {
         this.headers.append('Accept', 'application/json');
       }
 
+      // ArticleList
       public getAllArticle = (): Observable<string[]> => {
         return this._http.get(this.actionUrl, {headers: this.headers})
-                   .map(this.extractContent)
+                   .map(this.extractArticleList)
                    .catch(this.handleError);
       }
 
+      // Article-Detailpage
       public getArticle = (): Observable<Article> => {
         return this._http.get(this.actionUrl, {headers: this.headers})
                    .map(this.extract)
                    .catch(this.handleError);
       }
 
-      public getAllShoppingcartItems = (): Observable<Shoppingcart> => {
-        return this._http.get(this.actionUrl, {headers: this.headers})
-                   .map(this.extractShoppingCartList)
-                   .catch(this.handleError);
-      }
 
+      // Authentication
       public getToken(): Promise<Token> {
           return this._http.get(this.actionUrl, {headers: this.headers})
                .toPromise()
@@ -56,16 +54,22 @@ export class BackendcallService {
                .catch(this.handleError);
       }
 
-      public postArticleToShoppingcart = (supplierId: Number, userId: Number, quantity: Number): Observable<Token> => {
-          let body = JSON.stringify({ supplierId, userId, quantity });
-          let headers = new Headers({ 'Content-Type': 'application/json' });
-          let options = new RequestOptions({ headers: headers });
+
+      // Shoppingcart
+      public getAllShoppingcartItems = (): Observable<Shoppingcart[]> => {
+        return this._http.get(this.actionUrl, {headers: this.headers})
+                   .map(this.extractShoppingCartList)
+                   .catch(this.handleError);
+      }
+      public postArticleToShoppingcart = (articleId: number, userId: number, quantity: number): Observable<any> => {
+          let body = JSON.stringify({ articleId, userId, quantity });
+          let options = new RequestOptions({ headers: this.headers });
 
           return this._http.post(this.actionUrl, body, options)
-                     .map(this.extractToken)
                      .catch(this.handleError);
       }
 
+      // User
       public updateUserData = (id: Number, firstname: string, lastname: string, address: string, postcode: string,
                              city: string, country: string): Observable<User> => {
           let body = JSON.stringify({id, firstname, lastname, address, postcode, city, country });
@@ -75,11 +79,9 @@ export class BackendcallService {
                      .map(this.extract)
                      .catch(this.handleError);
       }
-
       public saveAuthData = (username: string, password: string): Observable<Number> => {
           let body = JSON.stringify({username, password});
-          let headers = new Headers({ 'Content-Type': 'application/json' });
-          let options = new RequestOptions({ headers: headers });
+          let options = new RequestOptions({ headers: this.headers });
 
           return this._http.post(this.actionUrl, body, options)
                      .map(this.extract)
@@ -87,10 +89,10 @@ export class BackendcallService {
       }
 
 
-      private extractContent(res: Response) {
+      private extractArticleList(res: Response) {
           console.log('extractData() is executed.');
           let body = res.json();
-          return body.content || { };
+          return body.articleList || { };
       }
 
       private extract(res: Response) {

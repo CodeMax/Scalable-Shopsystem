@@ -13,6 +13,7 @@ import java.util.Set;
 import javax.annotation.security.DenyAll;
 import javax.annotation.security.PermitAll;
 import javax.annotation.security.RolesAllowed;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -46,6 +47,9 @@ public class UserLoginFilter implements ContainerRequestFilter {
 	
 	@Context
 	private ResourceInfo resourceInfo;
+	
+	@Context
+	private transient HttpServletRequest servletRequest;
 
 	private static final String AUTHORIZATION_PROPERTY = "Authorization";
 
@@ -81,6 +85,8 @@ public class UserLoginFilter implements ContainerRequestFilter {
 				LOG.info("Credentials of Token are not as expected!");
 				throw new NotAuthorizedException("Authorization header must be provided");
 			}
+			
+			this.servletRequest.setAttribute("realUserId", credentials.get("userId", Integer.class));
 			
 			if (method.isAnnotationPresent(RolesAllowed.class)) {
 				RolesAllowed rolesAnnotation = method.getAnnotation(RolesAllowed.class);
