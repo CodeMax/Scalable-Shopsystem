@@ -31,6 +31,13 @@ public interface UserService {
 	 */
 	UserBo getById(long id);
 
+	
+	/**
+	 * Liefert das {@link UserBo} zu der übergebenen <code>supplierId</code> zurück.
+	 * @param id
+	 * @return
+	 */
+	UserBo getSupplier(Long supplierId);
 
 
 	/**

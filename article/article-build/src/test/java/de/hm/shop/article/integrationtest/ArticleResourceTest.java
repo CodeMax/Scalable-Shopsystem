@@ -248,7 +248,6 @@ public class ArticleResourceTest {
 
 	private ArticleBo createAndSaveArticleBo() throws ArticleException {
 		ArticleBo articleBo = new ArticleBo();
-		articleBo.setId(new Long(1));
 		articleBo.setArticleTitle("title");
 		articleBo.setArticleStock(15);
 		articleBo.setArticlePrice(432.3);

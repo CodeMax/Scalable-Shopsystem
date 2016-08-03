@@ -1,7 +1,5 @@
 package de.hm.shop.user.dao.entity;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
@@ -16,10 +14,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 @MappedSuperclass
 public abstract class AbstractEntity {
 
-	protected static final String ID_GENERATOR = "sequenceGenerator";
-
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ID_GENERATOR)
 	private Long id;
 
 

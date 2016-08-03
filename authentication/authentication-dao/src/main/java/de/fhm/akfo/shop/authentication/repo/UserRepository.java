@@ -11,7 +11,7 @@ import de.fhm.akfo.shop.authentication.entity.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 
 	/**
-	 * Finds a User by username and password.
+	 * Find User by username and password.
 	 * @param username
 	 * @param password
 	 * @return A List of Users with this Credentials. Normally only one User or null expected.
@@ -20,6 +20,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	public List<User> findUserByNameAndPassword(@Param("username") String username, @Param("password") String password);
 	
 	
+	/**
+	 * Find User by username
+	 * @param username
+	 * @return A List of Users with this Credentials. Normally only one User or null expected.
+	 */
 	@Query("SELECT p FROM User p WHERE p.username = :username")
 	public List<User> findUserByUsername(@Param("username") String username);
 

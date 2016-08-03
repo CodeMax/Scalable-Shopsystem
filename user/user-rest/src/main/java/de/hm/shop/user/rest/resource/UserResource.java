@@ -34,7 +34,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import de.hm.shop.user.rest.dto.UserDto;
-import de.hm.shop.user.rest.dto.UserDtoList;
 import de.hm.shop.user.rest.dto.mapper.UserDtoBoMapper;
 import de.hm.shop.user.service.api.UserService;
 import de.hm.shop.user.service.api.bo.UserBo;
@@ -92,6 +91,26 @@ public class UserResource {
 		}
 	}
 
+	
+	@GET
+	@Path("supplierId/{id}")
+	@RolesAllowed(value = { "user" })
+	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	public Response getSupplier(@PathParam("id") final Long id) {
+		LOG.info("Aufruf der getById()-Methode mit der id: {}", id);
+		
+		Validate.notNull(id);
+
+		final UserBo userBo = userService.getSupplier(id);
+		if (userBo != null) {
+			final UserDto userDto = userMapper.mapBoToDto(userBo);
+			LOG.info("UserDto wird herausgereicht: {}", userDto.toString());
+			return okResponseWithSelfLink(userDto);
+		} else {
+			return Response.status(Status.NOT_FOUND).entity(Status.NOT_FOUND.getReasonPhrase()).build();
+		}
+	}
 
 
 	@POST

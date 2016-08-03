@@ -31,6 +31,12 @@ var BackendcallService = (function () {
                 .map(_this.extract)
                 .catch(_this.handleError);
         };
+        this.postArticle = function (article) {
+            var body = JSON.stringify(article);
+            var options = new http_1.RequestOptions({ headers: _this.headers });
+            return _this._http.post(_this.actionUrl, body, options)
+                .catch(_this.handleError);
+        };
         // Shoppingcart
         this.getAllShoppingcartItems = function () {
             return _this._http.get(_this.actionUrl, { headers: _this.headers })

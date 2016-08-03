@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -14,6 +15,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -43,6 +45,8 @@ import de.hm.shop.article.service.api.exception.ArticleException;
 @Path("articles")
 @ExposesResourceFor(ArticleDto.class)
 @CrossOrigin
+@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 public class ArticleResource {
 
 	/** Logger dieser Klasse. */
@@ -56,15 +60,16 @@ public class ArticleResource {
 
 	@Context
 	private UriInfo uriInfo;
+	
+	@Context
+	private transient HttpServletRequest servletRequest;
 
 	@Inject
 	private EntityLinks entityLinks;
-
-
+	
 
 	@GET
 	@RolesAllowed(value = { "user" })
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getAllArticle() {
 		LOG.info("Aufruf der getAllArticle()-Methode");
 		
@@ -79,13 +84,39 @@ public class ArticleResource {
 				entityLinks.linkToCollectionResource(ArticleDto.class));
 		return Response.ok(articleDtoList).build();
 	}
+	
+	
+	@GET
+	@Path("search")
+	@RolesAllowed(value = { "user" })
+	public Response getByTitleDistanceSearch(@QueryParam("enter") final String searchString, 
+											 @QueryParam("distance") final Double distance) {
+		LOG.info("Aufruf der getById()-Methode mit dem Suchstring: {}, und der Distanz: {}", searchString, distance);
+		
+		Validate.notNull(searchString);
+		Long userId = ((Integer) this.servletRequest.getAttribute("realUserId")).longValue();
+		Validate.notNull(userId);
+		
+		final Collection<ArticleBo> articleBos = articleService.getByTitleDistanceSearch(userId, searchString, distance);
+		final Collection<ArticleDto> articleDtos = mapBosToDtos(articleBos);
+		
+		if (articleDtos != null) {
+			for (final ArticleDto articleDto : articleDtos) {
+				addSelfLink(articleDto);
+			}
+
+			final ArticleDtoList articleDtoList = new ArticleDtoList(articleDtos,
+					entityLinks.linkToCollectionResource(ArticleDto.class));
+			return Response.ok(articleDtoList).build();
+		} else {
+			return Response.status(Status.NOT_FOUND).entity(Status.NOT_FOUND.getReasonPhrase()).build();
+		}
+	}
 
 
 
 	@GET
 	@Path("{id}")
-	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getById(@PathParam("id") final Long id) {
 		LOG.info("Aufruf der getById()-Methode mit der id: {}", id);
 		
@@ -100,11 +131,9 @@ public class ArticleResource {
 		}
 	}
 
-
+	
 
 	@POST
-	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response createNewArticle(final ArticleDto articleDto) {
 		LOG.info("Aufruf der createNewArticle()-Methode");
 		
@@ -121,8 +150,6 @@ public class ArticleResource {
 
 	@PUT
 	@Path("{id}")
-	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response updateArticle(@PathParam(value = "id") String id, final ArticleDto articleDto) {
 		LOG.info("Aufruf der updateArticle()-Methode mit der id: {}", id);
 		
@@ -141,8 +168,6 @@ public class ArticleResource {
 
 	@Path("{id}")
 	@DELETE
-	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response deleteById(@PathParam("id") final Long id) {
 		Validate.notNull(id);
 
@@ -173,8 +198,8 @@ public class ArticleResource {
 		}
 		return articleDtos;
 	}
-
-
+	
+	
 
 	private Response okResponseWithSelfLink(final ArticleDto articleDto) {
 		addSelfLink(articleDto);

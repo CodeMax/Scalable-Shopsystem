@@ -78,4 +78,14 @@ export class Article {
   public articleStock: number;
   public supplierId: number;
   public quantity: number;
+
+  constructor(articleTitle: string, articleDescription: string, articleEAN: string,
+                    articlePrice: number, articleStock: number, supplierId: number) {
+      this.articleTitle = articleTitle;
+      this.articleDescription = articleDescription;
+      this.articleEAN = articleEAN;
+      this.articlePrice = articlePrice;
+      this.articleStock = articleStock;
+      this.supplierId = supplierId;
+  }
 }

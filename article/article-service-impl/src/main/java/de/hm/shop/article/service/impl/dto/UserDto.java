@@ -1,4 +1,4 @@
-package de.hm.shop.user.rest.dto;
+package de.hm.shop.article.service.impl.dto;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -11,8 +11,11 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
  * @author Maximilian.Spelsberg
  */
 @XmlRootElement
-public class UserDto extends AbstractDto {
+public class UserDto {
 
+	@XmlElement
+	private Long id;
+	
 	@XmlElement
 	private String firstname;
 	
@@ -59,7 +62,7 @@ public class UserDto extends AbstractDto {
 			final String lastname, final String address,
 			final String postcode, final String city,
 			final String country, final Long supplierId) {
-		super(id);
+		this.id = id;
 		this.lastname = lastname;
 		this.firstname = firstname;
 		this.address = address;
@@ -67,6 +70,20 @@ public class UserDto extends AbstractDto {
 		this.city = city;
 		this.country = country;
 		this.supplierId = supplierId;
+	}
+
+	
+	
+
+
+	public Long getId() {
+		return id;
+	}
+
+
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 

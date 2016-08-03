@@ -56,10 +56,18 @@ public class UserServiceImpl implements UserService {
 	public UserBo getById(final long id) {
 		LOG.info("Aufruf der getById()-Methode in der Businessschnicht mit der id: {}", id);
 		final UserEntity userEntity = userRepository.findOne(id);
-		LOG.info("Folgende UserEntity gefunden: {}", userEntity.toString());
 		return userEntity != null ? userMapper.mapEntityToBo(userEntity) : null;
 	}
 
+	
+
+	@Transactional(readOnly = true)
+	public UserBo getSupplier(Long supplierId){
+		LOG.info("Aufruf der getBySupplierId()-Methode in der Businessschnicht mit der id: {}", supplierId);
+		final UserEntity userEntity = userRepository.findSupplier(supplierId);
+		return userEntity != null ? userMapper.mapEntityToBo(userEntity) : null;
+	}
+	
 
 
 	public UserBo save(final UserBo userBo) throws UserException {
@@ -82,4 +90,5 @@ public class UserServiceImpl implements UserService {
 			userRepository.delete(id);
 		}
 	}
+	
 }

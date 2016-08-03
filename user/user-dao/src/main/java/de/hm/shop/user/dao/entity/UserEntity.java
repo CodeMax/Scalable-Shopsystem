@@ -17,8 +17,6 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  */
 @Entity
 @Table(name = "User")
-@SequenceGenerator(name = AbstractEntity.ID_GENERATOR, sequenceName = "SEQ_User", initialValue = 1,
-		allocationSize = 1)
 public class UserEntity extends AbstractEntity {
 	
 	@Column

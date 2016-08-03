@@ -67,11 +67,17 @@ var ArticleComponent = (function () {
 }());
 exports.ArticleComponent = ArticleComponent;
 var Article = (function () {
-    function Article() {
+    function Article(articleTitle, articleDescription, articleEAN, articlePrice, articleStock, supplierId) {
+        this.articleTitle = articleTitle;
+        this.articleDescription = articleDescription;
+        this.articleEAN = articleEAN;
+        this.articlePrice = articlePrice;
+        this.articleStock = articleStock;
+        this.supplierId = supplierId;
     }
     Article = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [String, String, String, Number, Number, Number])
     ], Article);
     return Article;
 }());

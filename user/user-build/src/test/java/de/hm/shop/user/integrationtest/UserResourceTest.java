@@ -79,6 +79,8 @@ public class UserResourceTest {
    		userRolesMap.put("role", "user");
    		roles.add(userRolesMap);
    		credentials.put("role", roles);
+   		credentials.put("userId", userBo1.getId());
+   		
     	vaildAuthToken = new JWTTokenGenerator().createJWT("1", issuer, subject, ttlMiS, credentials);
 	}
 
@@ -145,7 +147,12 @@ public class UserResourceTest {
 		final UserDto resultUser = result.readEntity(UserDto.class);
 		assertThat(resultUser, is(notNullValue()));
 		assertThat(resultUser.getId(), is(equalTo(userBo1.getId())));
+		assertThat(resultUser.getCity(), is(equalTo(userBo1.getCity())));
+		assertThat(resultUser.getLastname(), is(equalTo(userBo1.getLastname())));
+		assertThat(resultUser.getPostcode(), is(equalTo(userBo1.getPostcode())));
+		assertThat(resultUser.getSupplierId(), is(equalTo(userBo1.getSupplierId())));
 		assertSelfLink(resultUser.getLinks(), userBo1.getId());
+		
 	}
 
 
@@ -169,7 +176,7 @@ public class UserResourceTest {
 		newUser.setFirstname("Max");
 		newUser.setLastname("Spelsberg");
 		newUser.setAddress("Dachauerstraße");
-		newUser.setZipcode("80335");
+		newUser.setPostcode("80335");
 		newUser.setCity("München");
 		newUser.setCountry("Deutschland");
 		newUser.setSupplierId(new Long(321));
@@ -199,7 +206,7 @@ public class UserResourceTest {
 		userDto.setFirstname("Max");
 		userDto.setLastname("Spelsberg");
 		userDto.setAddress("Dachauerstraße");
-		userDto.setZipcode("80335");
+		userDto.setPostcode("80335");
 		userDto.setCity("München");
 		userDto.setCountry("Deutschland");
 		userDto.setSupplierId(new Long(321));
@@ -258,7 +265,6 @@ public class UserResourceTest {
 		userBo.setPostcode("80335");
 		userBo.setCity("München");
 		userBo.setCountry("Deutschland");
-		userBo.setSupplierId(new Long(321));
 		return (userBo = userService.save(userBo));
 	}
 

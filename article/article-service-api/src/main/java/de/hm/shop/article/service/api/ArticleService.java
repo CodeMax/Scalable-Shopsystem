@@ -1,5 +1,6 @@
 package de.hm.shop.article.service.api;
 
+import java.util.Collection;
 import java.util.List;
 
 import de.hm.shop.article.service.api.bo.ArticleBo;
@@ -31,6 +32,16 @@ public interface ArticleService {
 	 */
 	ArticleBo getById(long id);
 
+	
+
+	/**
+	 * Liefert das {@link ArticleBo} zu dem übergebenen <code>searchString</code> und <code>distance</code> zurück.
+	 * @param searchString
+	 * @param distance
+	 * @return
+	 */
+	Collection<ArticleBo> getByTitleDistanceSearch(Long userId, String searchString, Double distance);
+
 
 
 	/**
@@ -52,5 +63,6 @@ public interface ArticleService {
 	 *            die Id des zu löschenden {@link ArticleBo}
 	 */
 	void delete(final Long id);
+
 
 }

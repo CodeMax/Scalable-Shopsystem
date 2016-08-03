@@ -45,6 +45,14 @@ export class BackendcallService {
                    .catch(this.handleError);
       }
 
+      public postArticle = (article: Article): Observable<any> => {
+            let body = JSON.stringify(article);
+            let options = new RequestOptions({ headers: this.headers });
+
+            return this._http.post(this.actionUrl, body, options)
+                       .catch(this.handleError);
+        }
+
 
       // Authentication
       public getToken(): Promise<Token> {
