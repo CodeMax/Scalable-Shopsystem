@@ -1,4 +1,8 @@
 # Scalable Shopsystem
+<a href="https://scan.coverity.com/projects/codemax-scalable-shopsystem">
+  <img alt="Coverity Scan Build Status"
+       src="https://scan.coverity.com/projects/9743/badge.svg"/>
+</a>
 
 ## Motivation
 Das geplante Shopsystem, das explizit eine hohe Skalierbarkeit aufweisen soll, ist von Grund auf neu zu planen und zu entwickeln. Dies gibt die Möglichkeit, bereits innerhalb der Konzeption entsprechende Maßnahmen zu ergreifen, um dieser Anforderung bestmöglich nachzukommen. Hierfür kann ein sehr aktueller Architekturstil mit entsprechenden Konzepten, Tools und Frameworks zum Einsatz kommen, die zur Erreichung der Zielsetzung führen sollen.
