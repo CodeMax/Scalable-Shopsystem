@@ -51,6 +51,14 @@ public interface UserService {
 	UserBo save(UserBo exampleBo) throws UserException;
 
 
+	/**
+	 * Update {@link UserBo}.
+	 * @param userBo
+	 * @return
+	 * @throws UserException
+	 */
+	public UserBo update(final UserBo userBo) throws UserException;
+	
 
 	/**
 	 * Löscht das {@link UserBo} zu der gegebenen <code>id</code>.

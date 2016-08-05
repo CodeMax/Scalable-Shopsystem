@@ -33,7 +33,7 @@ var UserService = (function () {
 }());
 exports.UserService = UserService;
 var User = (function () {
-    function User(id, username, firstname, lastname, password, address, postcode, city, country, failedlogins) {
+    function User(id, username, firstname, lastname, password, address, postcode, city, country, supplierId, failedlogins) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -43,11 +43,12 @@ var User = (function () {
         this.postcode = postcode;
         this.city = city;
         this.country = country;
+        this.supplierId = supplierId;
         this.failedlogins = failedlogins;
     }
     User = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [Number, String, String, String, String, String, String, String, String, Number])
+        __metadata('design:paramtypes', [Number, String, String, String, String, String, String, String, String, Number, Number])
     ], User);
     return User;
 }());

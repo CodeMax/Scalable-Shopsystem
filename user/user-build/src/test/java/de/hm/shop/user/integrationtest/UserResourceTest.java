@@ -1,6 +1,5 @@
 package de.hm.shop.user.integrationtest;
 
-import static de.hm.shop.user.integrationtest.matcher.RegexMatcher.matchesRegex;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -55,7 +54,8 @@ public class UserResourceTest {
 	private static final Logger LOG = Logger.getLogger(UserResourceTest.class.getName());
 	
 	private final Client client = ClientBuilder.newClient().register(new LoggingFilter(LOG, true));
-
+	private static Integer idCounter = 1;
+	
 	@Inject
 	private UserService userService;
 
@@ -65,7 +65,8 @@ public class UserResourceTest {
 
 	@Before
 	public void setUp() throws UserException {
-		userBo1 = createAndSaveUserBo(new Long(123));
+		idCounter=+idCounter;
+		userBo1 = createAndSaveUserBo(idCounter.longValue());
 		
 		String issuer = "shopsystem";
         String subject = "authentication";
@@ -170,30 +171,48 @@ public class UserResourceTest {
 
 
 	@Test
-	@Ignore
 	public void testCreateUser() {
+		final Long uniqueId = userBo1.getId()+100;
 		final UserDto newUser = new UserDto();
+		newUser.setId(uniqueId);
 		newUser.setFirstname("Max");
 		newUser.setLastname("Spelsberg");
 		newUser.setAddress("Dachauerstraße");
 		newUser.setPostcode("80335");
 		newUser.setCity("München");
 		newUser.setCountry("Deutschland");
-		newUser.setSupplierId(new Long(321));
-
+		newUser.setSupplierId(123L);
+		
+		String issuer = "shopsystem";
+        String subject = "authentication";
+        long ttlMiS = 1800000;
+   		Map<String, Object> credentials = new HashMap<String, Object>();
+   		
+   		LinkedHashMap<String, String> userRolesMap = new LinkedHashMap<String, String>();
+   		ArrayList<LinkedHashMap<String, String>> roles = new ArrayList<LinkedHashMap<String, String>>();
+   		
+   		userRolesMap.put("role", "admin");
+   		userRolesMap.put("role", "user");
+   		roles.add(userRolesMap);
+   		credentials.put("role", roles);
+   		credentials.put("userId", uniqueId);
+   		
+    	vaildAuthToken = new JWTTokenGenerator().createJWT("1", issuer, subject, ttlMiS, credentials);
+		
+		
 		final Response result = client.target(HOST).path("user").request(MediaType.APPLICATION_XML)
 				.header("AUTHORIZATION", vaildAuthToken).post(Entity.xml(newUser));
 		assertThat(result, is(notNullValue()));
 		assertThat(result.getStatus(), is(equalTo(Status.CREATED.getStatusCode())));
-		assertThat(result.getLocation().toString(), matchesRegex(HOST + "/user/[0-9]*"));
 		assertThat(result.getLinks(), is(notNullValue()));
 		assertThat(result.getLinks(), is(empty()));
-
+		
 		final UserDto resultUser = result.readEntity(UserDto.class);
 		assertThat(resultUser, is(notNullValue()));
 		assertThat(resultUser.getId(), is(notNullValue()));
-		assertSelfLink(resultUser.getLinks(), result.getLocation().toString());
-
+		assertThat(resultUser.getSupplierId(), is(notNullValue()));
+		assertThat(resultUser.getAddress(), is(equalTo(newUser.getAddress())));
+		assertThat(resultUser.getId(), is(equalTo(newUser.getId())));
 		userService.delete(resultUser.getId());
 	}
 
@@ -258,7 +277,7 @@ public class UserResourceTest {
 
 	private UserBo createAndSaveUserBo(final Long id) throws UserException {
 		UserBo userBo = new UserBo();
-		userBo.setId(new Long(123));
+		userBo.setId(id);
 		userBo.setFirstname("Max");
 		userBo.setLastname("Spelsberg");
 		userBo.setAddress("Dachauerstraße");

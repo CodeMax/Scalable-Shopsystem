@@ -53,6 +53,14 @@ export class BackendcallService {
                        .catch(this.handleError);
         }
 
+        public updateArticle = (article: Article): Observable<any> => {
+              let body = JSON.stringify(article);
+              let options = new RequestOptions({ headers: this.headers });
+
+              return this._http.put(this.actionUrl, body, options)
+                         .catch(this.handleError);
+          }
+
 
       // Authentication
       public getToken(): Promise<Token> {
@@ -69,6 +77,10 @@ export class BackendcallService {
                    .map(this.extractShoppingCartList)
                    .catch(this.handleError);
       }
+      public deleteShoppingcartItem = (): Observable<any> => {
+        return this._http.delete(this.actionUrl, {headers: this.headers})
+                   .catch(this.handleError);
+      }
       public postArticleToShoppingcart = (articleId: number, userId: number, quantity: number): Observable<any> => {
           let body = JSON.stringify({ articleId, userId, quantity });
           let options = new RequestOptions({ headers: this.headers });
@@ -76,9 +88,30 @@ export class BackendcallService {
           return this._http.post(this.actionUrl, body, options)
                      .catch(this.handleError);
       }
+      public updateArticleToShoppingcart = (articleId: number, userId: number, quantity: number): Observable<any> => {
+          let body = JSON.stringify({ articleId, userId, quantity });
+          let options = new RequestOptions({ headers: this.headers });
+
+          return this._http.put(this.actionUrl, body, options)
+                     .catch(this.handleError);
+      }
 
       // User
-      public updateUserData = (id: Number, firstname: string, lastname: string, address: string, postcode: string,
+      public getUserData = (): Observable<User> => {
+        return this._http.get(this.actionUrl, {headers: this.headers})
+                   .map(this.extract)
+                   .catch(this.handleError);
+      }
+      public saveUserData = (id: number, firstname: string, lastname: string, address: string, postcode: string,
+                             city: string, country: string): Observable<User> => {
+          let body = JSON.stringify({id, firstname, lastname, address, postcode, city, country });
+          let options = new RequestOptions({ headers: this.headers });
+
+          return this._http.post(this.actionUrl, body, options)
+                     .map(this.extract)
+                     .catch(this.handleError);
+      }
+      public updateUserData = (id: number, firstname: string, lastname: string, address: string, postcode: string,
                              city: string, country: string): Observable<User> => {
           let body = JSON.stringify({id, firstname, lastname, address, postcode, city, country });
           let options = new RequestOptions({ headers: this.headers });

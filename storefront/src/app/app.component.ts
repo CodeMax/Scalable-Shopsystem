@@ -33,6 +33,7 @@ export class AppComponent {
 
     close() {
         this.modal.close();
+        this._router.navigate(['/']);
     }
 
     startLogin() {

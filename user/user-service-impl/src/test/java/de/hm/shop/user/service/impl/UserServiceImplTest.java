@@ -106,37 +106,5 @@ public class UserServiceImplTest {
 		order.verify(userMapperMock).mapEntityToBo(userEntity2);
 		order.verifyNoMoreInteractions();
 	}
-
-
-
-	@Test
-	public void testDelete() {
-		final Long id = Long.valueOf(100L);
-		when(userRepositoryMock.exists(id)).thenReturn(true);
-
-		sut.delete(100L);
-
-		final InOrder order = inOrder(userRepositoryMock);
-		order.verify(userRepositoryMock).exists(id);
-		order.verify(userRepositoryMock).delete(id);
-		order.verifyNoMoreInteractions();
-
-		verifyZeroInteractions(userMapperMock);
-	}
-
-
-
-	@Test
-	public void testDelete_NotFound() {
-		final Long id = Long.valueOf(100L);
-
-		sut.delete(id.longValue());
-
-		final InOrder order = inOrder(userRepositoryMock);
-		order.verify(userRepositoryMock).exists(id);
-		order.verifyNoMoreInteractions();
-
-		verify(userRepositoryMock, never()).delete(id);
-		verifyZeroInteractions(userMapperMock);
-	}
+	
 }

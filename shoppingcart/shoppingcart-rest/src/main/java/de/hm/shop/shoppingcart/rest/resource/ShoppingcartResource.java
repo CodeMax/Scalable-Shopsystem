@@ -123,7 +123,15 @@ public class ShoppingcartResource {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 		
-		final ShoppingcartDto shoppingcartDtoSaved = saveImpl(shoppingcartDto);
+		final ShoppingcartDto shoppingcartDtoSaved;
+		
+		try {
+			final ShoppingcartBo shoppingcartBo = shoppingcartMapper.mapDtoToBo(shoppingcartDto);
+			final ShoppingcartBo shoppingcartBoSaved = shoppingcartService.save(shoppingcartBo);
+			shoppingcartDtoSaved = shoppingcartMapper.mapBoToDto(shoppingcartBoSaved);
+		} catch (final ShoppingcartException e) {
+			throw new WebApplicationException(e);
+		}
 		final Link selfLink = addSelfLink(shoppingcartDtoSaved);
 
 		return Response.created(URI.create(selfLink.getHref())).entity(shoppingcartDtoSaved).build();
@@ -136,20 +144,30 @@ public class ShoppingcartResource {
 	@RolesAllowed(value = { "user" })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response updateShoppingcart(@PathParam(value = "id") String id, final ShoppingcartDto shoppingcartDto) {
-		LOG.info("Aufruf der updateShoppingcart()-Methode mit der id: {}", id);
+	public Response updateShoppingcart(@PathParam(value = "id") String articleId, final ShoppingcartDto shoppingcartDto) {
+		LOG.info("Aufruf der updateShoppingcart()-Methode mit der id: {}", articleId);
 		
 		Validate.notNull(shoppingcartDto);
-		Validate.notNull(shoppingcartDto.getId());
+		Validate.notNull(shoppingcartDto.getArticleId());
+		Validate.notNull(shoppingcartDto.getUserId());
+		Validate.notNull(shoppingcartDto.getQuantity());
 		
 		Long userId = ((Integer) this.servletRequest.getAttribute("realUserId")).longValue();
 
-		if(Long.decode(id) != shoppingcartDto.getId()
+		if(Long.decode(articleId) != shoppingcartDto.getArticleId()
 				|| !userId.equals(shoppingcartDto.getUserId())){
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 		
-		final ShoppingcartDto shoppingcartDtoSaved = saveImpl(shoppingcartDto);
+		final ShoppingcartDto shoppingcartDtoSaved;
+		
+		try {
+			final ShoppingcartBo shoppingcartBo = shoppingcartMapper.mapDtoToBo(shoppingcartDto);
+			final ShoppingcartBo shoppingcartBoSaved = shoppingcartService.update(shoppingcartBo);
+			shoppingcartDtoSaved = shoppingcartMapper.mapBoToDto(shoppingcartBoSaved);
+		} catch (final ShoppingcartException e) {
+			throw new WebApplicationException(e);
+		}
 		return okResponseWithSelfLink(shoppingcartDtoSaved);
 	}
 
@@ -157,6 +175,7 @@ public class ShoppingcartResource {
 
 	@Path("{id}")
 	@DELETE
+	@RolesAllowed(value = { "user" })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response deleteById(@PathParam("id") final Long id) {
@@ -171,19 +190,6 @@ public class ShoppingcartResource {
 		
 		return Response.noContent().build();
 	}
-
-
-
-	private ShoppingcartDto saveImpl(final ShoppingcartDto shoppingcartDto) {
-		try {
-			final ShoppingcartBo shoppingcartBo = shoppingcartMapper.mapDtoToBo(shoppingcartDto);
-			final ShoppingcartBo shoppingcartBoSaved = shoppingcartService.save(shoppingcartBo);
-			return shoppingcartMapper.mapBoToDto(shoppingcartBoSaved);
-		} catch (final ShoppingcartException e) {
-			throw new WebApplicationException(e);
-		}
-	}
-
 
 
 	private Collection<ShoppingcartDto> mapBosToDtos(final Collection<ShoppingcartBo> shoppingcartBos) {

@@ -21,7 +21,7 @@ export class UserService {
 
 @Injectable()
 export class User {
-  id: Number;
+  id: number;
   username: string;
   firstname: string;
   lastname: string;
@@ -31,11 +31,12 @@ export class User {
   city: string;
   postcode: string;
   country: string;
-  failedlogins: Number;
+  supplierId: number;
+  failedlogins: number;
 
-  constructor(id: Number, username: string, firstname: string, lastname: string,
+  constructor(id: number, username: string, firstname: string, lastname: string,
                     password: string, address: string, postcode: string,
-                    city: string, country: string, failedlogins: Number) {
+                    city: string, country: string, supplierId: number, failedlogins: number) {
       this.id = id;
       this.username = username;
       this.password = password;
@@ -45,6 +46,7 @@ export class User {
       this.postcode = postcode;
       this.city = city;
       this.country = country;
+      this.supplierId = supplierId;
       this.failedlogins = failedlogins;
   }
 }

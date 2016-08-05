@@ -75,18 +75,39 @@ public class UserServiceImpl implements UserService {
 		LOG.debug("Speichere Example mit Namen {}, {}", userBo.getLastname(), userBo.getFirstname());
 
 		final UserEntity userEntity = userMapper.mapBoToEntity(userBo);
+		LOG.info("Entity: {}", userEntity.toString());
 		final UserEntity userEntitySaved = userRepository.save(userEntity);
 
 		return userMapper.mapEntityToBo(userEntitySaved);
 	}
 
 
+	public UserBo update(final UserBo userBo) throws UserException {
+		Validate.notNull(userBo);
+		LOG.debug("Speichere Example mit Namen {}, {}", userBo.getLastname(), userBo.getFirstname());
+
+		final UserEntity user = userMapper.mapBoToEntity(userBo);
+		
+		UserBo bo = getById(user.getId());
+		
+		if(bo.getId() != user.getId()){
+			throw new UserException("User konnte nicht upgedated werden!");
+		}
+		
+		final Integer id = userRepository.update(user);
+
+		if(id.longValue() == user.getId()){
+			return userMapper.mapEntityToBo(user);
+		}
+		throw new UserException("User konnte nicht upgedated werden!");
+	}
+	
 
 	public void delete(final Long id) {
 		Validate.notNull(id);
 		LOG.debug("Lösche Example mit Id {}", id);
 
-		if (userRepository.exists(id)) {
+		if (userRepository.findOne(id) != null) {
 			userRepository.delete(id);
 		}
 	}

@@ -96,6 +96,34 @@ public class ShoppingcartServiceImpl implements ShoppingcartService {
 	}
 
 
+	
+	
+	public ShoppingcartBo update(final ShoppingcartBo shoppingcartBo) throws ShoppingcartException {
+		Validate.notNull(shoppingcartBo);
+		LOG.debug("Speichere Shoppingcart-Eintrag mit der artikelId {} auf die userId {}", 
+				shoppingcartBo.getArticleId(), shoppingcartBo.getUserId());
+
+		final ShoppingcartEntity shoppingcartEntity = shoppingcartMapper.mapBoToEntity(shoppingcartBo);
+		
+		Iterable<ShoppingcartEntity> entriesOfUser = shoppingcartRepository.findEntriesByUserId(shoppingcartEntity.getUserId());
+
+		ShoppingcartEntity shoppingcartEntitySaved = null;
+		
+		if(entriesOfUser != null) {
+			while (entriesOfUser.iterator().hasNext()) {
+	            ShoppingcartEntity sce = entriesOfUser.iterator().next();
+	            if (sce.getArticleId().equals(shoppingcartEntity.getArticleId())) {
+	            	shoppingcartEntity.setQuantity(shoppingcartEntity.getQuantity());
+	            	delete(sce.getId(), sce.getUserId());
+	            	shoppingcartEntitySaved = shoppingcartRepository.save(shoppingcartEntity);
+	            	break;
+	            }
+	        }
+		}
+		return shoppingcartMapper.mapEntityToBo(shoppingcartEntitySaved);
+	}
+	
+	
 
 	public void delete(final Long id, final Long userId) {
 		Validate.notNull(id);

@@ -33,14 +33,13 @@ public class UserRepositoryTest extends AbstractTransactionalJUnit4SpringContext
 	@Before
 	public void setUp() {
 		userEntity = new UserEntity();
-		userEntity.setId(new Long(123));
+		userEntity.setId(new Long(423));
 		userEntity.setFirstname("Max");
 		userEntity.setLastname("Spelsberg");
 		userEntity.setAddress("Dachauerstraße");
 		userEntity.setPostcode("80335");
 		userEntity.setCity("München");
 		userEntity.setCountry("Deutschland");
-		userEntity.setSupplierId(new Long(321));
 		userEntity = sut.save(userEntity);
 	}
 
@@ -49,14 +48,13 @@ public class UserRepositoryTest extends AbstractTransactionalJUnit4SpringContext
 	@Test
 	public void testSave_CreateNew() {
 		final UserEntity serviceUserEntity1 = new UserEntity();
-		serviceUserEntity1.setId(new Long(123));
+		serviceUserEntity1.setId(new Long(321));
 		serviceUserEntity1.setFirstname("Max");
 		serviceUserEntity1.setLastname("Spelsberg");
 		serviceUserEntity1.setAddress("Dachauerstraße");
 		serviceUserEntity1.setPostcode("80335");
 		serviceUserEntity1.setCity("München");
 		serviceUserEntity1.setCountry("Deutschland");
-		serviceUserEntity1.setSupplierId(new Long(321));
 
 		final UserEntity result = sut.save(serviceUserEntity1);
 		assertThat(result, is(notNullValue()));
@@ -72,14 +70,13 @@ public class UserRepositoryTest extends AbstractTransactionalJUnit4SpringContext
 
 	@Test
 	public void testSave_UpdateExisting() {
-		userEntity.setId(new Long(123));
+		userEntity.setId(new Long(213));
 		userEntity.setFirstname("Max");
 		userEntity.setLastname("Spelsberg");
 		userEntity.setAddress("Dachauerstraße");
 		userEntity.setPostcode("80335");
 		userEntity.setCity("München");
 		userEntity.setCountry("Deutschland");
-		userEntity.setSupplierId(new Long(321));
 
 		final UserEntity result = sut.save(userEntity);
 		assertThat(result, is(notNullValue()));
@@ -103,7 +100,7 @@ public class UserRepositoryTest extends AbstractTransactionalJUnit4SpringContext
 
 	@Test
 	public void testExists() {
-		final boolean result = sut.exists(userEntity.getId());
+		final boolean result = sut.exists(userEntity.getSupplierId());
 		assertThat(result, is(equalTo(true)));
 	}
 

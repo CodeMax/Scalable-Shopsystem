@@ -38,9 +38,10 @@ public interface ArticleService {
 	 * Liefert das {@link ArticleBo} zu dem übergebenen <code>searchString</code> und <code>distance</code> zurück.
 	 * @param searchString
 	 * @param distance
+	 * @param userToken 
 	 * @return
 	 */
-	Collection<ArticleBo> getByTitleDistanceSearch(Long userId, String searchString, Double distance);
+	Collection<ArticleBo> getByTitleDistanceSearch(Long userId, String searchString, Double distance, String userToken);
 
 
 

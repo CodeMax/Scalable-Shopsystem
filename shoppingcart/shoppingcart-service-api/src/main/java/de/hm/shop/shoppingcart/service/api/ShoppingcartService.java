@@ -45,6 +45,15 @@ public interface ShoppingcartService {
 	ShoppingcartBo save(ShoppingcartBo exampleBo) throws ShoppingcartException;
 
 
+	/**
+	 * Update auf einen bestehenden {@link ShoppingcartBo}-Eintrag.
+	 * @param shoppingcartBo
+	 * @return
+	 * @throws ShoppingcartException
+	 */
+	ShoppingcartBo update(final ShoppingcartBo shoppingcartBo) throws ShoppingcartException;
+
+	
 
 	/**
 	 * Löscht das {@link ShoppingcartBo} zu der gegebenen <code>id</code>.
@@ -53,5 +62,5 @@ public interface ShoppingcartService {
 	 *            die Id des zu löschenden {@link ShoppingcartBo}
 	 */
 	void delete(final Long id, final Long userId);
-
+	
 }

@@ -37,10 +37,20 @@ var BackendcallService = (function () {
             return _this._http.post(_this.actionUrl, body, options)
                 .catch(_this.handleError);
         };
+        this.updateArticle = function (article) {
+            var body = JSON.stringify(article);
+            var options = new http_1.RequestOptions({ headers: _this.headers });
+            return _this._http.put(_this.actionUrl, body, options)
+                .catch(_this.handleError);
+        };
         // Shoppingcart
         this.getAllShoppingcartItems = function () {
             return _this._http.get(_this.actionUrl, { headers: _this.headers })
                 .map(_this.extractShoppingCartList)
+                .catch(_this.handleError);
+        };
+        this.deleteShoppingcartItem = function () {
+            return _this._http.delete(_this.actionUrl, { headers: _this.headers })
                 .catch(_this.handleError);
         };
         this.postArticleToShoppingcart = function (articleId, userId, quantity) {
@@ -49,7 +59,25 @@ var BackendcallService = (function () {
             return _this._http.post(_this.actionUrl, body, options)
                 .catch(_this.handleError);
         };
+        this.updateArticleToShoppingcart = function (articleId, userId, quantity) {
+            var body = JSON.stringify({ articleId: articleId, userId: userId, quantity: quantity });
+            var options = new http_1.RequestOptions({ headers: _this.headers });
+            return _this._http.put(_this.actionUrl, body, options)
+                .catch(_this.handleError);
+        };
         // User
+        this.getUserData = function () {
+            return _this._http.get(_this.actionUrl, { headers: _this.headers })
+                .map(_this.extract)
+                .catch(_this.handleError);
+        };
+        this.saveUserData = function (id, firstname, lastname, address, postcode, city, country) {
+            var body = JSON.stringify({ id: id, firstname: firstname, lastname: lastname, address: address, postcode: postcode, city: city, country: country });
+            var options = new http_1.RequestOptions({ headers: _this.headers });
+            return _this._http.post(_this.actionUrl, body, options)
+                .map(_this.extract)
+                .catch(_this.handleError);
+        };
         this.updateUserData = function (id, firstname, lastname, address, postcode, city, country) {
             var body = JSON.stringify({ id: id, firstname: firstname, lastname: lastname, address: address, postcode: postcode, city: city, country: country });
             var options = new http_1.RequestOptions({ headers: _this.headers });

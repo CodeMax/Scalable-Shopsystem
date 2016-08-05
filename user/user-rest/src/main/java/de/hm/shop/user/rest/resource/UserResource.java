@@ -114,15 +114,20 @@ public class UserResource {
 
 
 	@POST
-	@DenyAll
+	@RolesAllowed(value = { "user" })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response createNewUser(final UserDto userDto) {
 		LOG.info("Aufruf der createNewUser()-Methode");
 		
 		Validate.notNull(userDto);
-		Validate.validState(userDto.getId() == null);
-		Validate.validState(userDto.getSupplierId() == null);
+		Validate.notNull(userDto.getId());
+		
+		Long realUserId = ((Integer) this.servletRequest.getAttribute("realUserId")).longValue();
+		
+		if(realUserId != userDto.getId()){
+			return Response.status(Status.BAD_REQUEST).build();
+		}
 		
 		final UserDto userDtoSaved = saveImpl(userDto);
 		final Link selfLink = addSelfLink(userDtoSaved);
@@ -147,7 +152,14 @@ public class UserResource {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 		
-		final UserDto userDtoSaved = saveImpl(userDto);
+		final UserDto userDtoSaved;
+		try {
+			final UserBo userBo = userMapper.mapDtoToBo(userDto);
+			final UserBo userBoSaved = userService.update(userBo);
+			userDtoSaved = userMapper.mapBoToDto(userBoSaved);
+		} catch (final UserException e) {
+			throw new WebApplicationException(e);
+		}
 		return okResponseWithSelfLink(userDtoSaved);
 	}
 
@@ -175,18 +187,6 @@ public class UserResource {
 		} catch (final UserException e) {
 			throw new WebApplicationException(e);
 		}
-	}
-
-
-
-	private Collection<UserDto> mapBosToDtos(final Collection<UserBo> userBos) {
-		final Collection<UserDto> userDtos = new ArrayList<>();
-		if (CollectionUtils.isNotEmpty(userBos)) {
-			for (final UserBo userBo : userBos) {
-				userDtos.add(userMapper.mapBoToDto(userBo));
-			}
-		}
-		return userDtos;
 	}
 
 

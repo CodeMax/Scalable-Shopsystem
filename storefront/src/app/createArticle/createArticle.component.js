@@ -14,24 +14,38 @@ var http_1 = require('@angular/http');
 var common_1 = require('@angular/common');
 var backendcall_service_1 = require('./../backendcall.service');
 var token_service_1 = require('./../token.service');
+var login_service_1 = require('./../login.service');
 var article_component_1 = require('./../article/article.component');
+var angular2_jwt_1 = require('angular2-jwt');
 var CreateArticleComponent = (function () {
-    function CreateArticleComponent(_http, _router, _tokenService) {
+    function CreateArticleComponent(_http, _router, _tokenService, _loginService) {
+        var _this = this;
         this._http = _http;
         this._router = _router;
         this._tokenService = _tokenService;
+        this._loginService = _loginService;
+        this.jwtHelper = new angular2_jwt_1.JwtHelper();
+        _loginService.loginNeeded$.subscribe(function (needForLogin) {
+            needForLogin = true;
+        });
+        if (this._tokenService.getToken() == null) {
+            this.handleError('loginNeeded');
+        }
+        else {
+            this._userId = (this.jwtHelper.decodeToken(this._tokenService.getToken())).userId;
+            new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8087/user/'
+                + this._userId).getUserData().subscribe(function (data) { return _this._supplierId = data.supplierId; }, function (error) { return _this.handleError(error); });
+        }
     }
     CreateArticleComponent.prototype.onCreateArticle = function (articleTitle, articleDescription, articleEAN, articlePrice, articleStock) {
         var _this = this;
-        var supplierId;
-        this._newArticle = new article_component_1.Article(articleTitle, articleDescription, articleEAN, articlePrice, articleStock, supplierId);
-        new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8083/article/')
+        this._newArticle = new article_component_1.Article(articleTitle, articleDescription, articleEAN, articlePrice, articleStock, this._supplierId);
+        new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8083/articles/')
             .postArticle(this._newArticle)
-            .subscribe(function (userId) { return _this.onRegisterSuccess; }, function (error) { return console.log(error); });
+            .subscribe(function (userId) { return _this._router.navigateByUrl('/'); }, function (error) { return console.log(error); });
     };
-    CreateArticleComponent.prototype.onRegisterSuccess = function () {
-        alert('Erfolgreich angelegt.');
-        this._router.navigateByUrl('/');
+    CreateArticleComponent.prototype.handleError = function (error) {
+        this._loginService.setLogin(true);
     };
     CreateArticleComponent = __decorate([
         core_1.Component({
@@ -40,7 +54,7 @@ var CreateArticleComponent = (function () {
             directives: [router_1.ROUTER_DIRECTIVES, common_1.CORE_DIRECTIVES],
             viewProviders: [http_1.HTTP_PROVIDERS]
         }), 
-        __metadata('design:paramtypes', [http_1.Http, router_1.Router, token_service_1.TokenService])
+        __metadata('design:paramtypes', [http_1.Http, router_1.Router, token_service_1.TokenService, login_service_1.LoginService])
     ], CreateArticleComponent);
     return CreateArticleComponent;
 }());

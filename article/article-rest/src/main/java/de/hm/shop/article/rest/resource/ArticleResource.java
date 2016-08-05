@@ -95,9 +95,11 @@ public class ArticleResource {
 		
 		Validate.notNull(searchString);
 		Long userId = ((Integer) this.servletRequest.getAttribute("realUserId")).longValue();
+		String userToken = (String) this.servletRequest.getAttribute("userToken");
 		Validate.notNull(userId);
+		Validate.notNull(userToken);
 		
-		final Collection<ArticleBo> articleBos = articleService.getByTitleDistanceSearch(userId, searchString, distance);
+		final Collection<ArticleBo> articleBos = articleService.getByTitleDistanceSearch(userId, searchString, distance, userToken);
 		final Collection<ArticleDto> articleDtos = mapBosToDtos(articleBos);
 		
 		if (articleDtos != null) {
@@ -134,6 +136,7 @@ public class ArticleResource {
 	
 
 	@POST
+	@RolesAllowed(value = { "user" })
 	public Response createNewArticle(final ArticleDto articleDto) {
 		LOG.info("Aufruf der createNewArticle()-Methode");
 		

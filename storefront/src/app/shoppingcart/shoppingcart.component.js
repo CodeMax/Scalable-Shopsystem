@@ -41,13 +41,16 @@ var ShoppingcartComponent = (function () {
             this._loginService.setLogin(true);
         }
     };
+    ShoppingcartComponent.prototype.ngOnChanges = function (dat) {
+        console.log('daten geändert!!');
+    };
     ShoppingcartComponent.prototype.ngOnDestroy = function () {
         var _this = this;
         // persist changes
         for (var _i = 0, _a = this.articles; _i < _a.length; _i++) {
             var art = _a[_i];
-            new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8084/shoppingcart/')
-                .postArticleToShoppingcart(art.id, this.jwtHelper.decodeToken(this._tokenService.getToken()).userId, art.quantity)
+            new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8084/shoppingcart/' + art.id)
+                .updateArticleToShoppingcart(art.id, this.jwtHelper.decodeToken(this._tokenService.getToken()).userId, art.quantity)
                 .subscribe(function (data) { return console.log('Successfully saved Shoppingcart'); }, function (error) { return _this.handleError(error); });
         }
     };
@@ -66,18 +69,35 @@ var ShoppingcartComponent = (function () {
         }
     };
     ShoppingcartComponent.prototype.combineArticleData = function (data, quantity) {
+        var _this = this;
         data.quantity = quantity;
-        this.articles.push(data);
         this.totalOfCart = this.totalOfCart + data.articlePrice * quantity;
+        new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8087/user/supplierId/' + data.supplierId)
+            .getUserData().subscribe(function (user) { return _this.completeArticleData(data, user.firstname, user.lastname); }, function (error) { return _this.articles.push(data); }, function () { return console.log('Get all Items complete'); });
+    };
+    ShoppingcartComponent.prototype.completeArticleData = function (data, firstname, lastname) {
+        data.supplierName = firstname + ' ' + lastname;
+        this.articles.push(data);
     };
     ShoppingcartComponent.prototype.handleError = function (error) {
-        this._loginService.setLogin(true);
+        if (error.status === 401) {
+            this._loginService.setLogin(true);
+        }
+        if (error.status === 204) {
+            alert('Artikel gelöscht!');
+        }
     };
     ShoppingcartComponent.prototype.goOnShopping = function () {
         this._router.navigate(['/article']);
     };
     ShoppingcartComponent.prototype.goToCheckout = function () {
         this._router.navigate(['/shippment']);
+    };
+    ShoppingcartComponent.prototype.onDeleteEntry = function (articleId) {
+        var _this = this;
+        console.log('Eintrag soll gelöscht werden: ' + articleId);
+        new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8084/shoppingcart/' + articleId)
+            .deleteShoppingcartItem().subscribe(function (data) { return _this._router.navigateByUrl('/shoppingcart'); }, function (error) { return _this.handleError(error); }, function () { return console.log('Get all Items complete'); });
     };
     ShoppingcartComponent = __decorate([
         core_1.Component({

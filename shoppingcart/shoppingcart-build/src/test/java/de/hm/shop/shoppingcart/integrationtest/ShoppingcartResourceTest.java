@@ -67,7 +67,7 @@ public class ShoppingcartResourceTest {
 
 	@Before
 	public void setUp() throws ShoppingcartException {
-		shoppingcartBo1 = createAndSaveShoppingcartBo(new Long(123), new Long(321), 50);
+		shoppingcartBo1 = createAndSaveShoppingcartBo(new Long(123), this.userId, 50);
 		
 		String issuer = "shopsystem";
         String subject = "authentication";
@@ -162,14 +162,14 @@ public class ShoppingcartResourceTest {
 
 
 	@Test
-	public void testUpdatePerson() {
+	public void testUpdateShoppingcart() {
 		final ShoppingcartDto shoppingcartDto = new ShoppingcartDto();
 		shoppingcartDto.setId(shoppingcartBo1.getId());
 		shoppingcartDto.setArticleId(new Long(123));
 		shoppingcartDto.setUserId(this.userId);
 		shoppingcartDto.setQuantity(2);
 
-		final Response result = client.target(HOST).path("shoppingcart").path(shoppingcartBo1.getId().toString()).request(MediaType.APPLICATION_XML)
+		final Response result = client.target(HOST).path("shoppingcart").path(shoppingcartDto.getArticleId().toString()).request(MediaType.APPLICATION_XML)
 				.header("AUTHORIZATION", vaildAuthToken).put(Entity.xml(shoppingcartDto));
 		assertThat(result, is(notNullValue()));
 		assertThat(result.getStatus(), is(equalTo(Status.OK.getStatusCode())));
@@ -179,8 +179,7 @@ public class ShoppingcartResourceTest {
 
 		final ShoppingcartDto resultShoppingcart = result.readEntity(ShoppingcartDto.class);
 		assertThat(resultShoppingcart, is(notNullValue()));
-		assertThat(resultShoppingcart.getId(), is(equalTo(shoppingcartBo1.getId())));
-		assertSelfLink(resultShoppingcart.getLinks(), shoppingcartBo1.getId());
+		assertThat(resultShoppingcart.getUserId(), is(equalTo(shoppingcartBo1.getUserId())));
 	}
 
 

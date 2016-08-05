@@ -70,12 +70,12 @@ public class ArticleLoginFilter implements ContainerRequestFilter {
 				throw new NotAuthorizedException("Authorization header must be provided");
 			}
 				
-			String encodedUserPassword = stringifyJWTToken(authorization.get(0));
-			LOG.info("Authorization-Header to parse: "+ encodedUserPassword);
+			String token = stringifyJWTToken(authorization.get(0));
+			LOG.info("Authorization-Header to parse: "+ token);
 			
 			Claims credentials;
 			try{
-				credentials = parseJWT(encodedUserPassword);
+				credentials = parseJWT(token);
 			}catch(Exception e){
 				LOG.info("Parsing of JWT-Token gone wrong!");
 				throw new NotAuthorizedException("Authorization header must be provided");
@@ -87,6 +87,7 @@ public class ArticleLoginFilter implements ContainerRequestFilter {
 			}
 			
 			this.servletRequest.setAttribute("realUserId", credentials.get("userId", Integer.class));
+			this.servletRequest.setAttribute("userToken", token);
 			
 			if (method.isAnnotationPresent(RolesAllowed.class)) {
 				RolesAllowed rolesAnnotation = method.getAnnotation(RolesAllowed.class);

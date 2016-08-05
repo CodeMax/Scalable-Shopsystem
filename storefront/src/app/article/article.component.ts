@@ -78,6 +78,7 @@ export class Article {
   public articleStock: number;
   public supplierId: number;
   public quantity: number;
+  public supplierName: string;
 
   constructor(articleTitle: string, articleDescription: string, articleEAN: string,
                     articlePrice: number, articleStock: number, supplierId: number) {

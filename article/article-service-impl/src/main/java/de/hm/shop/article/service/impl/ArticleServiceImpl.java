@@ -84,7 +84,7 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public List<ArticleBo> getByTitleDistanceSearch(Long userId, String searchString, Double distanceMaximum) {
+	public List<ArticleBo> getByTitleDistanceSearch(Long userId, String searchString, Double distanceMaximum, String userToken) {
 
 		final List<ArticleBo> articleBos = new ArrayList<ArticleBo>();
 		final Iterable<ArticleEntity> articleEntities = articleRepository.findArticleByTitle(searchString);
@@ -92,7 +92,7 @@ public class ArticleServiceImpl implements ArticleService {
 		if (articleEntities != null && distanceMaximum != null) {
 
 			Validate.inclusiveBetween(0.01, 1000.00, distanceMaximum.doubleValue());
-			UserDto userDto = getUser("user/" + userId);
+			UserDto userDto = getUser("user/" + userId, userToken);
 			LOG.info("Userdaten des Suchenden abgefragt: {}", userDto);
 
 			if (userDto != null) {
@@ -105,7 +105,7 @@ public class ArticleServiceImpl implements ArticleService {
 					for (final ArticleEntity articleEntity : articleEntities) {
 
 						// get User-Entry of SupplierId
-						UserDto supplier = getUser("user/supplier/" + articleEntity.getSupplierId());
+						UserDto supplier = getUser("user/supplier/" + articleEntity.getSupplierId(), userToken);
 						LOG.info("Userdaten eines Suppliers abgefragt: {}", supplier);
 
 						if (supplier != null) {
@@ -129,9 +129,9 @@ public class ArticleServiceImpl implements ArticleService {
 		return null;
 	}
 
-	private UserDto getUser(String path) {
+	private UserDto getUser(String path, String userToken) {
 		WebTarget target = client.target("http://172.17.0.2:8087").path(path);
-		Response response = target.request(MediaType.APPLICATION_JSON_TYPE).get();
+		Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", userToken).get();
 		if (checkResponse(response)) {
 			return response.readEntity(UserDto.class);
 		} else {

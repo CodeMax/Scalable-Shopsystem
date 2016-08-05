@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -17,8 +18,13 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  */
 @Entity
 @Table(name = "User")
-public class UserEntity extends AbstractEntity {
+@SequenceGenerator(name = "sequenceGenerator", sequenceName = "SEQ_User", initialValue = 1,
+allocationSize = 1)
+public class UserEntity {
 	
+	@Column(unique=true)
+	private Long id;
+
 	@Column
 	private String firstname;
 	
@@ -37,12 +43,31 @@ public class UserEntity extends AbstractEntity {
 	@Column
 	private String country;
 
-	@Column
-	@SequenceGenerator(name = "seq", sequenceName = "seq", allocationSize = 1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
 	private Long supplierId;
 	
 
+	@Override
+	public String toString() {
+		return "UserEntity [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", address=" + address
+				+ ", postcode=" + postcode + ", city=" + city + ", country=" + country + ", supplierId=" + supplierId
+				+ "]";
+	}
+
+
+
+	public Long getId() {
+		return id;
+	}
+
+
+
+	public void setId(final Long id) {
+		this.id = id;
+	}
+
+	
 
 	public String getFirstname() {
 		return firstname;
