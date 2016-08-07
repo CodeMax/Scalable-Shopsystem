@@ -19,7 +19,6 @@ import {JwtHelper} from 'angular2-jwt';
 export class ArticleComponent implements OnInit {
 
       public selectedArticle: Article;
-      private backend: BackendcallService;
       private jwtHelper: JwtHelper = new JwtHelper();
 
       constructor(private _http: Http,
@@ -41,10 +40,8 @@ export class ArticleComponent implements OnInit {
       ngOnInit() {
         console.log(this._tokenService.getToken());
         this._activeRoute.params.subscribe((params: {id: string}) => {
-        this.backend = new BackendcallService(this._http, 'token',
-                         this._tokenService.getToken(),
-                         'http://192.168.99.100:8083/articles/' + params.id);
-          this.backend.getArticle()
+        new BackendcallService(this._http, 'token', this._tokenService.getToken(),
+            'http://192.168.99.100:8083/articles/' + params.id).getArticle()
             .subscribe(( data: Article ) => this.selectedArticle = data,
                 error => this.handleError(error),
                 () => console.log('Get all Items complete' + JSON.stringify(this.selectedArticle)));

@@ -1,3 +1,14 @@
+<div class="alert alert-success" role="alert" *ngIf="_loggedIn === true">
+  <h3>Willkommen {{_username}}!</h3>
+  <p>Es sind seit Ihrem letzten Login neue Artikel hinzu gekommen.
+    <button class="btn btn-default" type="button"><i class="fa fa-th-large"></i> Weiter zum Sortiment</button>
+  </p>
+  <hr>
+  <p *ngIf="_failedLogins > 0">Seit ihrem letzten Login, gab es {{_failedLogins}} Fehlversuche!
+    Sollte es sich hierbei nicht um Ihre versuche handeln,
+    bitten wir Sie eine Änderung des Passwortes in Betracht zu ziehen!</p>
+  <p *ngIf="_failedLogins > 0">Vielen Dank!</p>
+</div>
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title"><i class="fa fa-home"></i> Home - Prototyp eines hochskalierbaren Onlineshops.</h3>
@@ -174,7 +185,6 @@
 <h3>Verwendete Technologien</h3>
 <br/>
 <div class="row text-center">
-    <div class="col-md-1 col-sm-1 col-sx-1"></div>
     <div class="col-md-2 col-sm-2 col-sx-2">
         <img alt="" src="./src/img/featured/1.png" height="150" />
     </div>
@@ -190,5 +200,7 @@
     <div class="col-md-2 col-sm-2 col-sx-2">
         <img alt="" src="./src/img/featured/5.png" height="150" />
     </div>
-    <div class="col-md-1 col-sm-1 col-sx-1"></div>
+    <div class="col-md-2 col-sm-2 col-sx-2">
+        <img alt="" src="./src/img/featured/6.png" height="150" />
+    </div>
 </div>

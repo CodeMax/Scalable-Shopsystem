@@ -18,7 +18,6 @@ export class LoginService {
   setLogin(needForLogin: boolean) {
     console.log('setLogin() handleError: ' + needForLogin);
     this.needForLogin.next(needForLogin);
-    this._router.navigateByUrl('/');
   }
 
   onSubmit(username, password) {
@@ -29,7 +28,7 @@ export class LoginService {
 
   authenticateForToken(user: string, pw: string) {
      new BackendcallService(this._http, user, pw, 'http://192.168.99.100:8088/authentication')
-              .getToken().then((data: Token) => this._tokenService.saveToken(data))
+              .getToken().then((data: Token) => this._tokenService.saveToken(data) && this._router.navigateByUrl('/'))
               .then(() => console.log(this._tokenService.getToken()));
   }
 }

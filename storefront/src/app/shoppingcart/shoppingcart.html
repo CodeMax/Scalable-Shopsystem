@@ -30,7 +30,7 @@
                                     </div>
                                 </td>
                                 <td class="col-sx-1 col-sm-1 col-md-1" style="text-align: center">
-                                    <input type="number" [(ngModel)]="article.quantity" value="3" min="1" required>
+                                    <input type="number" [(ngModel)]="article.quantity" (change)="recalc()" value="3" min="1" required>
                                 </td>
 
                                 <td class="col-sx-1 col-sm-1 col-md-1 text-center" *ngIf="article.articlePrice > 0"><strong>{{article.articlePrice}} €</strong></td>
@@ -61,7 +61,7 @@
                                 <td>
                                     <h5>Netto</h5></td>
                                 <td class="text-right">
-                                    <h5><strong>XX.XX €</strong></h5></td>
+                                    <h5><strong>{{totalOfCartNetto}} €</strong></h5></td>
                             </tr>
                             <tr>
                                 <td>   </td>

@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, OnChanges} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Http, HTTP_PROVIDERS} from '@angular/http';
 import {CORE_DIRECTIVES} from '@angular/common';
 import {BackendcallService} from './../backendcall.service';
@@ -17,104 +17,130 @@ import {User} from './../user.service';
     viewProviders: [HTTP_PROVIDERS]
 })
 
-export class ShoppingcartComponent implements OnInit, OnDestroy, OnChanges {
+export class ShoppingcartComponent implements OnInit {
 
-  private shoppingcart: Shoppingcart[];
-  private articles: Article[];
-  private jwtHelper: JwtHelper = new JwtHelper();
-  private totalOfCart: number;
+    private shoppingcart: Shoppingcart[];
+    private articles: Article[];
+    private jwtHelper: JwtHelper = new JwtHelper();
+    private totalOfCart: number;
+    private totalOfCartNetto: number;
 
-  constructor(private _http: Http, private _loginService: LoginService,
-              private _tokenService: TokenService, private _router: Router) {
-    _loginService.loginNeeded$.subscribe(
-      needForLogin => {
-        needForLogin = true;
-      });
-  }
 
-  ngOnInit() {
-    console.log('token: ' + this._tokenService.getToken());
-    this.totalOfCart = 0;
-    if ( this._tokenService.getToken() !== undefined ) {
-      new BackendcallService(this._http, 'token', this._tokenService.getToken(),
-          'http://192.168.99.100:8084/shoppingcart/' +
-          (this.jwtHelper.decodeToken(this._tokenService.getToken())).userId)
-          .getAllShoppingcartItems()
-          .subscribe((data: Shoppingcart[] ) => this.getDetailsOfArticle(data),
-          error => this.handleError(error),
-          () => console.log('Get all Items complete'));
-    } else {
-      this._loginService.setLogin(true);
+    constructor(private _http: Http, private _loginService: LoginService,
+        private _tokenService: TokenService, private _router: Router) {
+        _loginService.loginNeeded$.subscribe(
+            needForLogin => {
+                needForLogin = true;
+            });
     }
-  }
 
-  ngOnChanges(dat: any) {
-    console.log('daten geändert!!');
-  }
 
-  ngOnDestroy() {
-    // persist changes
-    for ( let art of this.articles ) {
-      new BackendcallService(this._http, 'token', this._tokenService.getToken(),
-          'http://192.168.99.100:8084/shoppingcart/' + art.id)
-          .updateArticleToShoppingcart(art.id,
-            this.jwtHelper.decodeToken(this._tokenService.getToken()).userId, art.quantity)
-            .subscribe(( data: any ) => console.log('Successfully saved Shoppingcart'),
-                error => this.handleError(error));
+    ngOnInit() {
+        console.log('init start');
+        this.totalOfCart = 0;
+        this.totalOfCartNetto = 0;
+        if (this._tokenService.getToken() !== undefined) {
+            new BackendcallService(this._http, 'token', this._tokenService.getToken(),
+                'http://192.168.99.100:8084/shoppingcart/' +
+                (this.jwtHelper.decodeToken(this._tokenService.getToken())).userId)
+                .getAllShoppingcartItems()
+                .subscribe((data: Shoppingcart[]) => this.getDetailsOfArticle(data),
+                error => this.handleError(error),
+                () => console.log('Get all Items complete'));
+        } else {
+            console.log('else: setLogin true');
+            this._loginService.setLogin(true);
+        }
     }
-  }
 
-  getDetailsOfArticle(cartData: Shoppingcart[]) {
-    this.shoppingcart = cartData;
-    this.articles = new Array();
-
-    for ( let item of cartData ) {
-      new BackendcallService(this._http, 'token', this._tokenService.getToken(),
-          'http://192.168.99.100:8083/articles/' + item.articleId)
-          .getArticle().subscribe((data: Article ) => this.combineArticleData(data, item.quantity),
-          error => this.handleError(error),
-          () => console.log('Get all Items complete'));
+    recalc() {
+      let total: number;
+      total = 0;
+      for (let article of this.articles) {
+         total = total + article.articlePrice * article.quantity;
+      }
+      this.totalOfCart = total;
+      this.totalOfCartNetto = Math.round( total / 119 * 19 );
     }
-  }
 
-  combineArticleData(data: Article, quantity: number) {
-    data.quantity = quantity;
-    this.totalOfCart = this.totalOfCart + data.articlePrice * quantity;
-    new BackendcallService(this._http, 'token', this._tokenService.getToken(),
-        'http://192.168.99.100:8087/user/supplierId/' + data.supplierId)
-        .getUserData().subscribe((user: User ) => this.completeArticleData(data, user.firstname, user.lastname),
-        error => this.articles.push(data),
-        () => console.log('Get all Items complete'));
-  }
-
-  completeArticleData(data: Article, firstname: string, lastname: string) {
-    data.supplierName = firstname + ' ' + lastname;
-    this.articles.push(data);
-  }
-
-  handleError(error: any) {
-    if (error.status === 401) {
-      this._loginService.setLogin(true);
+    onDestroy() {
+        // persist changes
+        if (this._tokenService.getToken() !== undefined) {
+            for (let art of this.articles) {
+                new BackendcallService(this._http, 'token', this._tokenService.getToken(),
+                    'http://192.168.99.100:8084/shoppingcart/' + art.id)
+                    .updateArticleToShoppingcart(art.id,
+                    this.jwtHelper.decodeToken(this._tokenService.getToken()).userId, art.quantity)
+                    .subscribe((data: any) => console.log('Successfully saved Shoppingcart'),
+                    error => this.handleError(error),
+                    () => console.log('Get all Items complete'));
+            }
+        }
     }
-    if (error.status === 204) {
-      alert('Artikel gelöscht!');
+
+
+    getDetailsOfArticle(cartData: Shoppingcart[]) {
+        this.shoppingcart = cartData;
+        this.articles = new Array();
+
+        for (let item of cartData) {
+            new BackendcallService(this._http, 'token', this._tokenService.getToken(),
+                'http://192.168.99.100:8083/articles/' + item.articleId)
+                .getArticle().subscribe((data: Article) => this.combineArticleData(data, item.quantity),
+                error => this.handleError(error),
+                () => console.log('Get all Items complete'));
+        }
     }
-  }
 
-  goOnShopping() {
-    this._router.navigate(['/article']);
-  }
 
-  goToCheckout() {
-    this._router.navigate(['/shippment']);
-  }
+    combineArticleData(data: Article, quantity: number) {
+        data.quantity = quantity;
+        this.totalOfCart = this.totalOfCart + data.articlePrice * quantity;
+        this.totalOfCartNetto = Math.round( this.totalOfCart / 119 * 19 );
+        new BackendcallService(this._http, 'token', this._tokenService.getToken(),
+            'http://192.168.99.100:8087/user/supplierId/' + data.supplierId)
+            .getUserData().subscribe((user: User) => this.completeArticleData(data, user.firstname, user.lastname),
+            error => this.articles.push(data),
+            () => console.log('Get all Items complete'));
+    }
 
-  onDeleteEntry(articleId: number) {
-    console.log('Eintrag soll gelöscht werden: ' + articleId);
-    new BackendcallService(this._http, 'token', this._tokenService.getToken(),
-        'http://192.168.99.100:8084/shoppingcart/' + articleId)
-        .deleteShoppingcartItem().subscribe((data: any) => this._router.navigateByUrl('/shoppingcart'),
-        error => this.handleError(error),
-        () => console.log('Get all Items complete'));
-  }
+
+    completeArticleData(data: Article, firstname: string, lastname: string) {
+        data.supplierName = firstname + ' ' + lastname;
+        this.articles.push(data);
+    }
+
+
+    handleError(error: any) {
+        if (error.status === 401) {
+            this._loginService.setLogin(true);
+        }
+        if (error.status === 404) {
+            this._router.navigate(['/article']).then((data: any) =>
+              alert('Es liegen keine Artikel im Warenkorb!')
+            ).catch((e: any) => alert('catch: ' + e));
+        }
+    }
+
+
+    goOnShopping() {
+        this.onDestroy();
+        this._router.navigate(['/article']);
+    }
+
+
+    goToCheckout() {
+        this.onDestroy();
+        this._router.navigate(['/checkout/delivery']);
+    }
+
+
+    onDeleteEntry(articleId: number) {
+        console.log('Eintrag soll gelöscht werden: ' + articleId);
+        new BackendcallService(this._http, 'token', this._tokenService.getToken(),
+            'http://192.168.99.100:8084/shoppingcart/' + articleId)
+            .deleteShoppingcartItem().subscribe((data: any) => this._router.navigateByUrl('/shoppingcart'),
+            error => this.handleError(error),
+            () => console.log('Get all Items complete'));
+    }
 }

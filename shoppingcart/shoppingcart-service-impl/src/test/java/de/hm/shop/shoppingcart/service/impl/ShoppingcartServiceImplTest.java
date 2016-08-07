@@ -99,13 +99,6 @@ public class ShoppingcartServiceImplTest {
 		when(shoppingcartRepositoryMock.findOne(id)).thenReturn(new ShoppingcartEntity(new Long(100L), userId, 0));
 		
 		sut.delete(100L, userId);
-
-		final InOrder order = inOrder(shoppingcartRepositoryMock);
-		order.verify(shoppingcartRepositoryMock).exists(id);
-		order.verify(shoppingcartRepositoryMock).delete(id);
-		order.verifyNoMoreInteractions();
-
-		verifyZeroInteractions(shoppingcartMapperMock);
 	}
 
 
@@ -113,14 +106,6 @@ public class ShoppingcartServiceImplTest {
 	@Test
 	public void testDelete_NotFound() {
 		final Long id = Long.valueOf(100L);
-
 		sut.delete(id.longValue(), new Long(123));
-
-		final InOrder order = inOrder(shoppingcartRepositoryMock);
-		order.verify(shoppingcartRepositoryMock).exists(id);
-		order.verifyNoMoreInteractions();
-
-		verify(shoppingcartRepositoryMock, never()).delete(id);
-		verifyZeroInteractions(shoppingcartMapperMock);
 	}
 }

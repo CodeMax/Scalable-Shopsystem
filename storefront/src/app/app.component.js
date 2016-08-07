@@ -28,7 +28,7 @@ var AppComponent = (function () {
     }
     AppComponent.prototype.close = function () {
         this.modal.close();
-        this._router.navigate(['/']);
+        this._router.navigate(['']);
     };
     AppComponent.prototype.startLogin = function () {
         this.modal.open();

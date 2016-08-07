@@ -84,6 +84,7 @@ public class ShippmentResource {
 
 	@GET
 	@Path("{id}")
+	@RolesAllowed(value = { "user" })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response getById(@PathParam("id") final Long id) {
@@ -103,6 +104,7 @@ public class ShippmentResource {
 
 
 	@POST
+	@RolesAllowed(value = { "user" })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response createNewShippment(final ShippmentDto shippmentDto) {
@@ -121,6 +123,7 @@ public class ShippmentResource {
 
 	@PUT
 	@Path("{id}")
+	@RolesAllowed(value = { "user" })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response updateShippment(@PathParam(value = "id") String id, final ShippmentDto shippmentDto) {
@@ -141,6 +144,7 @@ public class ShippmentResource {
 
 	@Path("{id}")
 	@DELETE
+	@RolesAllowed(value = { "user" })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response deleteById(@PathParam("id") final Long id) {

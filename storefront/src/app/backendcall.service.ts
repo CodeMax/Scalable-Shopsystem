@@ -9,6 +9,7 @@ import {Token} from './token.service';
 import {Article} from './article/article.component';
 import {Shoppingcart} from './shoppingcart/shoppingcart.service';
 import {User} from './user.service';
+import {Delivery} from './articleCheckout/delivery/delivery.component';
 
 @Injectable()
 export class BackendcallService {
@@ -130,6 +131,15 @@ export class BackendcallService {
       }
 
 
+      // Delivery
+      public getDelivery = (): Observable<Delivery> => {
+        return this._http.get(this.actionUrl, {headers: this.headers})
+                   .map(this.extract)
+                   .catch(this.handleError);
+      }
+
+
+
       private extractArticleList(res: Response) {
           console.log('extractData() is executed.');
           let body = res.json();
@@ -155,9 +165,9 @@ export class BackendcallService {
       }
 
       private handleError (error: any) {
-        let errMsg = (error.message) ? error.message :
+/*        let errMsg = (error.message) ? error.message :
            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-        console.error(errMsg);
-        return Observable.throw(401);
+        console.log(errMsg); */
+        return Observable.throw(error);
       }
 }

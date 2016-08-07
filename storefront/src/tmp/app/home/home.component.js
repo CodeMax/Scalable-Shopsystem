@@ -11,15 +11,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 var token_service_1 = require('../token.service');
+var angular2_jwt_1 = require('angular2-jwt');
 var HomeComponent = (function () {
     function HomeComponent(_http, _tokenService) {
         this._http = _http;
         this._tokenService = _tokenService;
-    }
-    HomeComponent.prototype.ngOnInit = function () {
-        if (this._tokenService.getToken() != null) {
+        this.jwtHelper = new angular2_jwt_1.JwtHelper();
+        this._loggedIn = this._tokenService.getToken() != null;
+        if (this._loggedIn) {
+            this._username = this.jwtHelper.decodeToken(this._tokenService.getToken()).username;
+            this._failedLogins = this.jwtHelper.decodeToken(this._tokenService.getToken()).failedLogins;
         }
-    };
+    }
     HomeComponent = __decorate([
         core_1.Component({
             selector: 'as-home',

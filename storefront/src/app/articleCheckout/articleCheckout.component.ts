@@ -1,17 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 import {TokenService} from '../token.service';
 import {LoginService} from './../login.service';
+import {DeliveryComponent} from './delivery/delivery.component';
+import {PaymentComponent} from './payment/payment.component';
 
 @Component({
     selector: 'as-kebab-case',
     templateUrl: 'app/articleCheckout/articleCheckout.html',
     providers: [TokenService],
-    styleUrls: [
-        'app/articleCheckout/articleCheckout.css'
-    ]
+    directives: [ROUTER_DIRECTIVES, DeliveryComponent, PaymentComponent],
+    styleUrls: ['app/articleCheckout/articleCheckout.css']
 })
 
-export class ArticleCheckoutComponent implements OnInit {
+export class ArticleCheckoutComponent {
 
       constructor(private _tokenService: TokenService, private _loginService: LoginService) {
         _loginService.loginNeeded$.subscribe(
@@ -20,9 +22,4 @@ export class ArticleCheckoutComponent implements OnInit {
           });
       }
 
-      ngOnInit() {
-        if ( this._tokenService.getToken() == null ) {
-          this._loginService.setLogin(true);
-        }
-      }
 }

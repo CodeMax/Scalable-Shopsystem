@@ -26,7 +26,6 @@ var LoginService = (function () {
     LoginService.prototype.setLogin = function (needForLogin) {
         console.log('setLogin() handleError: ' + needForLogin);
         this.needForLogin.next(needForLogin);
-        this._router.navigateByUrl('/');
     };
     LoginService.prototype.onSubmit = function (username, password) {
         this.submitted = true;
@@ -36,7 +35,7 @@ var LoginService = (function () {
     LoginService.prototype.authenticateForToken = function (user, pw) {
         var _this = this;
         new backendcall_service_1.BackendcallService(this._http, user, pw, 'http://192.168.99.100:8088/authentication')
-            .getToken().then(function (data) { return _this._tokenService.saveToken(data); })
+            .getToken().then(function (data) { return _this._tokenService.saveToken(data) && _this._router.navigateByUrl('/'); })
             .then(function () { return console.log(_this._tokenService.getToken()); });
     };
     LoginService = __decorate([

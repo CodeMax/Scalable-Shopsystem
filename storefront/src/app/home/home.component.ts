@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Http} from '@angular/http';
 import {TokenService} from '../token.service';
+import {JwtHelper} from 'angular2-jwt';
 
 @Component({
     selector: 'as-home',
@@ -9,15 +10,18 @@ import {TokenService} from '../token.service';
         'app/home/home.css'
     ]
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
 
+    private jwtHelper: JwtHelper = new JwtHelper();
+    private _username: String;
+    private _failedLogins: number;
+    private _loggedIn: boolean;
 
     constructor(private _http: Http, private _tokenService: TokenService) {
-    }
-
-    ngOnInit() {
-      if ( this._tokenService.getToken() != null ) {
-        // TODO
+      this._loggedIn = this._tokenService.getToken() != null;
+      if ( this._loggedIn ) {
+        this._username = this.jwtHelper.decodeToken(this._tokenService.getToken()).username;
+        this._failedLogins = this.jwtHelper.decodeToken(this._tokenService.getToken()).failedLogins;
       }
     }
 }

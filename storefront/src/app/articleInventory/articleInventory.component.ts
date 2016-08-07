@@ -32,7 +32,6 @@ export class ArticleInventoryComponent implements OnInit {
       }
 
       ngOnInit() {
-        console.log(this._tokenService.getToken());
         this.backend = new BackendcallService(this._http, 'token', this._tokenService.getToken(),
                       'http://192.168.99.100:8083/articles');
         this.backend.getAllArticle()

@@ -115,7 +115,6 @@ public class ShoppingcartResource {
 		LOG.info("Aufruf der createNewShoppingcart()-Methode mit den Parametern: {}", shoppingcartDto.toString());
 		
 		Validate.notNull(shoppingcartDto);
-		Validate.validState(shoppingcartDto.getId() == null);
 
 		Long userId = ((Integer) this.servletRequest.getAttribute("realUserId")).longValue();
 

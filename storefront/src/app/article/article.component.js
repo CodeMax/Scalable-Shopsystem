@@ -36,8 +36,7 @@ var ArticleComponent = (function () {
         var _this = this;
         console.log(this._tokenService.getToken());
         this._activeRoute.params.subscribe(function (params) {
-            _this.backend = new backendcall_service_1.BackendcallService(_this._http, 'token', _this._tokenService.getToken(), 'http://192.168.99.100:8083/articles/' + params.id);
-            _this.backend.getArticle()
+            new backendcall_service_1.BackendcallService(_this._http, 'token', _this._tokenService.getToken(), 'http://192.168.99.100:8083/articles/' + params.id).getArticle()
                 .subscribe(function (data) { return _this.selectedArticle = data; }, function (error) { return _this.handleError(error); }, function () { return console.log('Get all Items complete' + JSON.stringify(_this.selectedArticle)); });
         });
     };

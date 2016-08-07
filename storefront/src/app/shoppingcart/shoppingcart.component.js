@@ -29,8 +29,9 @@ var ShoppingcartComponent = (function () {
     }
     ShoppingcartComponent.prototype.ngOnInit = function () {
         var _this = this;
-        console.log('token: ' + this._tokenService.getToken());
+        console.log('init start');
         this.totalOfCart = 0;
+        this.totalOfCartNetto = 0;
         if (this._tokenService.getToken() !== undefined) {
             new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8084/shoppingcart/' +
                 (this.jwtHelper.decodeToken(this._tokenService.getToken())).userId)
@@ -38,20 +39,30 @@ var ShoppingcartComponent = (function () {
                 .subscribe(function (data) { return _this.getDetailsOfArticle(data); }, function (error) { return _this.handleError(error); }, function () { return console.log('Get all Items complete'); });
         }
         else {
+            console.log('else: setLogin true');
             this._loginService.setLogin(true);
         }
     };
-    ShoppingcartComponent.prototype.ngOnChanges = function (dat) {
-        console.log('daten geändert!!');
+    ShoppingcartComponent.prototype.recalc = function () {
+        var total;
+        total = 0;
+        for (var _i = 0, _a = this.articles; _i < _a.length; _i++) {
+            var article = _a[_i];
+            total = total + article.articlePrice * article.quantity;
+        }
+        this.totalOfCart = total;
+        this.totalOfCartNetto = Math.round(total / 119 * 19);
     };
-    ShoppingcartComponent.prototype.ngOnDestroy = function () {
+    ShoppingcartComponent.prototype.onDestroy = function () {
         var _this = this;
         // persist changes
-        for (var _i = 0, _a = this.articles; _i < _a.length; _i++) {
-            var art = _a[_i];
-            new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8084/shoppingcart/' + art.id)
-                .updateArticleToShoppingcart(art.id, this.jwtHelper.decodeToken(this._tokenService.getToken()).userId, art.quantity)
-                .subscribe(function (data) { return console.log('Successfully saved Shoppingcart'); }, function (error) { return _this.handleError(error); });
+        if (this._tokenService.getToken() !== undefined) {
+            for (var _i = 0, _a = this.articles; _i < _a.length; _i++) {
+                var art = _a[_i];
+                new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8084/shoppingcart/' + art.id)
+                    .updateArticleToShoppingcart(art.id, this.jwtHelper.decodeToken(this._tokenService.getToken()).userId, art.quantity)
+                    .subscribe(function (data) { return console.log('Successfully saved Shoppingcart'); }, function (error) { return _this.handleError(error); }, function () { return console.log('Get all Items complete'); });
+            }
         }
     };
     ShoppingcartComponent.prototype.getDetailsOfArticle = function (cartData) {
@@ -72,6 +83,7 @@ var ShoppingcartComponent = (function () {
         var _this = this;
         data.quantity = quantity;
         this.totalOfCart = this.totalOfCart + data.articlePrice * quantity;
+        this.totalOfCartNetto = Math.round(this.totalOfCart / 119 * 19);
         new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8087/user/supplierId/' + data.supplierId)
             .getUserData().subscribe(function (user) { return _this.completeArticleData(data, user.firstname, user.lastname); }, function (error) { return _this.articles.push(data); }, function () { return console.log('Get all Items complete'); });
     };
@@ -83,15 +95,19 @@ var ShoppingcartComponent = (function () {
         if (error.status === 401) {
             this._loginService.setLogin(true);
         }
-        if (error.status === 204) {
-            alert('Artikel gelöscht!');
+        if (error.status === 404) {
+            this._router.navigate(['/article']).then(function (data) {
+                return alert('Es liegen keine Artikel im Warenkorb!');
+            }).catch(function (e) { return alert('catch: ' + e); });
         }
     };
     ShoppingcartComponent.prototype.goOnShopping = function () {
+        this.onDestroy();
         this._router.navigate(['/article']);
     };
     ShoppingcartComponent.prototype.goToCheckout = function () {
-        this._router.navigate(['/shippment']);
+        this.onDestroy();
+        this._router.navigate(['/checkout/delivery']);
     };
     ShoppingcartComponent.prototype.onDeleteEntry = function (articleId) {
         var _this = this;

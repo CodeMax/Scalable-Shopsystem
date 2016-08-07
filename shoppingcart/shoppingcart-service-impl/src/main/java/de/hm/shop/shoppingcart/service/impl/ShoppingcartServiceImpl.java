@@ -65,7 +65,7 @@ public class ShoppingcartServiceImpl implements ShoppingcartService {
 
 	public ShoppingcartBo save(final ShoppingcartBo shoppingcartBo) throws ShoppingcartException {
 		Validate.notNull(shoppingcartBo);
-		LOG.debug("Speichere Shoppingcart-Eintrag mit der artikelId {} auf die userId {}", 
+		LOG.info("Speichere Shoppingcart-Eintrag mit der artikelId {} auf die userId {}", 
 				shoppingcartBo.getArticleId(), shoppingcartBo.getUserId());
 
 		final ShoppingcartEntity shoppingcartEntity = shoppingcartMapper.mapBoToEntity(shoppingcartBo);
@@ -76,7 +76,8 @@ public class ShoppingcartServiceImpl implements ShoppingcartService {
 		
 		Boolean saved = false;
 		if(entriesOfUser != null) {
-			while (entriesOfUser.iterator().hasNext()) {
+			Integer counter = 0;
+			while (entriesOfUser.iterator().hasNext() && counter < 10) {
 	            ShoppingcartEntity sce = entriesOfUser.iterator().next();
 	            if (sce.getArticleId().equals(shoppingcartEntity.getArticleId())) {
 	            	shoppingcartEntity.setQuantity(shoppingcartEntity.getQuantity()+sce.getQuantity());
@@ -85,6 +86,7 @@ public class ShoppingcartServiceImpl implements ShoppingcartService {
 	            	saved = true;
 	            	break;
 	            }
+	            counter++;
 	        }
 		}
 		
@@ -100,7 +102,7 @@ public class ShoppingcartServiceImpl implements ShoppingcartService {
 	
 	public ShoppingcartBo update(final ShoppingcartBo shoppingcartBo) throws ShoppingcartException {
 		Validate.notNull(shoppingcartBo);
-		LOG.debug("Speichere Shoppingcart-Eintrag mit der artikelId {} auf die userId {}", 
+		LOG.info("Speichere Shoppingcart-Eintrag mit der artikelId {} auf die userId {}", 
 				shoppingcartBo.getArticleId(), shoppingcartBo.getUserId());
 
 		final ShoppingcartEntity shoppingcartEntity = shoppingcartMapper.mapBoToEntity(shoppingcartBo);
@@ -129,12 +131,16 @@ public class ShoppingcartServiceImpl implements ShoppingcartService {
 		Validate.notNull(id);
 		LOG.debug("Lösche Example mit Id {}", id);
 
-		if (shoppingcartRepository.exists(id)) {
-			
-			ShoppingcartEntity entity = shoppingcartRepository.findOne(id);
-			if(userId.equals(entity.getUserId())){
-				shoppingcartRepository.delete(id);
-			}
+		Iterable<ShoppingcartEntity> entriesOfUser = shoppingcartRepository.findEntriesByUserId(userId);
+		
+		if(entriesOfUser != null) {
+			while (entriesOfUser.iterator().hasNext()) {
+	            ShoppingcartEntity sce = entriesOfUser.iterator().next();
+	            if (sce.getArticleId().equals(id)) {
+	            	delete(sce.getId(), sce.getUserId());
+	            	break;
+	            }
+	        }
 		}
 	}
 }

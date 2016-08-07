@@ -28,7 +28,6 @@ var ArticleInventoryComponent = (function () {
     }
     ArticleInventoryComponent.prototype.ngOnInit = function () {
         var _this = this;
-        console.log(this._tokenService.getToken());
         this.backend = new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8083/articles');
         this.backend.getAllArticle()
             .subscribe(function (data) { return _this.articles = data; }, function (error) { return _this.handleError(error); }, function () { return console.log('Get all Items complete'); });

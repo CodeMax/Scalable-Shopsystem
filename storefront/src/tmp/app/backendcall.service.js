@@ -92,6 +92,12 @@ var BackendcallService = (function () {
                 .map(_this.extract)
                 .catch(_this.handleError);
         };
+        // Delivery
+        this.getDelivery = function () {
+            return _this._http.get(_this.actionUrl, { headers: _this.headers })
+                .map(_this.extract)
+                .catch(_this.handleError);
+        };
         if (user === 'token') {
             this.encodedString = pw;
         }
@@ -133,10 +139,10 @@ var BackendcallService = (function () {
         return token || {};
     };
     BackendcallService.prototype.handleError = function (error) {
-        var errMsg = (error.message) ? error.message :
-            error.status ? error.status + " - " + error.statusText : 'Server error';
-        console.error(errMsg);
-        return Observable_1.Observable.throw(401);
+        /*        let errMsg = (error.message) ? error.message :
+                   error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+                console.log(errMsg); */
+        return Observable_1.Observable.throw(error);
     };
     BackendcallService = __decorate([
         core_1.Injectable(), 

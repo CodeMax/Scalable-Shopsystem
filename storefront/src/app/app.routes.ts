@@ -8,9 +8,9 @@ import {ContactComponent} from './contact/contact.component';
 import {ImpressumComponent} from './impressum/impressum.component';
 import {ShoppingcartComponent} from './shoppingcart/shoppingcart.component';
 import {provideRouter, RouterConfig} from '@angular/router';
-import {ArticleCheckoutComponent} from './articleCheckout/articleCheckout.component';
 import {CreateArticleComponent} from './createArticle/createArticle.component';
 import {ProfileComponent} from './profile/profile.component';
+import {CHECKOUT_ROUTES} from './articleCheckout/articleCheckout.routes';
 
 export const APP_ROUTES = [
     { path: '', name: 'Home', component: HomeComponent },
@@ -28,7 +28,6 @@ export const OTHER_ROUTES = [
   { path: 'contact', component: ContactComponent },
   { path: 'impressum', component: ImpressumComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'shippment', component: ArticleCheckoutComponent},
   { path: 'insertArticle', component: CreateArticleComponent},
   { path: 'profile', component: ProfileComponent},
   { path: '**', component: HomeComponent }
@@ -37,6 +36,7 @@ export const OTHER_ROUTES = [
 export const routes: RouterConfig = [
   ...APP_ROUTES,
   ...APP_ROUTES_RIGHT,
+  ...CHECKOUT_ROUTES,
   ...OTHER_ROUTES
 ];
 
