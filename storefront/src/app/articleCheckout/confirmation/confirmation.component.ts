@@ -7,7 +7,6 @@ import {TokenService} from './../../token.service';
 import {Router} from '@angular/router';
 import {Shoppingcart} from './../../shoppingcart/shoppingcart.service';
 import {JwtHelper} from 'angular2-jwt';
-import {Article} from './../../article/article.component';
 
 @Component({
     selector: 'as-confirmation',
@@ -19,7 +18,6 @@ import {Article} from './../../article/article.component';
 
 export class ConfirmationComponent implements OnInit {
 
-    private articles: Article[];
     private jwtHelper: JwtHelper = new JwtHelper();
     private totalOfCart: number;
     private totalOfCartNetto: number;

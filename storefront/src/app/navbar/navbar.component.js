@@ -12,32 +12,55 @@ var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
 var router_1 = require('@angular/router');
 var app_routes_1 = require('../app.routes');
+var token_service_1 = require('./../token.service');
+var navbar_service_1 = require('./../navbar.service');
+var login_service_1 = require('./../login.service');
 var NavbarComponent = (function () {
-    function NavbarComponent() {
+    function NavbarComponent(_router, _navibarService, _loginService, _tokenService) {
+        var _this = this;
+        this._router = _router;
+        this._navibarService = _navibarService;
+        this._loginService = _loginService;
+        this._tokenService = _tokenService;
+        _navibarService.userHasToken$.subscribe(function (hasAuthToken) { return _this.showLogoutButton(hasAuthToken); });
     }
     NavbarComponent.prototype.ngOnInit = function () {
         this.routes = app_routes_1.APP_ROUTES;
-        this.routesright = app_routes_1.APP_ROUTES_RIGHT;
+        if (this._tokenService.getToken() === undefined) {
+            this.showLogoutButton(false);
+        }
+        else {
+            this.showLogoutButton(true);
+        }
+    };
+    NavbarComponent.prototype.showLogoutButton = function (changes) {
+        if (changes) {
+            this._loginLogoutButtonText = 'Logout';
+        }
+        else {
+            this._loginLogoutButtonText = 'Login';
+        }
+    };
+    NavbarComponent.prototype.redirectUser = function () {
+        if (this._loginLogoutButtonText === 'Logout') {
+            this._router.navigate(['logout']);
+        }
+        else {
+            this._loginService.setLogin(true);
+        }
     };
     __decorate([
         core_1.Input(), 
         __metadata('design:type', Array)
     ], NavbarComponent.prototype, "routes", void 0);
-    __decorate([
-        core_1.Input(), 
-        __metadata('design:type', Array)
-    ], NavbarComponent.prototype, "routesright", void 0);
     NavbarComponent = __decorate([
         core_1.Component({
             selector: 'as-navbar',
             templateUrl: 'app/navbar/navbar.html',
-            changeDetection: core_1.ChangeDetectionStrategy.OnPush,
             directives: [router_1.ROUTER_DIRECTIVES, common_1.CORE_DIRECTIVES],
-            styleUrls: [
-                'app/navbar/navbar.css'
-            ]
+            styleUrls: ['app/navbar/navbar.css']
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [router_1.Router, navbar_service_1.NavibarService, login_service_1.LoginService, token_service_1.TokenService])
     ], NavbarComponent);
     return NavbarComponent;
 }());

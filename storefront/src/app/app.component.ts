@@ -14,9 +14,7 @@ import {AboutComponent} from './about/about.component';
     directives: [NavbarComponent, ArticleInventoryComponent, HeaderComponent,
                 RegisterComponent, AboutComponent, ROUTER_DIRECTIVES, MODAL_DIRECTIVES],
     providers: [LoginService],
-    styleUrls: [
-        'app/app.css'
-    ]
+    styleUrls: ['app/app.css']
 })
 
 export class AppComponent {
@@ -41,7 +39,6 @@ export class AppComponent {
     }
 
     onLoginSubmit(username, password) {
-      console.log('onLoginSubmit()-Credentials: ' + username + ', ' + password);
       this._loginService.onSubmit(username, password);
       this.close();
     }

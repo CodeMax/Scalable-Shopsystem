@@ -1,4 +1,6 @@
-# Scalable Shopsystem
+![Logo](./img/header_light.png)
+
+# Prototyp eines skalierbaren Shopsystems - Am Beispiel von Microservices  
 <a href="https://scan.coverity.com/projects/codemax-scalable-shopsystem">
   <img alt="Coverity Scan Build Status"
        src="https://scan.coverity.com/projects/9743/badge.svg"/>

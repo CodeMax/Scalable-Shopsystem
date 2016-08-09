@@ -49,28 +49,8 @@
                         <li style="height:30px; margin-top:15px;"><a href="#"><i class="fa fa-cog" aria-hidden="true"></i> Einstellungen</a></li>
                     </ul>
                 </li>
-                <li *ngFor="let routeright of routesright"><a [routerLink]="[routeright.path]">{{routeright.name}}</a></li>
+                <li><a (click)="redirectUser()" style="cursor: pointer;">{{_loginLogoutButtonText}}</a></li>
             </ul>
         </div>
     </div>
 </nav>
-
-
-
-<!--
-• Home
---Suchmaske nach Begriff, Kategorie, Umkreis
---Erklärung des Services (Wer, Wie, Was)
-• Suchergebnis Übersicht
---Liste der Inserate (ggf. Map)
---Filter (Umkreis, Kategorie, Begriffe)
-• Suchergebnis Detail
---Map
---Anbieter
---Kategorie, Beschreibung, Foto / Icon
---Details (Preisvorstellung, Menge ...)
---Anfrage stellen
-• Profil
---Dashboard Übersicht
---Einstellungen (Passwort ändern, Zurücksetzen, Eigene Details)
--->

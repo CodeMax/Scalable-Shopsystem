@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var core_2 = require('angular2-cookie/core');
+var navbar_service_1 = require('./navbar.service');
 var Token = (function () {
     function Token(token) {
         this.jwtToken = token;
@@ -25,23 +26,31 @@ var Token = (function () {
 }());
 exports.Token = Token;
 var TokenService = (function () {
-    function TokenService(_cookieservice) {
+    function TokenService(_cookieservice, _navibarservice) {
         this._cookieservice = _cookieservice;
+        this._navibarservice = _navibarservice;
         this._cookieService = _cookieservice;
         this.tokenstorekey = 'jwtAuthToken';
+        this._navibarService = _navibarservice;
+        this._navibarService.userHasToken$.subscribe(function (hasAuthToken) {
+            hasAuthToken = true;
+        });
     }
     TokenService.prototype.saveToken = function (value) {
         this._cookieService.put(this.tokenstorekey, JSON.stringify(value));
+        this._navibarService.hasToken(true);
     };
     TokenService.prototype.getToken = function () {
-        return this._cookieService.get(this.tokenstorekey);
+        var token = this._cookieService.get(this.tokenstorekey);
+        return token;
     };
     TokenService.prototype.clearLoginToken = function () {
         this._cookieService.remove(this.tokenstorekey);
+        this._navibarService.hasToken(false);
     };
     TokenService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [core_2.CookieService])
+        __metadata('design:paramtypes', [core_2.CookieService, navbar_service_1.NavibarService])
     ], TokenService);
     return TokenService;
 }());

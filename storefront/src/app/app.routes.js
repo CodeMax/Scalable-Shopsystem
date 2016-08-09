@@ -17,10 +17,8 @@ exports.APP_ROUTES = [
     { path: 'article', name: 'Artikel', component: articleInventory_component_1.ArticleInventoryComponent },
     { path: 'article/:id', component: article_component_1.ArticleComponent }
 ];
-exports.APP_ROUTES_RIGHT = [
-    { path: 'logout', name: 'Logout', component: logout_component_1.LogoutComponent }
-];
 exports.OTHER_ROUTES = [
+    { path: 'logout', name: 'Logout', component: logout_component_1.LogoutComponent },
     { path: 'shoppingcart', component: shoppingcart_component_1.ShoppingcartComponent },
     { path: 'about', component: about_component_1.AboutComponent },
     { path: 'contact', component: contact_component_1.ContactComponent },
@@ -30,7 +28,7 @@ exports.OTHER_ROUTES = [
     { path: 'profile', component: profile_component_1.ProfileComponent },
     { path: '**', component: home_component_1.HomeComponent }
 ];
-exports.routes = exports.APP_ROUTES.concat(exports.APP_ROUTES_RIGHT, articleCheckout_routes_1.CHECKOUT_ROUTES, exports.OTHER_ROUTES);
+exports.routes = exports.APP_ROUTES.concat(articleCheckout_routes_1.CHECKOUT_ROUTES, exports.OTHER_ROUTES);
 exports.APP_ROUTER_PROVIDERS = [
     router_1.provideRouter(exports.routes)
 ];

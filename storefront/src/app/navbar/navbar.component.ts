@@ -1,23 +1,52 @@
-import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
-import {ROUTER_DIRECTIVES} from '@angular/router';
-import {APP_ROUTES, APP_ROUTES_RIGHT} from '../app.routes';
+import {ROUTER_DIRECTIVES, Router} from '@angular/router';
+import {APP_ROUTES} from '../app.routes';
+import {TokenService} from './../token.service';
+import {NavibarService} from './../navbar.service';
+import {LoginService} from './../login.service';
 
 @Component({
     selector: 'as-navbar',
     templateUrl: 'app/navbar/navbar.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES],
-    styleUrls: [
-        'app/navbar/navbar.css'
-    ]
+    styleUrls: ['app/navbar/navbar.css']
 })
 export class NavbarComponent implements OnInit {
     @Input() routes: any[];
-    @Input() routesright: any[];
+
+    private _loginLogoutButtonText: string;
+
+    constructor(private _router: Router, private _navibarService: NavibarService, private _loginService: LoginService,
+        private _tokenService: TokenService) {
+        _navibarService.userHasToken$.subscribe(
+            (hasAuthToken: boolean) => this.showLogoutButton(hasAuthToken));
+
+    }
 
     ngOnInit() {
-      this.routes = APP_ROUTES;
-      this.routesright = APP_ROUTES_RIGHT;
+        this.routes = APP_ROUTES;
+
+        if (this._tokenService.getToken() === undefined) {
+            this.showLogoutButton(false);
+        } else {
+            this.showLogoutButton(true);
+        }
+    }
+
+    showLogoutButton(changes) {
+        if (changes) {
+            this._loginLogoutButtonText = 'Logout';
+        } else {
+            this._loginLogoutButtonText = 'Login';
+        }
+    }
+
+    redirectUser() {
+        if (this._loginLogoutButtonText === 'Logout') {
+            this._router.navigate(['logout']);
+        } else {
+            this._loginService.setLogin(true);
+        }
     }
 }

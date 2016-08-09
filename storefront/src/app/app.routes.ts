@@ -18,11 +18,8 @@ export const APP_ROUTES = [
     { path: 'article/:id', component: ArticleComponent }
 ];
 
-export const APP_ROUTES_RIGHT = [
-    { path: 'logout', name: 'Logout', component: LogoutComponent }
-];
-
 export const OTHER_ROUTES = [
+  { path: 'logout', name: 'Logout', component: LogoutComponent },
   { path: 'shoppingcart', component: ShoppingcartComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
@@ -35,7 +32,6 @@ export const OTHER_ROUTES = [
 
 export const routes: RouterConfig = [
   ...APP_ROUTES,
-  ...APP_ROUTES_RIGHT,
   ...CHECKOUT_ROUTES,
   ...OTHER_ROUTES
 ];

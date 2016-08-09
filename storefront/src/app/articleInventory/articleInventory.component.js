@@ -22,9 +22,6 @@ var ArticleInventoryComponent = (function () {
         this._tokenService = _tokenService;
         this._loginService = _loginService;
         this._router = _router;
-        _loginService.loginNeeded$.subscribe(function (needForLogin) {
-            needForLogin = true;
-        });
     }
     ArticleInventoryComponent.prototype.ngOnInit = function () {
         var _this = this;

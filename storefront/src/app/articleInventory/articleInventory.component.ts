@@ -25,10 +25,6 @@ export class ArticleInventoryComponent implements OnInit {
 
       constructor(private _http: Http, private _tokenService: TokenService,
                   private _loginService: LoginService, private _router: Router) {
-        _loginService.loginNeeded$.subscribe(
-          needForLogin => {
-            needForLogin = true;
-          });
       }
 
       ngOnInit() {

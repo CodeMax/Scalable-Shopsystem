@@ -7,6 +7,7 @@ import {TokenService} from './token.service';
 import {CookieService} from 'angular2-cookie/core';
 import {APP_ROUTER_PROVIDERS} from './app.routes';
 import {AuthHttp} from 'angular2-jwt';
+import {NavibarService} from './navbar.service';
 
 declare var ENV: string;
 
@@ -17,6 +18,7 @@ if (ENV === 'production') {
 bootstrap(AppComponent, [
     APP_ROUTER_PROVIDERS,
     HTTP_PROVIDERS,
+    NavibarService,
     ConnectionBackend,
     BackendcallService,
     CookieService,

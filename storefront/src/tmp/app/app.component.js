@@ -34,7 +34,6 @@ var AppComponent = (function () {
         this.modal.open();
     };
     AppComponent.prototype.onLoginSubmit = function (username, password) {
-        console.log('onLoginSubmit()-Credentials: ' + username + ', ' + password);
         this._loginService.onSubmit(username, password);
         this.close();
     };
@@ -49,9 +48,7 @@ var AppComponent = (function () {
             directives: [navbar_component_1.NavbarComponent, articleInventory_component_1.ArticleInventoryComponent, header_component_1.HeaderComponent,
                 register_component_1.RegisterComponent, about_component_1.AboutComponent, router_1.ROUTER_DIRECTIVES, ng2_bs3_modal_1.MODAL_DIRECTIVES],
             providers: [login_service_1.LoginService],
-            styleUrls: [
-                'app/app.css'
-            ]
+            styleUrls: ['app/app.css']
         }), 
         __metadata('design:paramtypes', [router_1.Router, login_service_1.LoginService])
     ], AppComponent);
