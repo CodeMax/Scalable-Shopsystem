@@ -15,3 +15,5 @@ storefront/bower_components
 storefront/typings
 .DS_Store
 storefront/src/assets/styles/*.css
+.settings
+.project

@@ -16,13 +16,13 @@ Für moderne Systeme, wie Webanwendungen, wird heutzutage häufiger die Forderun
 Im Fokus der Arbeit steht die technische Konzeption und die hierauf aufbauende Implementierung eines prototypischen, hoch skalierbaren Shopsystems. Es wird daher schrittweise ein technisches Konzept erarbeitet, in dem Architektur und entsprechende Entwurfsentscheidungen erläutert sind. Im Zuge der Implementierungen ist zunächst ein generischer Microservice zu entwickeln bzw. eine beispielhafte Vorgehensbeschreibung zur Erstellung eines Microservices bereitzustellen, der die Grundlage für die in den Prototypen verwendeten Services darstellt und darüber hinaus auch in Zukunft für die Erweiterung des Systems durch weitere Services verwendet werden kann. 
 
 ## Getting started
-    - Check out Services
-    - Install Docker (tested on Windows)
-    - Run Services in Container
-        1. mvn clean package
-        2. change directory to <service>-build/target to use the build Fat-Jar
-        2. docker build -t <specific_servicename_of_Dockerfile>
-        3. docker run -p <port>:<port> -t <specific_servicename_of_Dockerfile>
-    - Install NodeJS
-    - Install npm & modules
-    - Run gulp on storefront
+    1. Check out Services
+    2. Install Docker (tested on Windows)
+    3. Run Services in Container
+        3.1. mvn clean package
+        3.2. change directory to <service>-build/target to use the build Fat-Jar
+        3.3. docker build -t <specific_servicename_of_Dockerfile>
+        3.4. docker run -p <port>:<port> -t <specific_servicename_of_Dockerfile>
+    4. Install [NodeJS](https://nodejs.org/en/download/)
+    5. Install [npm](https://www.npmjs.com/)  modules (Die Abhängigkeiten werden unter dem Verzeichnis: '/storefront/node_modules/..' erwartet)
+    6. Run gulp on storefront
