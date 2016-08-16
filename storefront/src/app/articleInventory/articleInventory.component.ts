@@ -28,6 +28,7 @@ export class ArticleInventoryComponent implements OnInit {
       constructor(private _http: Http, private _tokenService: TokenService,
                   private _loginService: LoginService, private _router: Router,
                   private _route: ActivatedRoute) {
+                    // console.log('Enter: ' + _route.params['enter']);
       }
 
       ngOnInit() {

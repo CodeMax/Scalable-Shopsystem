@@ -5,6 +5,7 @@
   <img alt="Coverity Scan Build Status"
        src="https://scan.coverity.com/projects/9743/badge.svg"/>
 </a>
+[![Build Status](https://travis-ci.org/CodeMax/Scalable-Shopsystem.svg?branch=master)](https://travis-ci.org/CodeMax/Scalable-Shopsystem)
 [![devDependencies Status](https://david-dm.org/bower/bower/dev-status.svg)](https://david-dm.org/bower/bower?type=dev)
 
 ## Motivation
@@ -30,8 +31,8 @@ Im Fokus der Arbeit steht die technische Konzeption und die hierauf aufbauende I
     
 ## Entwickler
   **Maximilian Auch** 
-  * <https://github.com/CodeMax>
   <a href="http://www.xing.com/profile/Maximilian_Spelsberg" target="_blank" rel="me"><img src="http://www.xing.com/img/buttons/1_de_btn.gif" width="85" height="23" alt="Maximilian Spelsberg"></a>
+<https://github.com/CodeMax>
 
 ## Lizenzierung
 Code und Dokumentation sind unter der MIT-Lizenz verfügbar.

@@ -23,6 +23,7 @@ var ArticleInventoryComponent = (function () {
         this._loginService = _loginService;
         this._router = _router;
         this._route = _route;
+        // console.log('Enter: ' + _route.params['enter']);
     }
     ArticleInventoryComponent.prototype.ngOnInit = function () {
         // this.searchstring = this._route.queryParams.map(params => params['enter'] || 'none');
