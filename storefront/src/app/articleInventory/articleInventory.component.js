@@ -17,15 +17,23 @@ var router_1 = require('@angular/router');
 var article_component_1 = require('../article/article.component');
 var login_service_1 = require('./../login.service');
 var ArticleInventoryComponent = (function () {
-    function ArticleInventoryComponent(_http, _tokenService, _loginService, _router) {
+    function ArticleInventoryComponent(_http, _tokenService, _loginService, _router, _route) {
         this._http = _http;
         this._tokenService = _tokenService;
         this._loginService = _loginService;
         this._router = _router;
+        this._route = _route;
     }
     ArticleInventoryComponent.prototype.ngOnInit = function () {
+        // this.searchstring = this._route.queryParams.map(params => params['enter'] || 'none');
+        // this.distance = this._route.queryParams.map(params => params['distance'] || 'none');
         var _this = this;
-        this.backend = new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8083/articles');
+        if (this.searchstring !== 'none') {
+            this.backend = new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8083/articles/search?enter=' + this.searchstring + '&distance=' + this.distance);
+        }
+        else {
+            this.backend = new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8083/articles');
+        }
         this.backend.getAllArticle()
             .subscribe(function (data) { return _this.articles = data; }, function (error) { return _this.handleError(error); }, function () { return console.log('Get all Items complete'); });
     };
@@ -47,7 +55,7 @@ var ArticleInventoryComponent = (function () {
                 'app/articleInventory/articleInventory.css'
             ]
         }), 
-        __metadata('design:paramtypes', [http_1.Http, token_service_1.TokenService, login_service_1.LoginService, router_1.Router])
+        __metadata('design:paramtypes', [http_1.Http, token_service_1.TokenService, login_service_1.LoginService, router_1.Router, router_1.ActivatedRoute])
     ], ArticleInventoryComponent);
     return ArticleInventoryComponent;
 }());

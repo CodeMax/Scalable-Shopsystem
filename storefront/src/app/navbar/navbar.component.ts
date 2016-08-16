@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Injectable} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
 import {ROUTER_DIRECTIVES, Router} from '@angular/router';
 import {APP_ROUTES} from '../app.routes';
@@ -42,6 +42,11 @@ export class NavbarComponent implements OnInit {
         }
     }
 
+    search(enter: string, distance: number) {
+      let searchstring = new SearchParameter(enter, distance);
+      this._router.navigate(['article'], searchstring);
+    }
+
     redirectUser() {
         if (this._loginLogoutButtonText === 'Logout') {
             this._router.navigate(['logout']);
@@ -49,4 +54,16 @@ export class NavbarComponent implements OnInit {
             this._loginService.setLogin(true);
         }
     }
+}
+
+@Injectable()
+export class SearchParameter {
+
+  private enter: string;
+  private distance: number;
+
+  constructor(enter: string, distance: number) {
+    this.enter = enter;
+    this.distance = distance;
+  }
 }

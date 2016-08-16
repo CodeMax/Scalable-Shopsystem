@@ -41,6 +41,10 @@ var NavbarComponent = (function () {
             this._loginLogoutButtonText = 'Login';
         }
     };
+    NavbarComponent.prototype.search = function (enter, distance) {
+        var searchstring = new SearchParameter(enter, distance);
+        this._router.navigate(['article'], searchstring);
+    };
     NavbarComponent.prototype.redirectUser = function () {
         if (this._loginLogoutButtonText === 'Logout') {
             this._router.navigate(['logout']);
@@ -65,4 +69,16 @@ var NavbarComponent = (function () {
     return NavbarComponent;
 }());
 exports.NavbarComponent = NavbarComponent;
+var SearchParameter = (function () {
+    function SearchParameter(enter, distance) {
+        this.enter = enter;
+        this.distance = distance;
+    }
+    SearchParameter = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [String, Number])
+    ], SearchParameter);
+    return SearchParameter;
+}());
+exports.SearchParameter = SearchParameter;
 //# sourceMappingURL=navbar.component.js.map

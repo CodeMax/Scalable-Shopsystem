@@ -13,18 +13,18 @@
                 <li *ngFor="let route of routes"><a [routerLink]="[route.path]">{{route.name}}</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-center" style="margin-top: 5px;">
-                <form class="navbar-form navbar-left" role="search">
+                <form class="navbar-form navbar-left" role="search" (ngSubmit)="search(enter, distance)" #loginForm="ngForm">
                     <div class="form-group">
                         <div id="custom-search-input">
                             <div class="input-group col-md-12">
                                 <span class="input-group-btn">
-                                  <input type="text" class="form-control" placeholder="Artikel suchen" />
+                                  <input type="text" name="enter" [(ngModel)]="enter" class="form-control" placeholder="Artikel suchen" />
                                 </span>
                                 <span class="input-group-btn verticalLine">
-                                  <input type="text" class="form-control" placeholder="Umkreis" style="width:100px;" />
+                                  <input type="text" name="distance" [(ngModel)]="distance" class="form-control" placeholder="Umkreis" style="width:100px;" />
                                 </span>
                                 <span class="input-group-btn">
-                                  <button class="btn btn-info btn-lg" type="button">
+                                  <button class="btn btn-info btn-lg" type="submit">
                                     <i class="fa fa-search"></i>
                                   </button>
                                 </span>
