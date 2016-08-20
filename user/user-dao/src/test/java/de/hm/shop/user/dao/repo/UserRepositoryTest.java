@@ -35,7 +35,7 @@ public class UserRepositoryTest extends AbstractTransactionalJUnit4SpringContext
 		userEntity = new UserEntity();
 		userEntity.setId(new Long(423));
 		userEntity.setFirstname("Max");
-		userEntity.setLastname("Spelsberg");
+		userEntity.setLastname("Auch");
 		userEntity.setAddress("Dachauerstraße");
 		userEntity.setPostcode("80335");
 		userEntity.setCity("München");
@@ -50,7 +50,7 @@ public class UserRepositoryTest extends AbstractTransactionalJUnit4SpringContext
 		final UserEntity serviceUserEntity1 = new UserEntity();
 		serviceUserEntity1.setId(new Long(321));
 		serviceUserEntity1.setFirstname("Max");
-		serviceUserEntity1.setLastname("Spelsberg");
+		serviceUserEntity1.setLastname("Auch");
 		serviceUserEntity1.setAddress("Dachauerstraße");
 		serviceUserEntity1.setPostcode("80335");
 		serviceUserEntity1.setCity("München");
@@ -72,7 +72,7 @@ public class UserRepositoryTest extends AbstractTransactionalJUnit4SpringContext
 	public void testSave_UpdateExisting() {
 		userEntity.setId(new Long(213));
 		userEntity.setFirstname("Max");
-		userEntity.setLastname("Spelsberg");
+		userEntity.setLastname("Auch");
 		userEntity.setAddress("Dachauerstraße");
 		userEntity.setPostcode("80335");
 		userEntity.setCity("München");

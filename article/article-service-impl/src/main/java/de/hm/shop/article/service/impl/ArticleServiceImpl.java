@@ -29,7 +29,7 @@ import de.hm.shop.article.service.impl.mapper.ArticleBoEntityMapper;
 /**
  * Implementierung von {@link ArticleService}.
  * 
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Service
 @Transactional

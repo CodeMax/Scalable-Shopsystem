@@ -8,7 +8,7 @@ import de.hm.shop.user.service.api.exception.UserException;
 
 /**
  * User-Service.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 public interface UserService {
 

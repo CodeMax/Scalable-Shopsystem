@@ -8,7 +8,7 @@ import de.hm.shop.template.service.api.bo.TemplateBo;
 
 /**
  * 
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Mapper
 public interface TemplateBoEntityMapper {

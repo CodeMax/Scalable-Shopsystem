@@ -10,7 +10,7 @@ import de.hm.shop.shoppingcart.dao.entity.ShoppingcartEntity;
 
 /**
  * Repository
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Repository
 public interface ShoppingcartRepository extends PagingAndSortingRepository<ShoppingcartEntity, Long> {

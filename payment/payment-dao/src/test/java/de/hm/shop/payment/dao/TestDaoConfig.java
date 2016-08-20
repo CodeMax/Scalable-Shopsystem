@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * DataConfig für Tests
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Configuration
 @ComponentScan("de.hm.shop.payment.dao")

@@ -32,7 +32,7 @@ import de.hm.shop.article.service.impl.mapper.ArticleBoEntityMapper;
 
 /**
  * 
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ArticleServiceImplTest {

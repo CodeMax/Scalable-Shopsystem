@@ -4,7 +4,7 @@ package de.fhm.akfo.shop.authentication.service.api.exception;
  * Diese Exception wird geworfen, wenn bei der Validierung von Authentication ein fachlicher Fehler
  * auftritt.
  * 
- * @author Spelsberg.Maximilian
+ * @author Maximilian.Auch
  */
 public class AuthenticationValidationException extends Exception {
 

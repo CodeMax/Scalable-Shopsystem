@@ -9,7 +9,7 @@ import de.hm.shop.article.service.api.exception.ArticleException;
 
 /**
  * Article-Service.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 public interface ArticleService {
 

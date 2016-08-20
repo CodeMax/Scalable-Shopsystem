@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * Initializing the SpringBoot-Application.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @SpringBootApplication
 public class Application {

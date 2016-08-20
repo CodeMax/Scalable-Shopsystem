@@ -21,7 +21,7 @@ import de.hm.shop.template.service.impl.mapper.TemplateBoEntityMapper;
 
 /**
  * Implementierung von {@link TemplateService}.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Service
 @Transactional

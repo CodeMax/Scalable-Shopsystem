@@ -26,7 +26,7 @@ import de.fhm.akfo.shop.authentication.service.api.exception.AuthenticationValid
  * Implementierung des Business Service zur Erzeugung einer neuen 
  * bzw. zum Ueberschreiben eines bestehenden Authentication-Objekts.
  * 
- * @author Spelsberg.Maximilian
+ * @author Maximilian.Auch
  */
 @Service(value = "AuthenticationService")
 @Transactional

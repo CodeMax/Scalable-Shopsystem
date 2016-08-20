@@ -6,7 +6,7 @@ import de.fhm.akfo.shop.authentication.service.api.exception.AuthenticationValid
 /**
  * Business Service zur Erzeugung eines neuen bzw. zum Ueberschreiben eines bestehenden Eintrags für Authentication.
  * 
- * @author Spelsberg.Maximilian
+ * @author Maximilian.Auch
  */
 public interface AuthenticationService {
 

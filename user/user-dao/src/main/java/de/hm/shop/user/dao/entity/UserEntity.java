@@ -14,7 +14,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * User-Entität.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Entity
 @Table(name = "User")

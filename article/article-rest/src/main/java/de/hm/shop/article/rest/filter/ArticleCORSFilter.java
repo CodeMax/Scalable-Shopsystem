@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Filterklasse für das Abfangen und Bestätigen von Pre-Flight-Anfragen (CORS) mit 200 OK.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)

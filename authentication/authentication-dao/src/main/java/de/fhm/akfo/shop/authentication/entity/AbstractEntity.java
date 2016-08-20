@@ -7,7 +7,7 @@ import javax.persistence.MappedSuperclass;
 
 /**
  * 
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @MappedSuperclass
 public class AbstractEntity {

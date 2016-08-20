@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * DTO in Listenform
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

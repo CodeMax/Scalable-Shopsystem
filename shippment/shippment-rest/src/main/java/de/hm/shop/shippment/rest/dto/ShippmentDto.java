@@ -8,7 +8,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 
 /**
  * ShippmentDTO.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @XmlRootElement
 public class ShippmentDto extends AbstractDto {

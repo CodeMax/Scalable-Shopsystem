@@ -21,7 +21,7 @@ import de.hm.shop.shoppingcart.dao.repo.ShoppingcartRepository;
 
 /**
  * Tests auf der DAO-Ebene
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @ContextConfiguration(classes = { TestDaoConfig.class })
 public class ShoppingcartRepositoryTest extends AbstractTransactionalJUnit4SpringContextTests {

@@ -24,7 +24,7 @@ import de.hm.shop.article.rest.resource.PingResource;
 
 /**
  * StandardConfig für den Restservice
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Path("/")
 @Component

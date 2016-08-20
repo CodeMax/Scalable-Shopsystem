@@ -8,7 +8,7 @@ import de.hm.shop.shippment.dao.entity.ShippmentEntity;
 
 /**
  * Repository
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Repository
 public interface ShippmentRepository extends PagingAndSortingRepository<ShippmentEntity, Long> {

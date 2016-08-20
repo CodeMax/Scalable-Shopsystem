@@ -7,7 +7,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Template-Businessobjekt.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 public class TemplateBo extends AbstractBo {
 

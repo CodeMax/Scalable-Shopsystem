@@ -16,7 +16,7 @@ import de.hm.shop.article.service.impl.location.DistanceCalculator;
 
 /**
  * 
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @RunWith(MockitoJUnitRunner.class)
 public class DistanceCalculatorTest {

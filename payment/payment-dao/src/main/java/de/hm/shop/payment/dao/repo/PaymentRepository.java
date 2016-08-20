@@ -10,7 +10,7 @@ import de.hm.shop.payment.dao.entity.PaymentEntity;
 
 /**
  * Repository
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Repository
 public interface PaymentRepository extends PagingAndSortingRepository<PaymentEntity, Long> {

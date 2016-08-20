@@ -17,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Abstraktes DTO-Element in Listenform für das Arbeiten auf Collections
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

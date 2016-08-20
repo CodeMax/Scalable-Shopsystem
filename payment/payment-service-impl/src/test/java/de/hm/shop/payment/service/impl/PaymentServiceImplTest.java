@@ -34,7 +34,7 @@ import de.hm.shop.payment.service.impl.mapper.PaymentBoEntityMapper;
 
 /**
  * 
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @RunWith(MockitoJUnitRunner.class)
 public class PaymentServiceImplTest {

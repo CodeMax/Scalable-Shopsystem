@@ -22,7 +22,7 @@ import de.hm.shop.payment.service.impl.mapper.PaymentBoEntityMapper;
 
 /**
  * Implementierung von {@link PaymentService}.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Service
 @Transactional

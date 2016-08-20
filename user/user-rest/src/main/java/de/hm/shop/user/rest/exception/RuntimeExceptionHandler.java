@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Behandelt alle RuntimeExceptions, die keine {@link WebApplicationException}s sind.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Provider
 public class RuntimeExceptionHandler implements ExtendedExceptionMapper<RuntimeException> {

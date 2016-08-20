@@ -14,7 +14,7 @@ import javax.persistence.Table;
 /**
  * Entität des Authentication-Objekts
  * 
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Entity
 @Table(name = "USER")

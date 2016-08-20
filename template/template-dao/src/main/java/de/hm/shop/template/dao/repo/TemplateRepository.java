@@ -8,7 +8,7 @@ import de.hm.shop.template.dao.entity.TemplateEntity;
 
 /**
  * Repository
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Repository
 public interface TemplateRepository extends PagingAndSortingRepository<TemplateEntity, Long> {

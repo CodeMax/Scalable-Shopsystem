@@ -7,7 +7,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Article-Businessobjekt.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 public class ArticleBo extends AbstractBo {
 

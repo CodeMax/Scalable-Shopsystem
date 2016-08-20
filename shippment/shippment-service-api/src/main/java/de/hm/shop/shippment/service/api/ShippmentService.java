@@ -8,7 +8,7 @@ import de.hm.shop.shippment.service.api.exception.ShippmentException;
 
 /**
  * Shippment-Service.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 public interface ShippmentService {
 

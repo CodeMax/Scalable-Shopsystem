@@ -8,7 +8,7 @@ import de.hm.shop.shippment.service.api.bo.ShippmentBo;
 
 /**
  * Mapper zwischen Dto und Bo (MapStruct)
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Mapper
 public interface ShippmentDtoBoMapper {

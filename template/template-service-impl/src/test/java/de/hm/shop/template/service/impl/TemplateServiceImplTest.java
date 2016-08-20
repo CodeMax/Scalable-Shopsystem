@@ -32,7 +32,7 @@ import de.hm.shop.template.service.impl.mapper.TemplateBoEntityMapper;
 
 /**
  * 
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @RunWith(MockitoJUnitRunner.class)
 public class TemplateServiceImplTest {

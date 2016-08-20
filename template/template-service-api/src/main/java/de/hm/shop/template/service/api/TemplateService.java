@@ -8,7 +8,7 @@ import de.hm.shop.template.service.api.exception.TemplateException;
 
 /**
  * Template-Service.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 public interface TemplateService {
 

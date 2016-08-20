@@ -11,7 +11,7 @@ import de.hm.shop.user.dao.entity.UserEntity;
 
 /**
  * Repository
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Repository
 public interface UserRepository extends PagingAndSortingRepository<UserEntity, Long> {

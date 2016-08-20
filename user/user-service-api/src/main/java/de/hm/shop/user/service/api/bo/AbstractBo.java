@@ -6,7 +6,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Abstraktes Businessobjekt
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 public abstract class AbstractBo {
 

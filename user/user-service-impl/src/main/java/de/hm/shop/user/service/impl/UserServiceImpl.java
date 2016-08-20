@@ -21,7 +21,7 @@ import de.hm.shop.user.service.impl.mapper.UserBoEntityMapper;
 
 /**
  * Implementierung von {@link UserService}.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Service
 @Transactional

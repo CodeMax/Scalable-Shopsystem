@@ -14,7 +14,7 @@ import de.hm.shop.template.rest.resource.TemplateResource;
 
 /**
  * StandardConfig für den Restservice
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Path("/")
 @Component

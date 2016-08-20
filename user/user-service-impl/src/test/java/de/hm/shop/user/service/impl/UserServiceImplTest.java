@@ -32,7 +32,7 @@ import de.hm.shop.user.service.impl.mapper.UserBoEntityMapper;
 
 /**
  * 
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @RunWith(MockitoJUnitRunner.class)
 public class UserServiceImplTest {

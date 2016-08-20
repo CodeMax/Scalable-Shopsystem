@@ -9,7 +9,7 @@ import de.hm.shop.payment.service.api.exception.PaymentException;
 
 /**
  * Payment-Service.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 public interface PaymentService {
 

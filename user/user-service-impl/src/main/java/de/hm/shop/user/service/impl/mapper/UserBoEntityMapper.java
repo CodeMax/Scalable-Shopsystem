@@ -8,7 +8,7 @@ import de.hm.shop.user.service.api.bo.UserBo;
 
 /**
  * 
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Mapper
 public interface UserBoEntityMapper {

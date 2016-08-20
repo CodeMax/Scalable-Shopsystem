@@ -35,7 +35,7 @@ import io.jsonwebtoken.Jwts;
 
 /**
  * Loginfilter für die Authentifizierung und Authorisierung
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Component
 @Provider

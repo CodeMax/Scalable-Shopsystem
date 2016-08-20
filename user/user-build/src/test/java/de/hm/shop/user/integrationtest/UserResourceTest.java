@@ -176,7 +176,7 @@ public class UserResourceTest {
 		final UserDto newUser = new UserDto();
 		newUser.setId(uniqueId);
 		newUser.setFirstname("Max");
-		newUser.setLastname("Spelsberg");
+		newUser.setLastname("Auch");
 		newUser.setAddress("Dachauerstraße");
 		newUser.setPostcode("80335");
 		newUser.setCity("München");
@@ -223,7 +223,7 @@ public class UserResourceTest {
 		final UserDto userDto = new UserDto();
 		userDto.setId(userBo1.getId());
 		userDto.setFirstname("Max");
-		userDto.setLastname("Spelsberg");
+		userDto.setLastname("Auch");
 		userDto.setAddress("Dachauerstraße");
 		userDto.setPostcode("80335");
 		userDto.setCity("München");
@@ -279,7 +279,7 @@ public class UserResourceTest {
 		UserBo userBo = new UserBo();
 		userBo.setId(id);
 		userBo.setFirstname("Max");
-		userBo.setLastname("Spelsberg");
+		userBo.setLastname("Auch");
 		userBo.setAddress("Dachauerstraße");
 		userBo.setPostcode("80335");
 		userBo.setCity("München");

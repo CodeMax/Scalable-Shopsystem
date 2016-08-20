@@ -8,7 +8,7 @@ import de.hm.shop.shoppingcart.service.api.exception.ShoppingcartException;
 
 /**
  * Shoppingcart-Service.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 public interface ShoppingcartService {
 

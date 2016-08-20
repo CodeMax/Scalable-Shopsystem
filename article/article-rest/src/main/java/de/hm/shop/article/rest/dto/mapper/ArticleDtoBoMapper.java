@@ -8,7 +8,7 @@ import de.hm.shop.article.service.api.bo.ArticleBo;
 
 /**
  * Mapper zwischen Dto und Bo (MapStruct)
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Mapper
 public interface ArticleDtoBoMapper {

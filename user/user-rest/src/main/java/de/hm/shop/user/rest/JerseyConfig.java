@@ -12,7 +12,7 @@ import de.hm.shop.user.rest.resource.UserResource;
 
 /**
  * StandardConfig für den Restservice
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Path("/")
 @Component

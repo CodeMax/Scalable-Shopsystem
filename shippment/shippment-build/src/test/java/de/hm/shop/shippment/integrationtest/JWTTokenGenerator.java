@@ -9,7 +9,7 @@ import java.util.Map;
 
 /**
  * Tokengenerator für Testfälle
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 public class JWTTokenGenerator {
 

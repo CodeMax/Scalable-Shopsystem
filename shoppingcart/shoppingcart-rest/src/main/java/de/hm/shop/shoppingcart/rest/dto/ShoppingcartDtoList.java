@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Listeneinträge der DTOs
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

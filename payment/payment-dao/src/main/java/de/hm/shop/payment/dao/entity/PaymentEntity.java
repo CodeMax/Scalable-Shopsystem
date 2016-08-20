@@ -11,7 +11,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Payment-Entität.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Entity
 @Table(name = "Payment")

@@ -21,7 +21,7 @@ import de.hm.shop.shippment.service.impl.mapper.ShippmentBoEntityMapper;
 
 /**
  * Implementierung von {@link ShippmentService}.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Service
 @Transactional

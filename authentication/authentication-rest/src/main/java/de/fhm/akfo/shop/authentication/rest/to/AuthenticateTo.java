@@ -3,7 +3,7 @@ package de.fhm.akfo.shop.authentication.rest.to;
 /**
  * ServiceTemplate Business-Objekt.
  * 
- * @author Spelsberg.Maximilian
+ * @author Maximilian.Auch
  */
 public class AuthenticateTo {
 

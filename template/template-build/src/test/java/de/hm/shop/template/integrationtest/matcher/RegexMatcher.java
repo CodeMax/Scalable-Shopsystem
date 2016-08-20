@@ -5,7 +5,7 @@ import org.hamcrest.TypeSafeMatcher;
 
 /**
  * 
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 public class RegexMatcher extends TypeSafeMatcher<String> {
 

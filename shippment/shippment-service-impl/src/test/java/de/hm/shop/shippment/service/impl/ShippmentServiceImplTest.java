@@ -32,7 +32,7 @@ import de.hm.shop.shippment.service.impl.mapper.ShippmentBoEntityMapper;
 
 /**
  * 
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ShippmentServiceImplTest {

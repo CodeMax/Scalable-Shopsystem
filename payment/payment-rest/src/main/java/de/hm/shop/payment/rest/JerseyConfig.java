@@ -14,7 +14,7 @@ import de.hm.shop.payment.rest.resource.PaymentResource;
 
 /**
  * StandardConfig für den Restservice
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Path("/")
 @Component

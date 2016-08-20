@@ -12,7 +12,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 /**
  * Basisklasse für alle Entities.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @MappedSuperclass
 public abstract class AbstractEntity {

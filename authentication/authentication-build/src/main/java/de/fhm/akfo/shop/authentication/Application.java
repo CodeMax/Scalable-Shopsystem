@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 /**
  * Initializing the SpringBoot-Application.
  *
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @SpringBootApplication
 @ComponentScan({"de.fhm.akfo.shop.authentication.rest", "de.fhm.akfo.shop.authentication.service.impl"})

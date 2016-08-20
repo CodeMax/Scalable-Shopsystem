@@ -12,7 +12,7 @@ import de.hm.shop.article.dao.entity.ArticleEntity;
 
 /**
  * Repository
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Repository
 public interface ArticleRepository extends PagingAndSortingRepository<ArticleEntity, Long> {

@@ -14,7 +14,7 @@ import de.hm.shop.shippment.rest.resource.ShippmentResource;
 
 /**
  * StandardConfig für den Restservice
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Path("/")
 @Component

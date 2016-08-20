@@ -21,7 +21,7 @@ import de.hm.shop.shoppingcart.service.impl.mapper.ShoppingcartBoEntityMapper;
 
 /**
  * Implementierung von {@link ShoppingcartService}.
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Service
 @Transactional

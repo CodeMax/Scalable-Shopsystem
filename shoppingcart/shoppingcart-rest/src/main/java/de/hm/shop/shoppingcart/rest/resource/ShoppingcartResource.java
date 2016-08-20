@@ -42,7 +42,7 @@ import de.hm.shop.shoppingcart.service.api.exception.ShoppingcartException;
 
 /**
  * Die REST-Ressource für Shoppingcart
- * @author Maximilian.Spelsberg
+ * @author Maximilian.Auch
  */
 @Component
 @Path("shoppingcart")
