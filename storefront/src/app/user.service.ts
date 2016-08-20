@@ -14,8 +14,9 @@ export class UserService {
 
   getUserInformation(user: string, pw: string) {
      new BackendcallService(this._http, user, pw, 'http://192.168.99.100:8088/user')
-              .getToken().then((data: Token) => this._tokenService.saveToken(data))
-              .then(() => console.log(this._tokenService.getToken()));
+              .getToken().subscribe((data: Token) => this._tokenService.saveToken(data)
+                                                  && console.log(this._tokenService.getToken())
+              , error =>  console.log(<any>error));
   }
 }
 

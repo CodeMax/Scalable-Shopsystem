@@ -22,8 +22,8 @@ var UserService = (function () {
     UserService.prototype.getUserInformation = function (user, pw) {
         var _this = this;
         new backendcall_service_1.BackendcallService(this._http, user, pw, 'http://192.168.99.100:8088/user')
-            .getToken().then(function (data) { return _this._tokenService.saveToken(data); })
-            .then(function () { return console.log(_this._tokenService.getToken()); });
+            .getToken().subscribe(function (data) { return _this._tokenService.saveToken(data)
+            && console.log(_this._tokenService.getToken()); }, function (error) { return console.log(error); });
     };
     UserService = __decorate([
         core_1.Injectable(), 

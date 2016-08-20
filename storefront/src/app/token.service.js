@@ -37,11 +37,13 @@ var TokenService = (function () {
         });
     }
     TokenService.prototype.saveToken = function (value) {
+        console.log('Token wird gespeichert: ' + JSON.stringify(value));
         this._cookieService.put(this.tokenstorekey, JSON.stringify(value));
         this._navibarService.hasToken(true);
     };
     TokenService.prototype.getToken = function () {
         var token = this._cookieService.get(this.tokenstorekey);
+        console.log('tokenservice gettoken: ' + token);
         return token;
     };
     TokenService.prototype.clearLoginToken = function () {

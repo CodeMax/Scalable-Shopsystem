@@ -22,13 +22,19 @@ export class LoginService {
 
   onSubmit(username, password) {
       this.submitted = true;
-      console.log(username + ', ' + password);
+      console.log('loginservice onsubmit: ' + username + ', ' + password);
       this.authenticateForToken(username, password);
   }
 
   authenticateForToken(user: string, pw: string) {
+    console.log('loginservice authenticatefortoken: ' + user + ', ' + pw);
      new BackendcallService(this._http, user, pw, 'http://192.168.99.100:8088/authentication')
-              .getToken().then((data: Token) => this._tokenService.saveToken(data) && this._router.navigateByUrl('/'))
-              .then(() => console.log(this._tokenService.getToken()));
+              .getToken().subscribe((data: Token) => this.saveTokenAndNavigate(data)
+              , error =>  console.log(<any>error));
+  }
+
+  saveTokenAndNavigate(token: Token) {
+    this._tokenService.saveToken(token);
+    this._router.navigateByUrl('/login');
   }
 }

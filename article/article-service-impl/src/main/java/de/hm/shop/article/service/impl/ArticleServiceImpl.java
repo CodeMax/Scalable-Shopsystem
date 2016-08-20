@@ -130,8 +130,10 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	private UserDto getUser(String path, String userToken) {
+		LOG.info("Die Methode getUser() wird aufgerufen und hierfür wird der subpath: {} mit dem Token {} abgefragt.",
+				path, userToken);
 		WebTarget target = client.target("http://172.17.0.2:8087").path(path);
-		Response response = target.request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", userToken).get();
+		Response response = target.request(MediaType.APPLICATION_JSON).header("Authorization", userToken).get();
 		if (checkResponse(response)) {
 			return response.readEntity(UserDto.class);
 		} else {

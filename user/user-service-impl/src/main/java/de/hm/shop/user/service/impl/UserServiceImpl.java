@@ -94,12 +94,15 @@ public class UserServiceImpl implements UserService {
 			throw new UserException("User konnte nicht upgedated werden!");
 		}
 		
-		final Integer id = userRepository.update(user);
+		userRepository.update(user);
 
-		if(id.longValue() == user.getId()){
+		//LOG.info("User wurde auf die ID {} ({}) upgedated und wird mit der ID {} abgeglichen", id, id.longValue(), user.getId());
+		
+		//if(id.longValue() == user.getId()){
 			return userMapper.mapEntityToBo(user);
-		}
-		throw new UserException("User konnte nicht upgedated werden!");
+		//}
+		//LOG.error("Die ID {} ist ungleich der ID {}!! Fehlerbehandlung folgt!", id.longValue(), user.getId());
+		//throw new UserException("User konnte nicht upgedated werden!");
 	}
 	
 

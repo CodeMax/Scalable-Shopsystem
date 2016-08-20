@@ -1,5 +1,6 @@
 package de.hm.shop.payment.service.api;
 
+import java.util.Collection;
 import java.util.List;
 
 import de.hm.shop.payment.service.api.bo.PaymentBo;
@@ -22,14 +23,14 @@ public interface PaymentService {
 
 
 	/**
-	 * Liefert das {@link PaymentBo} zu der übergebenen <code>id</code> zurück.
+	 * Liefert das {@link PaymentBo} zu der übergebenen <code>supplierId</code> zurück.
 	 *
 	 * @param id
 	 *            die Id eines {@link PaymentBo}
 	 *
 	 * @return das {@link PaymentBo} zu der übergebenen <code>id</code> oder {@code null}, wenn keines gefunden wird.
 	 */
-	PaymentBo getById(long id);
+	Collection<PaymentBo> getBySupplierId(long id);
 
 
 

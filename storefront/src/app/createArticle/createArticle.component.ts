@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Router, ROUTER_DIRECTIVES} from '@angular/router';
-import {Http, HTTP_PROVIDERS} from '@angular/http';
+import {Http} from '@angular/http';
 import {CORE_DIRECTIVES} from '@angular/common';
 import {BackendcallService} from './../backendcall.service';
 import {TokenService} from './../token.service';
@@ -10,10 +10,9 @@ import {JwtHelper} from 'angular2-jwt';
 import {User} from './../user.service';
 
 @Component({
-    selector: 'as-kebab-case', // as-articleInventory
+    selector: 'as-kebab-case',
     templateUrl: 'app/createArticle/createArticle.html',
-    directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES],
-    viewProviders: [HTTP_PROVIDERS]
+    directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES]
 })
 
 export class CreateArticleComponent {
@@ -48,7 +47,6 @@ export class CreateArticleComponent {
                .subscribe((userId: Number) => this._router.navigateByUrl('/'),
                     error =>  console.log(<any>error));
     }
-
 
     handleError(error: any) {
         this._loginService.setLogin(true);

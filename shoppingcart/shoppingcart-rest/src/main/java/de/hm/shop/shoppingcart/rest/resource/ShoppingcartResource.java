@@ -172,20 +172,20 @@ public class ShoppingcartResource {
 
 
 
-	@Path("{id}")
+	@Path("{articleId}")
 	@DELETE
 	@RolesAllowed(value = { "user" })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response deleteById(@PathParam("id") final Long id) {
-		Validate.notNull(id);
+	public Response deleteById(@PathParam("articleId") final Long articleId) {
+		Validate.notNull(articleId);
 		
 		if(!(this.servletRequest.getAttribute("realUserId") instanceof Integer)){
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 		
 		Long userId = ((Integer) this.servletRequest.getAttribute("realUserId")).longValue();
-		shoppingcartService.delete(id, userId);
+		shoppingcartService.delete(articleId, userId);
 		
 		return Response.noContent().build();
 	}

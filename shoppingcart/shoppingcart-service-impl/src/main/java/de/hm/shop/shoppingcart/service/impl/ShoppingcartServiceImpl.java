@@ -77,7 +77,7 @@ public class ShoppingcartServiceImpl implements ShoppingcartService {
 		Boolean saved = false;
 		if(entriesOfUser != null) {
 			Integer counter = 0;
-			while (entriesOfUser.iterator().hasNext() && counter < 10) {
+			while (entriesOfUser.iterator().hasNext() && counter < 20) {
 	            ShoppingcartEntity sce = entriesOfUser.iterator().next();
 	            if (sce.getArticleId().equals(shoppingcartEntity.getArticleId())) {
 	            	shoppingcartEntity.setQuantity(shoppingcartEntity.getQuantity()+sce.getQuantity());
@@ -114,9 +114,10 @@ public class ShoppingcartServiceImpl implements ShoppingcartService {
 		if(entriesOfUser != null) {
 			while (entriesOfUser.iterator().hasNext()) {
 	            ShoppingcartEntity sce = entriesOfUser.iterator().next();
-	            if (sce.getArticleId().equals(shoppingcartEntity.getArticleId())) {
+	            if (sce.getArticleId().equals(shoppingcartEntity.getArticleId()) &&
+	            		sce.getQuantity() != shoppingcartBo.getQuantity()) {
 	            	shoppingcartEntity.setQuantity(shoppingcartEntity.getQuantity());
-	            	delete(sce.getId(), sce.getUserId());
+	            	delete(sce.getArticleId(), sce.getUserId());
 	            	shoppingcartEntitySaved = shoppingcartRepository.save(shoppingcartEntity);
 	            	break;
 	            }
@@ -127,20 +128,25 @@ public class ShoppingcartServiceImpl implements ShoppingcartService {
 	
 	
 
-	public void delete(final Long id, final Long userId) {
-		Validate.notNull(id);
-		LOG.debug("Lösche Example mit Id {}", id);
+	public void delete(final Long articleId, final Long userId) {
+		LOG.info("Lösche Example mit Id {}", articleId);
+		
+		Validate.notNull(articleId);
+		Validate.notNull(userId);
 
 		Iterable<ShoppingcartEntity> entriesOfUser = shoppingcartRepository.findEntriesByUserId(userId);
-		
 		if(entriesOfUser != null) {
-			while (entriesOfUser.iterator().hasNext()) {
+			Integer counter = 0;
+			while (entriesOfUser.iterator().hasNext() && counter < 50) {
 	            ShoppingcartEntity sce = entriesOfUser.iterator().next();
-	            if (sce.getArticleId().equals(id)) {
-	            	delete(sce.getId(), sce.getUserId());
+	            if (sce.getArticleId().equals(articleId)) {
+	            	shoppingcartRepository.delete(sce);
 	            	break;
 	            }
+	            counter++;
 	        }
+		}else{
+			LOG.info("Es wurden keine Artikeleinträge gefunden.");
 		}
 	}
 }

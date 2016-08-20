@@ -14,7 +14,10 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 public class PaymentDto extends AbstractDto {
 
 	@XmlElement
-	private String name;
+	private Long supplierId;
+	
+	@XmlElement
+	private String method;
 
 
 	/**
@@ -29,22 +32,39 @@ public class PaymentDto extends AbstractDto {
 	 *
 	 * @param id
 	 *            die Id
+	 * @param supplierId
+	 * 			  die ID des Suppliers
 	 * @param name
 	 *            ServicePayment-Name String
 	 */
-	public PaymentDto(final Long id, final String name) {
+	public PaymentDto(final Long id, final Long supplierId, final String method) {
 		super(id);
-		this.name = name;
+		this.supplierId = supplierId;
+		this.method = method;
 	}
 
 
-	public String getName() {
-		return name;
+
+	public Long getSupplierId() {
+		return supplierId;
 	}
 
 
-	public void setName(final String name) {
-		this.name = name;
+
+	public void setSupplierId(Long supplierId) {
+		this.supplierId = supplierId;
+	}
+
+
+
+	public String getMethod() {
+		return method;
+	}
+
+
+
+	public void setMethod(String method) {
+		this.method = method;
 	}
 
 

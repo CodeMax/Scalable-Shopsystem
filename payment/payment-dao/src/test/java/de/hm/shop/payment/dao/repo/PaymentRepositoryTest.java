@@ -33,7 +33,8 @@ public class PaymentRepositoryTest extends AbstractTransactionalJUnit4SpringCont
 	@Before
 	public void setUp() {
 		paymentEntity = new PaymentEntity();
-		paymentEntity.setName("Markus Müller");
+		paymentEntity.setSupplierId(100L);
+		paymentEntity.setMethod("Paypal");
 		paymentEntity = sut.save(paymentEntity);
 	}
 
@@ -42,24 +43,27 @@ public class PaymentRepositoryTest extends AbstractTransactionalJUnit4SpringCont
 	@Test
 	public void testSave_CreateNew() {
 		final PaymentEntity servicePaymentEntity1 = new PaymentEntity();
-		servicePaymentEntity1.setName("Hans Meier");
+		servicePaymentEntity1.setSupplierId(101L);
+		servicePaymentEntity1.setMethod("Bar");
 
 		final PaymentEntity result = sut.save(servicePaymentEntity1);
 		assertThat(result, is(notNullValue()));
 		assertThat(result.getId(), is(notNullValue()));
-		assertThat(result.getName(), is(equalTo(servicePaymentEntity1.getName())));
+		assertThat(result.getSupplierId(), is(equalTo(servicePaymentEntity1.getSupplierId())));
+		assertThat(result.getMethod(), is(equalTo(servicePaymentEntity1.getMethod())));
 	}
 
 
 
 	@Test
 	public void testSave_UpdateExisting() {
-		paymentEntity.setName("neu");
+		paymentEntity.setMethod("Überweisung");
 
 		final PaymentEntity result = sut.save(paymentEntity);
 		assertThat(result, is(notNullValue()));
 		assertThat(result.getId(), is(equalTo(paymentEntity.getId())));
-		assertThat(result.getName(), is(equalTo(paymentEntity.getName())));
+		assertThat(result.getSupplierId(), is(equalTo(paymentEntity.getSupplierId())));
+		assertThat(result.getMethod(), is(equalTo(paymentEntity.getMethod())));
 	}
 
 

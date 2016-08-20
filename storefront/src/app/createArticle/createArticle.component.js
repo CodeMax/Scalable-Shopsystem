@@ -51,8 +51,7 @@ var CreateArticleComponent = (function () {
         core_1.Component({
             selector: 'as-kebab-case',
             templateUrl: 'app/createArticle/createArticle.html',
-            directives: [router_1.ROUTER_DIRECTIVES, common_1.CORE_DIRECTIVES],
-            viewProviders: [http_1.HTTP_PROVIDERS]
+            directives: [router_1.ROUTER_DIRECTIVES, common_1.CORE_DIRECTIVES]
         }), 
         __metadata('design:paramtypes', [http_1.Http, router_1.Router, token_service_1.TokenService, login_service_1.LoginService])
     ], CreateArticleComponent);

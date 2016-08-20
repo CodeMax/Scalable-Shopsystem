@@ -11,8 +11,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
  */
 public class PaymentBo extends AbstractBo {
 
-	private String name;
-
+	private Long supplierId;
+	
+	private String method;
 
 
 	/**
@@ -29,21 +30,34 @@ public class PaymentBo extends AbstractBo {
 	 * @param name
 	 *            Name
 	 */
-	public PaymentBo(final Long id, final String name) {
+	public PaymentBo(final Long id, final Long supplierId, final String method) {
 		super(id);
-		this.name = name;
+		this.supplierId = supplierId;
+		this.method = method;
 	}
 
 
 
-	public String getName() {
-		return name;
+	public Long getSupplierId() {
+		return supplierId;
 	}
 
 
 
-	public void setName(final String name) {
-		this.name = name;
+	public void setSupplierId(Long supplierId) {
+		this.supplierId = supplierId;
+	}
+
+
+
+	public String getMethod() {
+		return method;
+	}
+
+
+
+	public void setMethod(String method) {
+		this.method = method;
 	}
 
 

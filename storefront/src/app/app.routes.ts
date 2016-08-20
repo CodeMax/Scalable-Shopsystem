@@ -1,25 +1,26 @@
-import {HomeComponent} from './home/home.component';
-import {ArticleComponent} from './article/article.component';
-import {ArticleInventoryComponent} from './articleInventory/articleInventory.component';
-import {LogoutComponent} from './logout/logout.component';
-import {RegisterComponent} from './register/register.component';
-import {AboutComponent} from './about/about.component';
-import {ContactComponent} from './contact/contact.component';
-import {ImpressumComponent} from './impressum/impressum.component';
-import {ShoppingcartComponent} from './shoppingcart/shoppingcart.component';
-import {provideRouter, RouterConfig} from '@angular/router';
-import {CreateArticleComponent} from './createArticle/createArticle.component';
-import {ProfileComponent} from './profile/profile.component';
-import {CHECKOUT_ROUTES} from './articleCheckout/articleCheckout.routes';
+import { provideRouter, RouterModule } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { ArticleComponent } from './article/article.component';
+import { ArticleInventoryComponent } from './articleInventory/articleInventory.component';
+import { LogoutComponent } from './logout/logout.component';
+import { RegisterComponent } from './register/register.component';
+import { AboutComponent } from './about/about.component';
+import { ContactComponent } from './contact/contact.component';
+import { ImpressumComponent } from './impressum/impressum.component';
+import { ShoppingcartComponent } from './shoppingcart/shoppingcart.component';
+import { CreateArticleComponent } from './createArticle/createArticle.component';
+import { ProfileComponent } from './profile/profile.component';
+import { LoginComponent } from './login/login.component';
+import { DeliveryComponent } from './delivery/delivery.component';
+import { PaymentComponent } from './payment/payment.component';
+import { ConfirmationComponent } from './confirmation/confirmation.component';
 
-export const APP_ROUTES = [
-    { path: '', name: 'Home', component: HomeComponent },
-    { path: 'article', name: 'Artikel', component: ArticleInventoryComponent },
-    { path: 'article/:id', component: ArticleComponent }
-];
-
-export const OTHER_ROUTES = [
-  { path: 'logout', name: 'Logout', component: LogoutComponent },
+export const ROUTES = [
+  { path: '', component: HomeComponent },
+  { path: 'article', component: ArticleInventoryComponent },
+  { path: 'article/:id', component: ArticleComponent },
+  { path: 'logout', component: LogoutComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'shoppingcart', component: ShoppingcartComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
@@ -27,15 +28,13 @@ export const OTHER_ROUTES = [
   { path: 'register', component: RegisterComponent },
   { path: 'insertArticle', component: CreateArticleComponent},
   { path: 'profile', component: ProfileComponent},
-  { path: '**', component: HomeComponent }
-];
-
-export const routes: RouterConfig = [
-  ...APP_ROUTES,
-  ...CHECKOUT_ROUTES,
-  ...OTHER_ROUTES
+  { path: 'checkout/delivery', component: DeliveryComponent },
+  { path: 'checkout/payment', component: PaymentComponent },
+  { path: 'checkout/confirmation', component: ConfirmationComponent }
 ];
 
 export const APP_ROUTER_PROVIDERS = [
-  provideRouter(routes)
+  provideRouter(ROUTES)
 ];
+
+export const routing = RouterModule.forRoot(ROUTES);

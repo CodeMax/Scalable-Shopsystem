@@ -31,8 +31,8 @@ Im Fokus der Arbeit steht die technische Konzeption und die hierauf aufbauende I
     
 ## Entwickler
   **Maximilian Auch** 
-  <a href="http://www.xing.com/profile/Maximilian_Spelsberg" target="_blank" rel="me"><img src="http://www.xing.com/img/buttons/1_de_btn.gif" width="85" height="23" alt="Maximilian Spelsberg"></a>
-<https://github.com/CodeMax>
+  * <a href="http://www.xing.com/profile/Maximilian_Spelsberg" target="_blank" rel="me"><img src="http://www.xing.com/img/buttons/1_de_btn.gif" width="85" height="23" alt="Maximilian Spelsberg"></a>
+   * <https://github.com/CodeMax>
 
 ## Lizenzierung
 Code und Dokumentation sind unter der MIT-Lizenz verfügbar.

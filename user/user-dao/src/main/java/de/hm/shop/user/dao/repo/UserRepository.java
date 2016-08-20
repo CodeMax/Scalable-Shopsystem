@@ -37,7 +37,7 @@ public interface UserRepository extends PagingAndSortingRepository<UserEntity, L
 	@Query("UPDATE UserEntity p SET p.firstname = :#{#user.firstname}, p.lastname = :#{#user.lastname}, "
 			+ "p.address = :#{#user.address}, p.postcode = :#{#user.postcode}, p.city = :#{#user.city}, "
 			+ "p.country = :#{#user.country} WHERE p.id = :#{#user.id}")
-	Integer update(@Param("user") UserEntity user);
+	void update(@Param("user") UserEntity user);
 	
 	
 	@Modifying

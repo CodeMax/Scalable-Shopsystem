@@ -51,7 +51,7 @@ var ShoppingcartComponent = (function () {
             total = total + article.articlePrice * article.quantity;
         }
         this.totalOfCart = total;
-        this.totalOfCartNetto = Math.round(total / 119 * 19);
+        this.totalOfCartNetto = Math.round(total / 119 * 100);
     };
     ShoppingcartComponent.prototype.onDestroy = function () {
         var _this = this;
@@ -69,13 +69,19 @@ var ShoppingcartComponent = (function () {
         var _this = this;
         this.shoppingcart = cartData;
         this.articles = new Array();
+        // count Items for navigation list
+        var cartCounter;
+        for (var _i = 0, cartData_1 = cartData; _i < cartData_1.length; _i++) {
+            var item = cartData_1[_i];
+            cartCounter = cartCounter + item.quantity;
+        }
         var _loop_1 = function(item) {
             new backendcall_service_1.BackendcallService(this_1._http, 'token', this_1._tokenService.getToken(), 'http://192.168.99.100:8083/articles/' + item.articleId)
                 .getArticle().subscribe(function (data) { return _this.combineArticleData(data, item.quantity); }, function (error) { return _this.handleError(error); }, function () { return console.log('Get all Items complete'); });
         };
         var this_1 = this;
-        for (var _i = 0, cartData_1 = cartData; _i < cartData_1.length; _i++) {
-            var item = cartData_1[_i];
+        for (var _a = 0, cartData_2 = cartData; _a < cartData_2.length; _a++) {
+            var item = cartData_2[_a];
             _loop_1(item);
         }
     };
@@ -83,7 +89,7 @@ var ShoppingcartComponent = (function () {
         var _this = this;
         data.quantity = quantity;
         this.totalOfCart = this.totalOfCart + data.articlePrice * quantity;
-        this.totalOfCartNetto = Math.round(this.totalOfCart / 119 * 19);
+        this.totalOfCartNetto = Math.round(this.totalOfCart / 119 * 100);
         new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8087/user/supplierId/' + data.supplierId)
             .getUserData().subscribe(function (user) { return _this.completeArticleData(data, user.firstname, user.lastname); }, function (error) { return _this.articles.push(data); }, function () { return console.log('Get all Items complete'); });
     };
@@ -96,24 +102,46 @@ var ShoppingcartComponent = (function () {
             this._loginService.setLogin(true);
         }
         if (error.status === 404) {
-            this._router.navigate(['/article']).then(function (data) {
+            this._router.navigate(['article']).then(function (data) {
                 return alert('Es liegen keine Artikel im Warenkorb!');
             }).catch(function (e) { return alert('catch: ' + e); });
         }
     };
     ShoppingcartComponent.prototype.goOnShopping = function () {
         this.onDestroy();
-        this._router.navigate(['/article']);
+        this._router.navigate(['article']);
     };
     ShoppingcartComponent.prototype.goToCheckout = function () {
         this.onDestroy();
-        this._router.navigate(['/checkout/delivery']);
+        this._router.navigate(['checkout/delivery']);
     };
     ShoppingcartComponent.prototype.onDeleteEntry = function (articleId) {
         var _this = this;
+        for (var _i = 0, _a = this.shoppingcart; _i < _a.length; _i++) {
+            var cart = _a[_i];
+            if (cart.articleId === articleId) {
+                var index = this.shoppingcart.indexOf(cart, 0);
+                if (index > -1) {
+                    this.totalOfCart = this.totalOfCart - (this.shoppingcart[index].quantity * this.articles[index].articlePrice);
+                    if (this.totalOfCart <= 0) {
+                        this.totalOfCart = 0;
+                        this.totalOfCartNetto = 0;
+                    }
+                    else {
+                        this.totalOfCartNetto = this.totalOfCart * 100 / 119;
+                    }
+                    this.shoppingcart.splice(index, 1);
+                    this.articles.splice(index, 1);
+                    if (this.shoppingcart.length <= 0) {
+                        this.totalOfCart = 0;
+                        this.totalOfCartNetto = 0;
+                    }
+                }
+            }
+        }
         console.log('Eintrag soll gelöscht werden: ' + articleId);
         new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8084/shoppingcart/' + articleId)
-            .deleteShoppingcartItem().subscribe(function (data) { return _this._router.navigateByUrl('/shoppingcart'); }, function (error) { return _this.handleError(error); }, function () { return console.log('Get all Items complete'); });
+            .deleteItem().subscribe(function (data) { return _this._router.navigateByUrl('/shoppingcart'); }, function (error) { return _this.handleError(error); }, function () { return console.log('Get all Items complete'); });
     };
     ShoppingcartComponent = __decorate([
         core_1.Component({

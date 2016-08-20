@@ -1,8 +1,6 @@
 <div class="alert alert-success" role="alert" *ngIf="_loggedIn === true">
   <h3>Willkommen {{_username}}!</h3>
-  <p>Es sind seit Ihrem letzten Login neue Artikel hinzu gekommen.
-    <button class="btn btn-default" type="button"><i class="fa fa-th-large"></i> Weiter zum Sortiment</button>
-  </p>
+  <p>Es sind seit Ihrem letzten Login neue Artikel hinzu gekommen.</p>
   <hr>
   <p *ngIf="_failedLogins > 0">Seit ihrem letzten Login, gab es {{_failedLogins}} Fehlversuche!
     Sollte es sich hierbei nicht um Ihre versuche handeln,

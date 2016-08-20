@@ -6,13 +6,11 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.theInstance;
 import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
@@ -87,25 +85,5 @@ public class ShoppingcartServiceImplTest {
 		order.verify(shoppingcartRepositoryMock).save(shoppingcartEntity1);
 		order.verify(shoppingcartMapperMock).mapEntityToBo(shoppingcartEntity2);
 		order.verifyNoMoreInteractions();
-	}
-
-
-
-	@Test
-	public void testDelete() {
-		final Long id = Long.valueOf(100L);
-		final Long userId = Long.valueOf(123);
-		when(shoppingcartRepositoryMock.exists(id)).thenReturn(true);
-		when(shoppingcartRepositoryMock.findOne(id)).thenReturn(new ShoppingcartEntity(new Long(100L), userId, 0));
-		
-		sut.delete(100L, userId);
-	}
-
-
-
-	@Test
-	public void testDelete_NotFound() {
-		final Long id = Long.valueOf(100L);
-		sut.delete(id.longValue(), new Long(123));
 	}
 }

@@ -17,10 +17,13 @@ var HomeComponent = (function () {
         this._http = _http;
         this._tokenService = _tokenService;
         this.jwtHelper = new angular2_jwt_1.JwtHelper();
-        this._loggedIn = this._tokenService.getToken() != null;
+        this._loggedIn = this._tokenService.getToken() !== undefined;
+        console.log(this._loggedIn);
+        console.log('token: ' + this._tokenService.getToken());
         if (this._loggedIn) {
             this._username = this.jwtHelper.decodeToken(this._tokenService.getToken()).username;
             this._failedLogins = this.jwtHelper.decodeToken(this._tokenService.getToken()).failedLogins;
+            console.log('username: ' + this._username + ', failedLogins: ' + this._failedLogins);
         }
     }
     HomeComponent = __decorate([

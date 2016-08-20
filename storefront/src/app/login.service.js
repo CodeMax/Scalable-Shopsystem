@@ -29,14 +29,18 @@ var LoginService = (function () {
     };
     LoginService.prototype.onSubmit = function (username, password) {
         this.submitted = true;
-        console.log(username + ', ' + password);
+        console.log('loginservice onsubmit: ' + username + ', ' + password);
         this.authenticateForToken(username, password);
     };
     LoginService.prototype.authenticateForToken = function (user, pw) {
         var _this = this;
+        console.log('loginservice authenticatefortoken: ' + user + ', ' + pw);
         new backendcall_service_1.BackendcallService(this._http, user, pw, 'http://192.168.99.100:8088/authentication')
-            .getToken().then(function (data) { return _this._tokenService.saveToken(data) && _this._router.navigateByUrl('/'); })
-            .then(function () { return console.log(_this._tokenService.getToken()); });
+            .getToken().subscribe(function (data) { return _this.saveTokenAndNavigate(data); }, function (error) { return console.log(error); });
+    };
+    LoginService.prototype.saveTokenAndNavigate = function (token) {
+        this._tokenService.saveToken(token);
+        this._router.navigateByUrl('/login');
     };
     LoginService = __decorate([
         core_1.Injectable(), 

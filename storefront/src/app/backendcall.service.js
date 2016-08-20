@@ -21,80 +21,107 @@ var BackendcallService = (function () {
         this._http = _http;
         // ArticleList
         this.getAllArticle = function () {
-            return _this._http.get(_this.actionUrl, { headers: _this.headers })
+            return _this._http.get(_this.actionUrl, _this.options)
                 .map(_this.extractArticleList)
                 .catch(_this.handleError);
         };
         // Article-Detailpage
         this.getArticle = function () {
-            return _this._http.get(_this.actionUrl, { headers: _this.headers })
+            return _this._http.get(_this.actionUrl, _this.options)
                 .map(_this.extract)
                 .catch(_this.handleError);
         };
         this.postArticle = function (article) {
             var body = JSON.stringify(article);
-            var options = new http_1.RequestOptions({ headers: _this.headers });
+            var options = new http_1.RequestOptions();
+            options.headers = _this.headers;
             return _this._http.post(_this.actionUrl, body, options)
                 .catch(_this.handleError);
         };
         this.updateArticle = function (article) {
             var body = JSON.stringify(article);
-            var options = new http_1.RequestOptions({ headers: _this.headers });
+            var options = new http_1.RequestOptions();
+            options.headers = _this.headers;
             return _this._http.put(_this.actionUrl, body, options)
+                .catch(_this.handleError);
+        };
+        // Authentication
+        this.getToken = function () {
+            return _this._http.get(_this.actionUrl, _this.options)
+                .map(_this.extractToken)
                 .catch(_this.handleError);
         };
         // Shoppingcart
         this.getAllShoppingcartItems = function () {
-            return _this._http.get(_this.actionUrl, { headers: _this.headers })
+            return _this._http.get(_this.actionUrl, _this.options)
                 .map(_this.extractShoppingCartList)
                 .catch(_this.handleError);
         };
-        this.deleteShoppingcartItem = function () {
-            return _this._http.delete(_this.actionUrl, { headers: _this.headers })
+        this.deleteItem = function () {
+            return _this._http.delete(_this.actionUrl, _this.options)
                 .catch(_this.handleError);
         };
         this.postArticleToShoppingcart = function (articleId, userId, quantity) {
             var body = JSON.stringify({ articleId: articleId, userId: userId, quantity: quantity });
-            var options = new http_1.RequestOptions({ headers: _this.headers });
+            var options = new http_1.RequestOptions();
+            options.headers = _this.headers;
             return _this._http.post(_this.actionUrl, body, options)
                 .catch(_this.handleError);
         };
         this.updateArticleToShoppingcart = function (articleId, userId, quantity) {
             var body = JSON.stringify({ articleId: articleId, userId: userId, quantity: quantity });
-            var options = new http_1.RequestOptions({ headers: _this.headers });
+            var options = new http_1.RequestOptions();
+            options.headers = _this.headers;
             return _this._http.put(_this.actionUrl, body, options)
                 .catch(_this.handleError);
         };
         // User
         this.getUserData = function () {
-            return _this._http.get(_this.actionUrl, { headers: _this.headers })
+            return _this._http.get(_this.actionUrl, _this.options)
                 .map(_this.extract)
                 .catch(_this.handleError);
         };
         this.saveUserData = function (id, firstname, lastname, address, postcode, city, country) {
             var body = JSON.stringify({ id: id, firstname: firstname, lastname: lastname, address: address, postcode: postcode, city: city, country: country });
-            var options = new http_1.RequestOptions({ headers: _this.headers });
+            var options = new http_1.RequestOptions();
+            options.headers = _this.headers;
             return _this._http.post(_this.actionUrl, body, options)
                 .map(_this.extract)
                 .catch(_this.handleError);
         };
         this.updateUserData = function (id, firstname, lastname, address, postcode, city, country) {
             var body = JSON.stringify({ id: id, firstname: firstname, lastname: lastname, address: address, postcode: postcode, city: city, country: country });
-            var options = new http_1.RequestOptions({ headers: _this.headers });
+            var options = new http_1.RequestOptions();
+            options.headers = _this.headers;
             return _this._http.put(_this.actionUrl, body, options)
                 .map(_this.extract)
                 .catch(_this.handleError);
         };
         this.saveAuthData = function (username, password) {
             var body = JSON.stringify({ username: username, password: password });
-            var options = new http_1.RequestOptions({ headers: _this.headers });
+            var options = new http_1.RequestOptions();
+            options.headers = _this.headers;
             return _this._http.post(_this.actionUrl, body, options)
                 .map(_this.extract)
                 .catch(_this.handleError);
         };
         // Delivery
         this.getDelivery = function () {
-            return _this._http.get(_this.actionUrl, { headers: _this.headers })
+            return _this._http.get(_this.actionUrl, _this.options)
+                .map(_this.extract)
+                .catch(_this.handleError);
+        };
+        // Payment
+        this.getPayment = function () {
+            return _this._http.get(_this.actionUrl, _this.options)
+                .map(_this.extractPaymentList)
+                .catch(_this.handleError);
+        };
+        this.postPaymentMethod = function (supplierId, method) {
+            var body = JSON.stringify({ supplierId: supplierId, method: method });
+            var options = new http_1.RequestOptions();
+            options.headers = _this.headers;
+            return _this._http.post(_this.actionUrl, body, options)
                 .map(_this.extract)
                 .catch(_this.handleError);
         };
@@ -109,15 +136,11 @@ var BackendcallService = (function () {
         this.headers.append('Authorization', this.encodedString);
         this.headers.append('Content-Type', 'application/json');
         this.headers.append('Accept', 'application/json');
+        this.options = new http_1.RequestOptions({
+            body: '',
+            headers: this.headers
+        });
     }
-    // Authentication
-    BackendcallService.prototype.getToken = function () {
-        var _this = this;
-        return this._http.get(this.actionUrl, { headers: this.headers })
-            .toPromise()
-            .then(function (response) { return _this.extractToken(response); })
-            .catch(this.handleError);
-    };
     BackendcallService.prototype.extractArticleList = function (res) {
         console.log('extractData() is executed.');
         var body = res.json();
@@ -127,6 +150,11 @@ var BackendcallService = (function () {
         console.log('extract() is executed.');
         var body = res.json();
         return body || {};
+    };
+    BackendcallService.prototype.extractPaymentList = function (res) {
+        console.log('extract() is executed.');
+        var body = res.json();
+        return body.paymentList || {};
     };
     BackendcallService.prototype.extractShoppingCartList = function (res) {
         console.log('extract() is executed.');
@@ -139,9 +167,6 @@ var BackendcallService = (function () {
         return token || {};
     };
     BackendcallService.prototype.handleError = function (error) {
-        /*        let errMsg = (error.message) ? error.message :
-                   error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-                console.log(errMsg); */
         return Observable_1.Observable.throw(error);
     };
     BackendcallService = __decorate([

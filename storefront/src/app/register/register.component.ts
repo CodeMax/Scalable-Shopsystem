@@ -1,16 +1,15 @@
 import {Component} from '@angular/core';
 import {Router, ROUTER_DIRECTIVES} from '@angular/router';
-import {Http, HTTP_PROVIDERS} from '@angular/http';
+import {Http} from '@angular/http';
 import {CORE_DIRECTIVES} from '@angular/common';
 import {BackendcallService} from './../backendcall.service';
 import {TokenService, Token} from './../token.service';
 import {User} from './../user.service';
 
 @Component({
-    selector: 'as-kebab-case', // as-articleInventory
+    selector: 'as-kebab-case',
     templateUrl: 'app/register/register.html',
-    directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES],
-    viewProviders: [HTTP_PROVIDERS]
+    directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES]
 })
 
 export class RegisterComponent {
@@ -34,8 +33,8 @@ export class RegisterComponent {
     getTokenToSaveUser(userId: number) {
          this._newUser.id = userId;
          new BackendcallService(this._http, this._newUser.username, this._newUser.password, 'http://192.168.99.100:8088/authentication')
-                  .getToken().then((data: Token) => this.saveUserDetail(data))
-                  .then(() => console.log(this._tokenService.getToken()));
+         .getToken().subscribe((data: Token) => this.saveUserDetail(data)
+         , error =>  console.log(<any>error));
       }
 
     saveUserDetail(token: Token) {

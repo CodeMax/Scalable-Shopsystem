@@ -23,14 +23,19 @@ var ArticleInventoryComponent = (function () {
         this._loginService = _loginService;
         this._router = _router;
         this._route = _route;
-        // console.log('Enter: ' + _route.params['enter']);
     }
     ArticleInventoryComponent.prototype.ngOnInit = function () {
-        // this.searchstring = this._route.queryParams.map(params => params['enter'] || 'none');
-        // this.distance = this._route.queryParams.map(params => params['distance'] || 'none');
         var _this = this;
-        if (this.searchstring !== 'none') {
-            this.backend = new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8083/articles/search?enter=' + this.searchstring + '&distance=' + this.distance);
+        this._route.params.subscribe(function (params) {
+            return _this.getArticles(_this.searchstring = params.enter, _this.distance = params.distance);
+        }, function (error) { return _this.handleError(error); });
+    };
+    ArticleInventoryComponent.prototype.getArticles = function (enter, distance) {
+        var _this = this;
+        if (this.searchstring !== undefined) {
+            // alert('1 searchstring: ' + this.searchstring + ', distance: ' + this.distance);
+            this.backend = new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8083/articles/search?enter='
+                + this.searchstring + '&distance=' + this.distance);
         }
         else {
             this.backend = new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8083/articles');
@@ -50,11 +55,7 @@ var ArticleInventoryComponent = (function () {
             selector: 'as-kebab-case',
             templateUrl: 'app/articleInventory/articleInventory.html',
             directives: [router_1.ROUTER_DIRECTIVES, common_1.CORE_DIRECTIVES, article_component_1.ArticleComponent],
-            viewProviders: [http_1.HTTP_PROVIDERS],
-            providers: [token_service_1.TokenService],
-            styleUrls: [
-                'app/articleInventory/articleInventory.css'
-            ]
+            styleUrls: ['app/articleInventory/articleInventory.css']
         }), 
         __metadata('design:paramtypes', [http_1.Http, token_service_1.TokenService, login_service_1.LoginService, router_1.Router, router_1.ActivatedRoute])
     ], ArticleInventoryComponent);

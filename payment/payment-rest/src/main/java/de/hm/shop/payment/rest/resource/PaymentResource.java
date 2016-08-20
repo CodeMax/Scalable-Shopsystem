@@ -60,49 +60,38 @@ public class PaymentResource {
 	@Inject
 	private EntityLinks entityLinks;
 
-
-
-	@GET
-	@RolesAllowed(value = { "user" })
-	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response getAllPayment() {
-		LOG.info("Aufruf der getAllPayment()-Methode");
-		
-		final Collection<PaymentBo> paymentBos = paymentService.getAll();
-		final Collection<PaymentDto> paymentDtos = mapBosToDtos(paymentBos);
-
-		for (final PaymentDto paymentDto : paymentDtos) {
-			addSelfLink(paymentDto);
-		}
-
-		final PaymentDtoList paymentDtoList = new PaymentDtoList(paymentDtos,
-				entityLinks.linkToCollectionResource(PaymentDto.class));
-		return Response.ok(paymentDtoList).build();
-	}
-
-
+	
 
 	@GET
-	@Path("{id}")
+	@Path("{supplierId}")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	public Response getById(@PathParam("id") final Long id) {
-		LOG.info("Aufruf der getById()-Methode mit der id: {}", id);
+	public Response getAllBySupplierId(@PathParam("supplierId") final Long supplierId) {
+		LOG.info("Aufruf der getById()-Methode mit der id: {}", supplierId);
 		
-		Validate.notNull(id);
+		Validate.notNull(supplierId);
 
-		final PaymentBo paymentBo = paymentService.getById(id);
-		if (paymentBo != null) {
-			final PaymentDto paymentDto = paymentMapper.mapBoToDto(paymentBo);
-			return okResponseWithSelfLink(paymentDto);
-		} else {
-			return Response.status(Status.NOT_FOUND).entity(Status.NOT_FOUND.getReasonPhrase()).build();
+		final Collection<PaymentBo> paymentBos = paymentService.getBySupplierId(supplierId);
+		
+		if(paymentBos == null || paymentBos.isEmpty()){
+			return Response.status(404).entity("Not Found").build();
 		}
+		
+		final Collection<PaymentDto> shoppingcartDtos = mapBosToDtos(paymentBos);
+		
+		for (final PaymentDto shoppingcartDto : shoppingcartDtos) {
+			addSelfLink(shoppingcartDto);
+		}
+		
+		final PaymentDtoList shoppingcartDtoList = new PaymentDtoList(shoppingcartDtos,
+				entityLinks.linkToCollectionResource(PaymentDto.class));
+		return Response.ok(shoppingcartDtoList).build();
 	}
 
-
+	
 
 	@POST
+	@RolesAllowed(value = { "user" })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response createNewPayment(final PaymentDto paymentDto) {
@@ -121,6 +110,7 @@ public class PaymentResource {
 
 	@PUT
 	@Path("{id}")
+	@RolesAllowed(value = { "user" })
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	public Response updatePayment(@PathParam(value = "id") String id, final PaymentDto paymentDto) {

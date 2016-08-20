@@ -9,9 +9,7 @@ import 'rxjs/add/observable/timer';
   selector: 'as-logout',
   templateUrl: 'app/logout/logout.html',
   directives: [CORE_DIRECTIVES, FORM_DIRECTIVES],
-  styleUrls: [
-      'app/logout/logout.css'
-  ]
+  styleUrls: ['app/logout/logout.css']
 })
 
 export class LogoutComponent implements OnInit {

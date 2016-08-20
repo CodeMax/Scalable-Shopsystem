@@ -11,6 +11,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.Test;
@@ -18,6 +19,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.google.common.collect.Lists;
@@ -58,34 +60,18 @@ public class PaymentServiceImplTest {
 
 	@Test
 	public void testGetAll() {
-		when(paymentRepositoryMock.findAll()).thenReturn(Lists.newArrayList(paymentEntity1, paymentEntity2));
+		when(paymentRepositoryMock.findEntriesByArticleId(Mockito.anyLong())).thenReturn(Lists.newArrayList(paymentEntity1, paymentEntity2));
 		when(paymentMapperMock.mapEntityToBo(paymentEntity1)).thenReturn(paymentDto1);
 		when(paymentMapperMock.mapEntityToBo(paymentEntity2)).thenReturn(paymentDto2);
 
-		final List<PaymentBo> result = sut.getAll();
+		final Collection<PaymentBo> result = sut.getBySupplierId(100L);
 		assertThat(result, is(notNullValue()));
 		assertThat(result, containsInAnyOrder(paymentDto1, paymentDto2));
 
 		final InOrder order = inOrder(paymentRepositoryMock, paymentMapperMock);
-		order.verify(paymentRepositoryMock).findAll();
+		order.verify(paymentRepositoryMock).findEntriesByArticleId(100L);
 		order.verify(paymentMapperMock).mapEntityToBo(paymentEntity1);
 		order.verify(paymentMapperMock).mapEntityToBo(paymentEntity2);
-		order.verifyNoMoreInteractions();
-	}
-
-
-
-	@Test
-	public void testGetById() {
-		when(paymentRepositoryMock.findOne(Long.valueOf(100L))).thenReturn(paymentEntity1);
-		when(paymentMapperMock.mapEntityToBo(paymentEntity1)).thenReturn(paymentDto1);
-
-		final PaymentBo result = sut.getById(100L);
-		assertThat(result, is(theInstance(paymentDto1)));
-
-		final InOrder order = inOrder(paymentRepositoryMock, paymentMapperMock);
-		order.verify(paymentRepositoryMock).findOne(Long.valueOf(100L));
-		order.verify(paymentMapperMock).mapEntityToBo(paymentEntity1);
 		order.verifyNoMoreInteractions();
 	}
 

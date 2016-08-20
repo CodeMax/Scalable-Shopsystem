@@ -113,7 +113,7 @@ public class ArticleEntity extends AbstractEntity {
 
 
 
-	public int getArticleStock() {
+	public Integer getArticleStock() {
 		return articleStock;
 	}
 

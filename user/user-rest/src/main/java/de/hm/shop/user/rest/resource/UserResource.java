@@ -1,10 +1,6 @@
 package de.hm.shop.user.rest.resource;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-
-import javax.annotation.security.DenyAll;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +19,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -192,6 +187,7 @@ public class UserResource {
 
 
 	private Response okResponseWithSelfLink(final UserDto userDto) {
+		LOG.info("okResponseWithSelfLink() wurde mit dem UserDto {} aufgerufen", userDto);
 		addSelfLink(userDto);
 		return Response.ok(userDto).build();
 	}

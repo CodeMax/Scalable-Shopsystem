@@ -37,9 +37,7 @@ var LogoutComponent = (function () {
             selector: 'as-logout',
             templateUrl: 'app/logout/logout.html',
             directives: [common_1.CORE_DIRECTIVES, common_1.FORM_DIRECTIVES],
-            styleUrls: [
-                'app/logout/logout.css'
-            ]
+            styleUrls: ['app/logout/logout.css']
         }), 
         __metadata('design:paramtypes', [router_1.Router, token_service_1.TokenService])
     ], LogoutComponent);

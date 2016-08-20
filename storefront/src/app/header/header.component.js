@@ -9,8 +9,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var common_1 = require('@angular/common');
-var router_1 = require('@angular/router');
 var HeaderComponent = (function () {
     function HeaderComponent() {
     }
@@ -18,8 +16,7 @@ var HeaderComponent = (function () {
         core_1.Component({
             selector: 'as-header',
             templateUrl: 'app/header/header.html',
-            changeDetection: core_1.ChangeDetectionStrategy.OnPush,
-            directives: [router_1.ROUTER_DIRECTIVES, common_1.CORE_DIRECTIVES]
+            changeDetection: core_1.ChangeDetectionStrategy.OnPush
         }), 
         __metadata('design:paramtypes', [])
     ], HeaderComponent);

@@ -90,7 +90,7 @@ public class ShoppingcartResourceTest {
 
 	@After
 	public void cleanUp() {
-		shoppingcartService.delete(shoppingcartBo1.getId(), shoppingcartBo1.getUserId());
+		shoppingcartService.delete(shoppingcartBo1.getArticleId(), shoppingcartBo1.getUserId());
 	}
 
 
@@ -156,7 +156,7 @@ public class ShoppingcartResourceTest {
 		assertThat(resultShoppingcart.getId(), is(notNullValue()));
 		assertSelfLink(resultShoppingcart.getLinks(), result.getLocation().toString());
 
-		shoppingcartService.delete(resultShoppingcart.getId(), resultShoppingcart.getUserId());
+		shoppingcartService.delete(resultShoppingcart.getArticleId(), resultShoppingcart.getUserId());
 	}
 
 
@@ -186,7 +186,7 @@ public class ShoppingcartResourceTest {
 
 	@Test
 	public void testDeleteById() {
-		final Response result = client.target(HOST).path("shoppingcart/" + shoppingcartBo1.getId())
+		final Response result = client.target(HOST).path("shoppingcart/" + shoppingcartBo1.getArticleId())
 				.request(MediaType.APPLICATION_XML).header("AUTHORIZATION", vaildAuthToken).delete();
 		assertThat(result, is(notNullValue()));
 		assertThat(result.getStatus(), is(equalTo(Status.NO_CONTENT.getStatusCode())));

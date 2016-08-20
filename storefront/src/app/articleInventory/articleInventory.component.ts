@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
-import {Http, HTTP_PROVIDERS} from '@angular/http';
+import {Http} from '@angular/http';
 import {BackendcallService} from './../backendcall.service';
 import {TokenService} from '../token.service';
 import {ROUTER_DIRECTIVES, Router, ActivatedRoute} from '@angular/router';
@@ -11,11 +11,7 @@ import {LoginService} from './../login.service';
     selector: 'as-kebab-case',
     templateUrl: 'app/articleInventory/articleInventory.html',
     directives: [ROUTER_DIRECTIVES, CORE_DIRECTIVES, ArticleComponent],
-    viewProviders: [HTTP_PROVIDERS],
-    providers: [TokenService],
-    styleUrls: [
-        'app/articleInventory/articleInventory.css'
-    ]
+    styleUrls: ['app/articleInventory/articleInventory.css']
 })
 
 export class ArticleInventoryComponent implements OnInit {
@@ -28,20 +24,24 @@ export class ArticleInventoryComponent implements OnInit {
       constructor(private _http: Http, private _tokenService: TokenService,
                   private _loginService: LoginService, private _router: Router,
                   private _route: ActivatedRoute) {
-                    // console.log('Enter: ' + _route.params['enter']);
       }
 
       ngOnInit() {
-        // this.searchstring = this._route.queryParams.map(params => params['enter'] || 'none');
-        // this.distance = this._route.queryParams.map(params => params['distance'] || 'none');
+        this._route.params.subscribe((params: { enter: string, distance: number }) =>
+          this.getArticles(this.searchstring = params.enter,
+                           this.distance = params.distance),
+                           error => this.handleError(error));
+      }
 
-        if ( this.searchstring !== 'none' ) {
+      getArticles(enter: any, distance: any) {
+        if ( this.searchstring !== undefined) {
+          // alert('1 searchstring: ' + this.searchstring + ', distance: ' + this.distance);
           this.backend = new BackendcallService(this._http, 'token', this._tokenService.getToken(),
-                        'http://192.168.99.100:8083/articles/search?enter=' + this.searchstring + '&distance=' + this.distance);
+                        'http://192.168.99.100:8083/articles/search?enter='
+                        + this.searchstring + '&distance=' + this.distance);
         } else {
           this.backend = new BackendcallService(this._http, 'token', this._tokenService.getToken(),
                         'http://192.168.99.100:8083/articles');
-
         }
 
         this.backend.getAllArticle()

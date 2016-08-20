@@ -20,18 +20,33 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 public class PaymentEntity extends AbstractEntity {
 
 	@Column
-	private String name;
+	private Long supplierId;
+	
+	@Column
+	private String method;
 
 
 	
-	public String getName() {
-		return name;
+	public Long getSupplierId() {
+		return supplierId;
 	}
 
 
 
-	public void setName(final String name) {
-		this.name = name;
+	public void setSupplierId(Long supplierId) {
+		this.supplierId = supplierId;
+	}
+
+
+
+	public String getMethod() {
+		return method;
+	}
+
+
+
+	public void setMethod(String method) {
+		this.method = method;
 	}
 
 

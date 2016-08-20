@@ -32,8 +32,7 @@ var RegisterComponent = (function () {
         var _this = this;
         this._newUser.id = userId;
         new backendcall_service_1.BackendcallService(this._http, this._newUser.username, this._newUser.password, 'http://192.168.99.100:8088/authentication')
-            .getToken().then(function (data) { return _this.saveUserDetail(data); })
-            .then(function () { return console.log(_this._tokenService.getToken()); });
+            .getToken().subscribe(function (data) { return _this.saveUserDetail(data); }, function (error) { return console.log(error); });
     };
     RegisterComponent.prototype.saveUserDetail = function (token) {
         var _this = this;
@@ -50,8 +49,7 @@ var RegisterComponent = (function () {
         core_1.Component({
             selector: 'as-kebab-case',
             templateUrl: 'app/register/register.html',
-            directives: [router_1.ROUTER_DIRECTIVES, common_1.CORE_DIRECTIVES],
-            viewProviders: [http_1.HTTP_PROVIDERS]
+            directives: [router_1.ROUTER_DIRECTIVES, common_1.CORE_DIRECTIVES]
         }), 
         __metadata('design:paramtypes', [http_1.Http, router_1.Router, token_service_1.TokenService])
     ], RegisterComponent);

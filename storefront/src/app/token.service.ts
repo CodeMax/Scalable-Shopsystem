@@ -34,12 +34,14 @@ export class TokenService {
   }
 
   public saveToken(value: Token) {
+      console.log('Token wird gespeichert: ' + JSON.stringify(value));
       this._cookieService.put(this.tokenstorekey, JSON.stringify(value));
       this._navibarService.hasToken(true);
   }
 
   public getToken() {
       let token = this._cookieService.get(this.tokenstorekey);
+      console.log('tokenservice gettoken: ' + token);
       return token;
   }
 

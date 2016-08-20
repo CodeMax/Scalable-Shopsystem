@@ -1,6 +1,7 @@
 package de.hm.shop.payment.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -54,16 +55,24 @@ public class PaymentServiceImpl implements PaymentService {
 
 
 	@Transactional(readOnly = true)
-	public PaymentBo getById(final long id) {
-		final PaymentEntity paymentEntity = paymentRepository.findOne(id);
-		return paymentEntity != null ? paymentMapper.mapEntityToBo(paymentEntity) : null;
+	public Collection<PaymentBo> getBySupplierId(final long id) {
+		final List<PaymentBo> paymentBos = new ArrayList<PaymentBo>();
+		final Iterable<PaymentEntity> paymentEntityList = paymentRepository.findEntriesByArticleId(id);
+		if (paymentEntityList != null) {
+			for (final PaymentEntity paymentEntity : paymentEntityList) {
+				if(paymentEntity != null){
+					paymentBos.add(paymentMapper.mapEntityToBo(paymentEntity));
+				}
+			}
+		}
+		return paymentBos;
 	}
-
+	
 
 
 	public PaymentBo save(final PaymentBo paymentBo) throws PaymentException {
 		Validate.notNull(paymentBo);
-		LOG.debug("Speichere Example mit Namen {}", paymentBo.getName());
+		LOG.debug("Speichere Example mit Payment {}", paymentBo.getSupplierId());
 
 		final PaymentEntity paymentEntity = paymentMapper.mapBoToEntity(paymentBo);
 		final PaymentEntity paymentEntitySaved = paymentRepository.save(paymentEntity);

@@ -60,7 +60,7 @@ export class ShoppingcartComponent implements OnInit {
          total = total + article.articlePrice * article.quantity;
       }
       this.totalOfCart = total;
-      this.totalOfCartNetto = Math.round( total / 119 * 19 );
+      this.totalOfCartNetto = Math.round( total / 119 * 100 );
     }
 
     onDestroy() {
@@ -83,6 +83,12 @@ export class ShoppingcartComponent implements OnInit {
         this.shoppingcart = cartData;
         this.articles = new Array();
 
+        // count Items for navigation list
+        let cartCounter: number;
+        for (let item of cartData) {
+          cartCounter = cartCounter + item.quantity;
+        }
+
         for (let item of cartData) {
             new BackendcallService(this._http, 'token', this._tokenService.getToken(),
                 'http://192.168.99.100:8083/articles/' + item.articleId)
@@ -96,7 +102,7 @@ export class ShoppingcartComponent implements OnInit {
     combineArticleData(data: Article, quantity: number) {
         data.quantity = quantity;
         this.totalOfCart = this.totalOfCart + data.articlePrice * quantity;
-        this.totalOfCartNetto = Math.round( this.totalOfCart / 119 * 19 );
+        this.totalOfCartNetto = Math.round( this.totalOfCart / 119 * 100 );
         new BackendcallService(this._http, 'token', this._tokenService.getToken(),
             'http://192.168.99.100:8087/user/supplierId/' + data.supplierId)
             .getUserData().subscribe((user: User) => this.completeArticleData(data, user.firstname, user.lastname),
@@ -116,7 +122,7 @@ export class ShoppingcartComponent implements OnInit {
             this._loginService.setLogin(true);
         }
         if (error.status === 404) {
-            this._router.navigate(['/article']).then((data: any) =>
+            this._router.navigate(['article']).then((data: any) =>
               alert('Es liegen keine Artikel im Warenkorb!')
             ).catch((e: any) => alert('catch: ' + e));
         }
@@ -125,21 +131,43 @@ export class ShoppingcartComponent implements OnInit {
 
     goOnShopping() {
         this.onDestroy();
-        this._router.navigate(['/article']);
+        this._router.navigate(['article']);
     }
 
 
     goToCheckout() {
         this.onDestroy();
-        this._router.navigate(['/checkout/delivery']);
+        this._router.navigate(['checkout/delivery']);
     }
 
 
     onDeleteEntry(articleId: number) {
+
+        for (let cart of this.shoppingcart) {
+          if (cart.articleId === articleId) {
+            let index = this.shoppingcart.indexOf(cart, 0);
+            if (index > -1) {
+               this.totalOfCart = this.totalOfCart - (this.shoppingcart[index].quantity * this.articles[index].articlePrice);
+               if ( this.totalOfCart <= 0) {
+                 this.totalOfCart = 0;
+                 this.totalOfCartNetto = 0;
+               } else {
+                 this.totalOfCartNetto = this.totalOfCart * 100 / 119;
+               }
+               this.shoppingcart.splice(index, 1);
+               this.articles.splice(index, 1);
+               if (this.shoppingcart.length <= 0) {
+                 this.totalOfCart = 0;
+                 this.totalOfCartNetto = 0;
+               }
+            }
+          }
+        }
+
         console.log('Eintrag soll gelöscht werden: ' + articleId);
         new BackendcallService(this._http, 'token', this._tokenService.getToken(),
             'http://192.168.99.100:8084/shoppingcart/' + articleId)
-            .deleteShoppingcartItem().subscribe((data: any) => this._router.navigateByUrl('/shoppingcart'),
+            .deleteItem().subscribe((data: any) => this._router.navigateByUrl('/shoppingcart'),
             error => this.handleError(error),
             () => console.log('Get all Items complete'));
     }

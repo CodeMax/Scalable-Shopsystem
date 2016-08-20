@@ -79,6 +79,8 @@ public class ShippmentServiceImpl implements ShippmentService {
 
 		if (shippmentRepository.exists(id)) {
 			shippmentRepository.delete(id);
+		} else {
+			throw new NullPointerException("Warenkorbeintrag konnte nicht gefunden werden!");
 		}
 	}
 }
