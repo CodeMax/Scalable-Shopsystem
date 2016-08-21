@@ -15,6 +15,8 @@ var login_component_1 = require('./login/login.component');
 var delivery_component_1 = require('./delivery/delivery.component');
 var payment_component_1 = require('./payment/payment.component');
 var confirmation_component_1 = require('./confirmation/confirmation.component');
+var agb_component_1 = require('./agb/agb.component');
+var sendOrder_component_1 = require('./sendOrder/sendOrder.component');
 exports.ROUTES = [
     { path: '', component: home_component_1.HomeComponent },
     { path: 'article', component: articleInventory_component_1.ArticleInventoryComponent },
@@ -30,7 +32,9 @@ exports.ROUTES = [
     { path: 'profile', component: profile_component_1.ProfileComponent },
     { path: 'checkout/delivery', component: delivery_component_1.DeliveryComponent },
     { path: 'checkout/payment', component: payment_component_1.PaymentComponent },
-    { path: 'checkout/confirmation', component: confirmation_component_1.ConfirmationComponent }
+    { path: 'checkout/confirmation', component: confirmation_component_1.ConfirmationComponent },
+    { path: 'agb', component: agb_component_1.AGBComponent },
+    { path: 'checkout/order', component: sendOrder_component_1.SendOrderComponent }
 ];
 exports.APP_ROUTER_PROVIDERS = [
     router_1.provideRouter(exports.ROUTES)

@@ -25,6 +25,7 @@ var ArticleComponent = (function () {
         this._activeRoute = _activeRoute;
         this._router = _router;
         this.jwtHelper = new angular2_jwt_1.JwtHelper();
+        this._quantityToHigh = false;
         console.log('Article-Component constructor()');
         _loginService.loginNeeded$.subscribe(function (needForLogin) {
             needForLogin = true;
@@ -45,12 +46,20 @@ var ArticleComponent = (function () {
     };
     ArticleComponent.prototype.onShoppingcartSubmit = function (quantity) {
         var _this = this;
-        console.log('Shoppingcart-Eintrag:'
-            + this.jwtHelper.decodeToken(this._tokenService.getToken()).userId + ', '
-            + this.selectedArticle.supplierId + ', ' + quantity);
-        new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8084/shoppingcart/')
-            .postArticleToShoppingcart(this.selectedArticle.id, this.jwtHelper.decodeToken(this._tokenService.getToken()).userId, quantity)
-            .subscribe(function (data) { return _this._router.navigate(['/shoppingcart']); }, function (error) { return _this.handleError(error); });
+        if (quantity <= this.selectedArticle.articleStock) {
+            console.log('Shoppingcart-Eintrag:'
+                + this.jwtHelper.decodeToken(this._tokenService.getToken()).userId + ', '
+                + this.selectedArticle.supplierId + ', ' + quantity);
+            new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8084/shoppingcart/')
+                .postArticleToShoppingcart(this.selectedArticle.id, this.jwtHelper.decodeToken(this._tokenService.getToken()).userId, quantity)
+                .subscribe(function (data) { return _this._router.navigate(['/shoppingcart']); }, function (error) { return _this.handleError(error); });
+        }
+        else {
+            this._quantityToHigh = true;
+        }
+    };
+    ArticleComponent.prototype.goBackToArticleInventory = function () {
+        this._router.navigate(['article']);
     };
     ArticleComponent = __decorate([
         core_1.Component({

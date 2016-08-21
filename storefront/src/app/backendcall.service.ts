@@ -142,10 +142,20 @@ export class BackendcallService {
       }
 
       // Delivery
-      public getDelivery = (): Observable<Delivery> => {
+      public getDelivery = (): Observable<Delivery[]> => {
         return this._http.get(this.actionUrl, this.options)
-                   .map(this.extract)
+                   .map(this.extractDeliveryList)
                    .catch(this.handleError);
+      }
+
+      public postDelivery = (id: number, shipmentReady: boolean, shippingDays: number, shippingMethod: string ): Observable<Delivery> => {
+          let body = JSON.stringify({ id, shipmentReady, shippingDays, shippingMethod });
+          let options = new RequestOptions();
+          options.headers = this.headers;
+
+          return this._http.post(this.actionUrl, body, options)
+                     .map(this.extract)
+                     .catch(this.handleError);
       }
 
       // Payment
@@ -165,10 +175,17 @@ export class BackendcallService {
                      .catch(this.handleError);
       }
 
+
       private extractArticleList(res: Response) {
           console.log('extractData() is executed.');
           let body = res.json();
           return body.articleList || { };
+      }
+
+      private extractDeliveryList(res: Response) {
+          console.log('extractData() is executed.');
+          let body = res.json();
+          return body.shippmentList || { };
       }
 
       private extract(res: Response) {

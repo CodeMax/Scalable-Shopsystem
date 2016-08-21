@@ -15,7 +15,7 @@ import {LoginService} from './../login.service';
 
 export class DeliveryComponent {
 
-    private _delivery: Delivery;
+    private _delivery: Delivery[];
 
     constructor(private _http: Http, private _tokenService: TokenService,
                 private _loginService: LoginService, private _router: Router) {
@@ -25,9 +25,9 @@ export class DeliveryComponent {
       });
       new BackendcallService(this._http, 'token', this._tokenService.getToken(),
           'http://192.168.99.100:8085/shippments/').getDelivery()
-          .subscribe(( data: Delivery ) => this._delivery = data,
+          .subscribe(( data: Delivery[] ) => this._delivery = data,
               error => this.handleError(error),
-              () => console.log('Get all Items in delivery complete')
+              () => console.log('Get all Items in delivery complete: ' + JSON.stringify(this._delivery))
       );
     }
 

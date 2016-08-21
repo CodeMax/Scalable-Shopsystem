@@ -26,7 +26,7 @@ var DeliveryComponent = (function () {
             needForLogin = true;
         });
         new backendcall_service_1.BackendcallService(this._http, 'token', this._tokenService.getToken(), 'http://192.168.99.100:8085/shippments/').getDelivery()
-            .subscribe(function (data) { return _this._delivery = data; }, function (error) { return _this.handleError(error); }, function () { return console.log('Get all Items in delivery complete'); });
+            .subscribe(function (data) { return _this._delivery = data; }, function (error) { return _this.handleError(error); }, function () { return console.log('Get all Items in delivery complete: ' + JSON.stringify(_this._delivery)); });
     }
     DeliveryComponent.prototype.handleError = function (error) {
         this._loginService.setLogin(true);

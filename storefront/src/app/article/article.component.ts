@@ -18,14 +18,16 @@ import {JwtHelper} from 'angular2-jwt';
 
 export class ArticleComponent implements OnInit {
 
-      public selectedArticle: Article;
+      public  selectedArticle: Article;
       private jwtHelper: JwtHelper = new JwtHelper();
+      private _quantityToHigh: boolean;
 
       constructor(private _http: Http,
                   private _tokenService: TokenService,
                   private _loginService: LoginService,
                   private _activeRoute: ActivatedRoute,
                   private _router: Router) {
+        this._quantityToHigh = false;
         console.log('Article-Component constructor()');
         _loginService.loginNeeded$.subscribe(
           needForLogin => {
@@ -53,6 +55,7 @@ export class ArticleComponent implements OnInit {
       }
 
       onShoppingcartSubmit(quantity) {
+        if (quantity <= this.selectedArticle.articleStock ) {
         console.log('Shoppingcart-Eintrag:'
               + this.jwtHelper.decodeToken(this._tokenService.getToken()).userId + ', '
               + this.selectedArticle.supplierId + ', ' + quantity);
@@ -62,6 +65,13 @@ export class ArticleComponent implements OnInit {
               this.jwtHelper.decodeToken(this._tokenService.getToken()).userId, quantity)
               .subscribe(( data: any ) => this._router.navigate(['/shoppingcart']),
                   error => this.handleError(error));
+        } else {
+          this._quantityToHigh = true;
+        }
+      }
+
+      goBackToArticleInventory() {
+        this._router.navigate(['article']);
       }
 }
 

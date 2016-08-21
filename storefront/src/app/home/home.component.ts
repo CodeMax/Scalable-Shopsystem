@@ -18,6 +18,7 @@ export class HomeComponent {
     private _loggedIn: boolean;
 
     constructor(private _http: Http, private _tokenService: TokenService) {
+
       this._loggedIn = this._tokenService.getToken() !== undefined;
       console.log(this._loggedIn);
       console.log('token: ' + this._tokenService.getToken());

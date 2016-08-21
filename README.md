@@ -18,21 +18,21 @@ Für moderne Systeme, wie Webanwendungen, wird heutzutage häufiger die Forderun
 Im Fokus der Arbeit steht die technische Konzeption und die hierauf aufbauende Implementierung eines prototypischen, hoch skalierbaren Shopsystems. Es wird daher schrittweise ein technisches Konzept erarbeitet, in dem Architektur und entsprechende Entwurfsentscheidungen erläutert sind. Im Zuge der Implementierungen ist zunächst ein generischer Microservice zu entwickeln bzw. eine beispielhafte Vorgehensbeschreibung zur Erstellung eines Microservices bereitzustellen, der die Grundlage für die in den Prototypen verwendeten Services darstellt und darüber hinaus auch in Zukunft für die Erweiterung des Systems durch weitere Services verwendet werden kann. 
 
 ## Getting started
-    1. Check out Services
-    2. Install Docker (tested on Windows)
-    3. Run Services in Container
-        3.1. mvn clean package
-        3.2. change directory to <service>-build/target to use the build Fat-Jar
-        3.3. docker build -t <specific_servicename_of_Dockerfile>
-        3.4. docker run -p <port>:<port> -t <specific_servicename_of_Dockerfile>
-    4. Install [NodeJS](https://nodejs.org/en/download/)
-    5. Install [npm](https://www.npmjs.com/)  modules (Die Abhängigkeiten werden unter dem Verzeichnis: '/storefront/node_modules/..' erwartet)
-    6. Run gulp on storefront
+1. Check out Services
+2. Docker installieren (tested on Windows)
+3. Backendservices in Container laufen lassen (siehe Dokumentation für Details)
+    3.1. mvn clean package
+    3.2. Verzeichnis nach <service>-build/target wechseln, um das gebaute Fat-Jar in einen Container zu setzen.
+    3.3. docker build -t <specific_servicename_of_Dockerfile>
+    3.4. docker run -p <port>:<port> -t <specific_servicename_of_Dockerfile>
+4. Installiere <a href="https://nodejs.org/en/download/">NodeJS</a>
+5. Install [npm](https://www.npmjs.com/)  modules (Die Abhängigkeiten werden unter dem Verzeichnis: '/storefront/node_modules/..' erwartet)
+6. Run gulp on storefront
     
 ## Entwickler
   **Maximilian Auch** 
-  * <a href="http://www.xing.com/profile/Maximilian_Spelsberg" target="_blank" rel="me"><img src="http://www.xing.com/img/buttons/1_de_btn.gif" width="85" height="23" alt="Maximilian Spelsberg"></a>
-   * <https://github.com/CodeMax>
+  <a href="http://www.xing.com/profile/Maximilian_Spelsberg" target="_blank" rel="me"><img src="http://www.xing.com/img/buttons/1_de_btn.gif" width="85" height="23" alt="Maximilian Spelsberg"></a>
+  <https://github.com/CodeMax>
 
 ## Lizenzierung
-Code und Dokumentation sind unter der MIT-Lizenz verfügbar.
+Code und Dokumentation sind frei unter der MIT-Lizenz verfügbar.

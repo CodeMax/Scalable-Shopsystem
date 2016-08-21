@@ -108,6 +108,14 @@ var BackendcallService = (function () {
         // Delivery
         this.getDelivery = function () {
             return _this._http.get(_this.actionUrl, _this.options)
+                .map(_this.extractDeliveryList)
+                .catch(_this.handleError);
+        };
+        this.postDelivery = function (id, shipmentReady, shippingDays, shippingMethod) {
+            var body = JSON.stringify({ id: id, shipmentReady: shipmentReady, shippingDays: shippingDays, shippingMethod: shippingMethod });
+            var options = new http_1.RequestOptions();
+            options.headers = _this.headers;
+            return _this._http.post(_this.actionUrl, body, options)
                 .map(_this.extract)
                 .catch(_this.handleError);
         };
@@ -145,6 +153,11 @@ var BackendcallService = (function () {
         console.log('extractData() is executed.');
         var body = res.json();
         return body.articleList || {};
+    };
+    BackendcallService.prototype.extractDeliveryList = function (res) {
+        console.log('extractData() is executed.');
+        var body = res.json();
+        return body.shippmentList || {};
     };
     BackendcallService.prototype.extract = function (res) {
         console.log('extract() is executed.');

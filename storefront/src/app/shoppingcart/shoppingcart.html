@@ -32,7 +32,7 @@
                                 <td class="col-sx-1 col-sm-1 col-md-1" style="text-align: center">
                                     <input type="number" [(ngModel)]="article.quantity" (change)="recalc()" value="3" min="1" required>
                                 </td>
-
+                                
                                 <td class="col-sx-1 col-sm-1 col-md-1 text-center" *ngIf="article.articlePrice > 0"><strong>{{article.articlePrice}} €</strong></td>
                                 <td class="col-sx-1 col-sm-1 col-md-1 text-center" *ngIf="article.articlePrice > 0"><strong>{{article.articlePrice*article.quantity}} €</strong></td>
                                 <td class="col-sx-0 col-sm-1 col-md-1">

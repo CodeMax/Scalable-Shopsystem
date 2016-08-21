@@ -14,6 +14,8 @@ import { LoginComponent } from './login/login.component';
 import { DeliveryComponent } from './delivery/delivery.component';
 import { PaymentComponent } from './payment/payment.component';
 import { ConfirmationComponent } from './confirmation/confirmation.component';
+import { AGBComponent } from './agb/agb.component';
+import { SendOrderComponent } from './sendOrder/sendOrder.component';
 
 export const ROUTES = [
   { path: '', component: HomeComponent },
@@ -30,7 +32,9 @@ export const ROUTES = [
   { path: 'profile', component: ProfileComponent},
   { path: 'checkout/delivery', component: DeliveryComponent },
   { path: 'checkout/payment', component: PaymentComponent },
-  { path: 'checkout/confirmation', component: ConfirmationComponent }
+  { path: 'checkout/confirmation', component: ConfirmationComponent },
+  { path: 'agb', component: AGBComponent },
+  { path: 'checkout/order', component: SendOrderComponent}
 ];
 
 export const APP_ROUTER_PROVIDERS = [

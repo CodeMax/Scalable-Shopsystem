@@ -6,6 +6,11 @@
         <div class="row">
             <div class="col-md-12">
               <div class="form-group">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <button type="reset" value="Reset" name="reset" class="btn btn-lg" (click)="goBackToArticleInventory()"><span class="fa fa-arrow-left"></span>Zurück zur Übersicht</button>
+                      </div>
+                    </div>
                     <br>
                     <div class="row">
                       <div class="col-md-6">
@@ -18,10 +23,15 @@
                         <br>
                         <div *ngIf="selectedArticle">Es sind nur noch {{selectedArticle.articleStock}} Stück übrig.</div>
                         <br>
+
+                        <div class="alert alert-danger" role="alert" *ngIf="_quantityToHigh === true">
+                          <p>Die ausgewählte Stückzahl des Artikels ist leider nicht verfügbar!</p>
+                        </div>
+
                         <form (ngSubmit)="onShoppingcartSubmit(quantity)" #loginForm="ngForm">
                           <div class="row">
                             <div class="col-md-6">
-                              <input class="form-control input-lg" type="number" name="quantity" [(ngModel)]="quantity" min="1" max="100" value="1" placeholder="1">
+                              <input class="form-control input-lg" type="number" name="quantity" [(ngModel)]="quantity" min="1" value="1" placeholder="Stück" required>
                             </div>
                             <div class="col-md-6">
                               <button class="btn btn-success btn-lg" type="submit">In den Warenkorb</button>
