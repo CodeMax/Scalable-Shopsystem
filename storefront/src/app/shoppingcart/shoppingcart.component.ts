@@ -37,6 +37,8 @@ export class ShoppingcartComponent implements OnInit {
 
     ngOnInit() {
         console.log('init start');
+        this.shoppingcart = [];
+        this.articles = [];
         this.totalOfCart = 0;
         this.totalOfCartNetto = 0;
         if (this._tokenService.getToken() !== undefined) {

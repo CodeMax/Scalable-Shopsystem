@@ -67,7 +67,7 @@ export class ProfileComponent {
 
     setPaymentModelAndFlag(data: Payment[]) {
       this._paymentModel = data;
-      if(data === undefined) {
+      if (data === undefined) {
         this._savedPaymentMethods = false;
       }
       this._savedPaymentMethods = true;

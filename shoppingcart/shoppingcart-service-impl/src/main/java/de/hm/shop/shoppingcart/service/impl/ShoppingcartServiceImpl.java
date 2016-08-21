@@ -81,7 +81,7 @@ public class ShoppingcartServiceImpl implements ShoppingcartService {
 	            ShoppingcartEntity sce = entriesOfUser.iterator().next();
 	            if (sce.getArticleId().equals(shoppingcartEntity.getArticleId())) {
 	            	shoppingcartEntity.setQuantity(shoppingcartEntity.getQuantity()+sce.getQuantity());
-	            	delete(sce.getId(), sce.getUserId());
+	            	delete(sce.getArticleId(), sce.getUserId());
 	            	shoppingcartEntitySaved = shoppingcartRepository.save(shoppingcartEntity);
 	            	saved = true;
 	            	break;

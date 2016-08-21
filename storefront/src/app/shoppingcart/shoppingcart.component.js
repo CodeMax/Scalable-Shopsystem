@@ -30,6 +30,8 @@ var ShoppingcartComponent = (function () {
     ShoppingcartComponent.prototype.ngOnInit = function () {
         var _this = this;
         console.log('init start');
+        this.shoppingcart = [];
+        this.articles = [];
         this.totalOfCart = 0;
         this.totalOfCartNetto = 0;
         if (this._tokenService.getToken() !== undefined) {
