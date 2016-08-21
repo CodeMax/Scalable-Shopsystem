@@ -10,16 +10,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
+var router_1 = require('@angular/router');
 var common_1 = require('@angular/common');
 var backendcall_service_1 = require('./../backendcall.service');
 var token_service_1 = require('../token.service');
 var login_service_1 = require('./../login.service');
 var DeliveryComponent = (function () {
-    function DeliveryComponent(_http, _tokenService, _loginService) {
+    function DeliveryComponent(_http, _tokenService, _loginService, _router) {
         var _this = this;
         this._http = _http;
         this._tokenService = _tokenService;
         this._loginService = _loginService;
+        this._router = _router;
         _loginService.loginNeeded$.subscribe(function (needForLogin) {
             needForLogin = true;
         });
@@ -29,6 +31,12 @@ var DeliveryComponent = (function () {
     DeliveryComponent.prototype.handleError = function (error) {
         this._loginService.setLogin(true);
     };
+    DeliveryComponent.prototype.goBackToShoppingcart = function () {
+        this._router.navigate(['shoppingcart']);
+    };
+    DeliveryComponent.prototype.goOn = function () {
+        this._router.navigate(['checkout/payment']);
+    };
     DeliveryComponent = __decorate([
         core_1.Component({
             selector: 'as-delivery',
@@ -36,7 +44,7 @@ var DeliveryComponent = (function () {
             directives: [common_1.CORE_DIRECTIVES],
             styleUrls: ['app/articleCheckout/articleCheckout.css']
         }), 
-        __metadata('design:paramtypes', [http_1.Http, token_service_1.TokenService, login_service_1.LoginService])
+        __metadata('design:paramtypes', [http_1.Http, token_service_1.TokenService, login_service_1.LoginService, router_1.Router])
     ], DeliveryComponent);
     return DeliveryComponent;
 }());

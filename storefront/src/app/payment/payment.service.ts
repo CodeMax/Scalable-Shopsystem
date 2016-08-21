@@ -14,6 +14,15 @@ export class Payment {
 }
 
 @Injectable()
+export class PaymentList {
+    public paymentList: Payment[];
+
+    constructor(list: Payment[]) {
+        this.paymentList = list;
+    }
+}
+
+@Injectable()
 export class List<T> {
     private items: Array<T>;
 

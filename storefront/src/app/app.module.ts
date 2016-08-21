@@ -13,6 +13,7 @@ import { NavibarService } from './navbar.service';
 import { ArticleComponent } from './article/article.component';
 import { ArticleInventoryComponent } from './articleInventory/articleInventory.component';
 import { LogoutComponent } from './logout/logout.component';
+import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
@@ -33,9 +34,9 @@ import { User } from './user.service';
                   ArticleInventoryComponent, LogoutComponent, RegisterComponent,
                   AboutComponent, ContactComponent, ImpressumComponent, ShoppingcartComponent,
                   CreateArticleComponent, ProfileComponent, DeliveryComponent,
-                  PaymentComponent, ConfirmationComponent],
+                  PaymentComponent, ConfirmationComponent, LoginComponent ],
   providers:    [ TokenService, LoginService,
-                  CookieService, AuthHttp, NavibarService, APP_ROUTER_PROVIDERS, User],
+                  CookieService, AuthHttp, NavibarService, APP_ROUTER_PROVIDERS, User ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

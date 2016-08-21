@@ -22,6 +22,17 @@ var Payment = (function () {
     return Payment;
 }());
 exports.Payment = Payment;
+var PaymentList = (function () {
+    function PaymentList(list) {
+        this.paymentList = list;
+    }
+    PaymentList = __decorate([
+        core_1.Injectable(), 
+        __metadata('design:paramtypes', [Array])
+    ], PaymentList);
+    return PaymentList;
+}());
+exports.PaymentList = PaymentList;
 var List = (function () {
     function List() {
         this.items = [];

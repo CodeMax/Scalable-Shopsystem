@@ -8,7 +8,7 @@ import {BackendcallService} from './../backendcall.service';
 import {Shoppingcart} from './../shoppingcart/shoppingcart.service';
 import {JwtHelper} from 'angular2-jwt';
 import {Article} from './../article/article.component';
-import {Payment, List} from './payment.service';
+import {Payment, PaymentList} from './payment.service';
 
 @Component({
     selector: 'as-payment',
@@ -19,13 +19,14 @@ import {Payment, List} from './payment.service';
 })
 export class PaymentComponent implements OnInit {
 
-  paymentList: List<Payment[]>;
+  paymentList: PaymentList[];
   payments: Payment[];
   paymentArticleList: Article[];
+  private jwtHelper: JwtHelper = new JwtHelper();
 
   constructor(private _http: Http, private _loginService: LoginService,
-      private _tokenService: TokenService, private _router: Router, private jwtHelper: JwtHelper) {
-        this.paymentList = new List<Payment[]>();
+      private _tokenService: TokenService, private _router: Router) {
+        this.paymentList = new Array();
       _loginService.loginNeeded$.subscribe(
           needForLogin => {
               needForLogin = true;
@@ -47,6 +48,7 @@ export class PaymentComponent implements OnInit {
   }
 
   getArticleOfShoppingcart(cart: Shoppingcart[]) {
+    this.paymentArticleList = new Array;
     for (let cartItem of cart) {
         new BackendcallService(this._http, 'token', this._tokenService.getToken(),
             'http://192.168.99.100:8083/articles/' + cartItem.articleId)
@@ -57,12 +59,12 @@ export class PaymentComponent implements OnInit {
   }
 
   getPaymentMethodsForArticles(article: Article) {
-    this.paymentArticleList.push(article);
-    new BackendcallService(this._http, 'token', this._tokenService.getToken(),
+     this.paymentArticleList.push(article);
+     new BackendcallService(this._http, 'token', this._tokenService.getToken(),
         'http://192.168.99.100:8086/payments/' + article.supplierId)
-        .getPayment().subscribe((data: Payment[]) => this.paymentList.add(data),
+        .getPayment().subscribe((data: Payment[]) => this.paymentList.push(new PaymentList(data)),
         error => this.handleError(error),
-        () => console.log('Get all Items complete'));
+        () => console.log('Get all Items complete' + JSON.stringify(this.paymentList)));
   }
 
   handleError(error: any) {
@@ -72,5 +74,13 @@ export class PaymentComponent implements OnInit {
       if (error.status === 404) {
           this._router.navigate(['/']);
       }
+  }
+
+  goBackToDelivery() {
+    this._router.navigate(['checkout/delivery']);
+  }
+
+  goOn() {
+    this._router.navigate(['checkout/confirmation']);
   }
 }

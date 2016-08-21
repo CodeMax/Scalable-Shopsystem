@@ -23,6 +23,7 @@ var navbar_service_1 = require('./navbar.service');
 var article_component_1 = require('./article/article.component');
 var articleInventory_component_1 = require('./articleInventory/articleInventory.component');
 var logout_component_1 = require('./logout/logout.component');
+var login_component_1 = require('./login/login.component');
 var register_component_1 = require('./register/register.component');
 var about_component_1 = require('./about/about.component');
 var contact_component_1 = require('./contact/contact.component');
@@ -46,7 +47,7 @@ var AppModule = (function () {
                 articleInventory_component_1.ArticleInventoryComponent, logout_component_1.LogoutComponent, register_component_1.RegisterComponent,
                 about_component_1.AboutComponent, contact_component_1.ContactComponent, impressum_component_1.ImpressumComponent, shoppingcart_component_1.ShoppingcartComponent,
                 createArticle_component_1.CreateArticleComponent, profile_component_1.ProfileComponent, delivery_component_1.DeliveryComponent,
-                payment_component_1.PaymentComponent, confirmation_component_1.ConfirmationComponent],
+                payment_component_1.PaymentComponent, confirmation_component_1.ConfirmationComponent, login_component_1.LoginComponent],
             providers: [token_service_1.TokenService, login_service_1.LoginService,
                 core_2.CookieService, angular2_jwt_1.AuthHttp, navbar_service_1.NavibarService, app_routes_2.APP_ROUTER_PROVIDERS, user_service_1.User],
             bootstrap: [app_component_1.AppComponent]

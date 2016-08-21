@@ -35,8 +35,8 @@
                         </div>
                     </div>
                     <div class="">
-                        <button type="button" class="btn btn-info pull-right btn-lg" [routerLink]="['payment']">Weiter <span class="fa fa-arrow-right"></span></button>
-                        <button type="reset" value="Reset" name="reset" class="btn btn-lg" [routerLink]="['shoppingcart']"><span class="fa fa-arrow-left"></span>Zurück</button>
+                        <button type="button" class="btn btn-info pull-right btn-lg" (click)="goOn()">Weiter <span class="fa fa-arrow-right"></span></button>
+                        <button type="reset" value="Reset" name="reset" class="btn btn-lg" (click)="goBackToShoppingcart()"><span class="fa fa-arrow-left"></span>Zurück</button>
                     </div>
                 </form>
             </div>

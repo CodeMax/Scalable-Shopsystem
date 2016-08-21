@@ -1,5 +1,6 @@
 import {Component, Injectable} from '@angular/core';
 import {Http} from '@angular/http';
+import {Router} from '@angular/router';
 import {CORE_DIRECTIVES} from '@angular/common';
 import {BackendcallService} from './../backendcall.service';
 import {TokenService} from '../token.service';
@@ -17,7 +18,7 @@ export class DeliveryComponent {
     private _delivery: Delivery;
 
     constructor(private _http: Http, private _tokenService: TokenService,
-                private _loginService: LoginService) {
+                private _loginService: LoginService, private _router: Router) {
       _loginService.loginNeeded$.subscribe(
           needForLogin => {
             needForLogin = true;
@@ -32,6 +33,14 @@ export class DeliveryComponent {
 
     handleError(error: any) {
       this._loginService.setLogin(true);
+    }
+
+    goBackToShoppingcart() {
+      this._router.navigate(['shoppingcart']);
+    }
+
+    goOn() {
+      this._router.navigate(['checkout/payment']);
     }
 
 }
