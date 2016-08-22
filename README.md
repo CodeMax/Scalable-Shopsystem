@@ -19,20 +19,32 @@ Im Fokus der Arbeit steht die technische Konzeption und die hierauf aufbauende I
 
 ## Getting started
 1. Check out Services
-2. Docker installieren (tested on Windows)
+2. Docker installieren (Unter Windows getestet)
 3. Backendservices in Container laufen lassen (siehe Dokumentation für Details)
     3.1. mvn clean package
     3.2. Verzeichnis nach <service>-build/target wechseln, um das gebaute Fat-Jar in einen Container zu setzen.
-    3.3. docker build -t <specific_servicename_of_Dockerfile>
-    3.4. docker run -p <port>:<port> -t <specific_servicename_of_Dockerfile>
+    3.3. Service in einen Container legen
+    ```
+    docker build -t <specific_servicename_of_Dockerfile>
+    ```
+    3.4. Container starten
+    ```
+    docker run -p <port>:<port> -t <specific_servicename_of_Dockerfile>
+    ```
+    4.5. Container des Artikel-Services starten
+    ```
+    docker run -p <port>:<port> --link <userservice-port>:<userservice-port> --dns=8.8.8.8 --dns=8.8.4.4 -t article
+    ```
 4. Installiere <a href="https://nodejs.org/en/download/">NodeJS</a>
-5. Install [npm](https://www.npmjs.com/)  modules (Die Abhängigkeiten werden unter dem Verzeichnis: '/storefront/node_modules/..' erwartet)
-6. Run gulp on storefront
+5. Installiere [npm](https://www.npmjs.com/) module 
+```
+(Die Abhängigkeiten werden unter dem Verzeichnis: '/storefront/node_modules/..' erwartet)
+```
+6. Mittels gulp den Storefront bauen, eine Live-Show öffnet sich mittels Browser-Sync.
     
 ## Entwickler
   **Maximilian Auch** 
   <a href="http://www.xing.com/profile/Maximilian_Spelsberg" target="_blank" rel="me"><img src="http://www.xing.com/img/buttons/1_de_btn.gif" width="85" height="23" alt="Maximilian Spelsberg"></a>
-  <https://github.com/CodeMax>
 
 ## Lizenzierung
 Code und Dokumentation sind frei unter der MIT-Lizenz verfügbar.

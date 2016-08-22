@@ -5,12 +5,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
  * UserDTO.
  * @author Maximilian.Auch
  */
 @XmlRootElement
+@JsonIgnoreProperties
 public class UserDto {
 
 	@XmlElement
@@ -37,6 +40,9 @@ public class UserDto {
 	@XmlElement
 	private Long supplierId;
 
+	@JsonIgnore
+	@XmlElement
+	private String links;
 
 
 	/**
