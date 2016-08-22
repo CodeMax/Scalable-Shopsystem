@@ -44,7 +44,7 @@ Im Fokus der Arbeit steht die technische Konzeption und die hierauf aufbauende I
 
 ## Entwickler
   **Maximilian Auch** 
-  <a href="http://www.xing.com/profile/Maximilian_Spelsberg" target="_blank" rel="me"><img src="http://www.xing.com/img/buttons/1_de_btn.gif" width="85" height="23" alt="Maximilian Spelsberg"></a>
+  <a href="http://www.xing.com/profile/Maximilian_Auch" target="_blank" rel="me"><img src="http://www.xing.com/img/buttons/1_de_btn.gif" width="85" height="23" alt="Maximilian Auch"></a>
 
 
 ## Lizenzierung
