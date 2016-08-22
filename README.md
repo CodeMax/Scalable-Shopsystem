@@ -20,18 +20,21 @@ Im Fokus der Arbeit steht die technische Konzeption und die hierauf aufbauende I
 ## Getting started
 1. Check out Services
 2. Docker installieren (Unter Windows getestet)
-3. Backendservices in Container laufen lassen (siehe Dokumentation für Details) \
-3.1. mvn clean package \
-3.2. Verzeichnis nach <service>-build/target wechseln, um das gebaute Fat-Jar in einen Container zu setzen. \
-3.3. Service in einen Container legen. \
+3. Backendservices in Container laufen lassen (siehe Dokumentation für Details) <br>
+3.1. mvn clean package <br>
+3.2. Verzeichnis nach <service>-build/target wechseln, um das gebaute Fat-Jar in einen Container zu setzen. <br>
+3.3. Service in einen Container legen. <br>
     ```
     docker build -t <specific_servicename_of_Dockerfile>
     ```
-3.4. Container starten. \
+    <br>
+3.4. Container starten. <br>
     ```
+    <br>
     docker run -p <port>:<port> -t <specific_servicename_of_Dockerfile>
     ```
-4.5. Container des Artikel-Services starten.
+    <br>
+4.5. Container des Artikel-Services starten. <br>
     ```
     docker run -p <port>:<port> --link <userservice-port>:<userservice-port> --dns=8.8.8.8 --dns=8.8.4.4 -t article
     ```
