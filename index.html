@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Scalable-shopsystem by CodeMax</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Scalable-shopsystem</h1>
+        <h2></h2>
+        <a href="https://github.com/CodeMax/Scalable-Shopsystem" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <p><img src="./img/header_light.png" alt="Logo"></p>
+
+<h1>
+<a id="prototyp-eines-skalierbaren-shopsystems---am-beispiel-von-microservices" class="anchor" href="#prototyp-eines-skalierbaren-shopsystems---am-beispiel-von-microservices" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Prototyp eines skalierbaren Shopsystems - Am Beispiel von Microservices</h1>
+
+<p><a href="https://scan.coverity.com/projects/codemax-scalable-shopsystem">
+  <img alt="Coverity Scan Build Status" src="https://scan.coverity.com/projects/9743/badge.svg">
+</a>
+<a href="https://travis-ci.org/CodeMax/Scalable-Shopsystem"><img src="https://travis-ci.org/CodeMax/Scalable-Shopsystem.svg?branch=master" alt="Build Status"></a>
+<a href="https://david-dm.org/bower/bower?type=dev"><img src="https://david-dm.org/bower/bower/dev-status.svg" alt="devDependencies Status"></a></p>
+
+<h2>
+<a id="problemstellung" class="anchor" href="#problemstellung" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Problemstellung</h2>
+
+<p>Im Zuge der Forderung nach Skalierbarkeit für Webanwendungen wie dem Onlineshop, gilt meist die individuelle Analyse, welche Architekturentscheidungen und verfügbaren Mittel den Anforderungen am geeignetsten entgegnen. Außerdem gilt hierbei, dass Skalierbarkeit die Komplexität des Systems in den meisten Fällen erhöht und Probleme entstehen können, die mit einer anderen Architektur ggf. nicht einher gehen. Die Kenntnis über entsprechende Probleme und mögliche Fallstricke fehlen häuﬁg noch in den Unternehmen, um eine entsprechende Architektur zu konzipieren bzw. diese auch umzusetzen. Es gilt daher mögliche Fallstricke aufzudecken und entsprechende Maßnahmen zu ergreifen.</p>
+
+<h2>
+<a id="zielsetzung" class="anchor" href="#zielsetzung" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Zielsetzung</h2>
+
+<p>Im Fokus der Arbeit steht die technische Konzeption und die hierauf aufbauende Implementierung eines prototypischen, hoch skalierbaren Shopsystems. Es wird daher schrittweise ein technisches Konzept erarbeitet, in dem Architektur und entsprechende Entwurfsentscheidungen erläutert sind. Im Zuge der Implementierungen ist zunächst ein generischer Microservice zu konzeptionieren und zu entwickeln, der die Grundlage für die in den Prototypen verwendeten Services darstellt und darüber hinaus auch in Zukunft für die Erweiterung des Systems durch zusätzliche Services als Template verwendet werden kann. Im Anschluss an das Prototyping gilt es, die verwendete Architektur mit der eines typischen, nicht skalierenden Shopsystems zu vergleichen.</p>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting started</h2>
+
+<ol>
+<li>Check out Services</li>
+<li>Docker installieren (Unter Windows getestet)</li>
+<li>Backendservices in Container laufen lassen (siehe Dokumentation für Details) <br>
+3.1. mvn clean package <br>
+3.2. Verzeichnis nach -build/target wechseln, um das gebaute Fat-Jar in einen Container zu setzen. <br>
+3.3. Service in einen Container legen. <br>
+<code>
+docker build -t &lt;specific_servicename_of_Dockerfile&gt;
+</code>
+<br>
+3.4. Container starten. <br>
+<code>
+docker run -p &lt;port&gt;:&lt;port&gt; -t &lt;specific_servicename_of_Dockerfile&gt;
+</code>
+<br>
+4.5. Container des Artikel-Services starten. <br>
+<code>
+docker run -p &lt;port&gt;:&lt;port&gt; --link &lt;userservice-port&gt;:&lt;userservice-port&gt; --dns=8.8.8.8 --dns=8.8.4.4 -t article
+</code>
+</li>
+<li>Installiere <a href="https://nodejs.org/en/download/">NodeJS</a>
+</li>
+<li>Installiere <a href="https://www.npmjs.com/">npm</a> module 
+<code>
+(Die Abhängigkeiten werden unter dem Verzeichnis: '/storefront/node_modules/..' erwartet)
+</code>
+</li>
+<li>Mittels gulp den Storefront bauen, eine Live-Show öffnet sich mittels Browser-Sync.</li>
+</ol>
+
+<h2>
+<a id="entwickler" class="anchor" href="#entwickler" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Entwickler</h2>
+
+<p><strong>Maximilian Auch</strong> 
+  <a href="http://www.xing.com/profile/Maximilian_Auch"><img src="http://www.xing.com/img/buttons/1_de_btn.gif" width="85" height="23" alt="Maximilian Auch"></a></p>
+
+<h2>
+<a id="lizenzierung" class="anchor" href="#lizenzierung" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Lizenzierung</h2>
+
+<p>Code und Dokumentation sind frei unter der MIT-Lizenz verfügbar.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/CodeMax/Scalable-Shopsystem/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/CodeMax/Scalable-Shopsystem/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/CodeMax/Scalable-Shopsystem"></a> is maintained by <a href="https://github.com/CodeMax">CodeMax</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
